@@ -4,3 +4,4 @@ Longbourn Foxes Team Repo
 Group Members:
 Peter Conti
 Daniel Gwon
+Brian Rud
