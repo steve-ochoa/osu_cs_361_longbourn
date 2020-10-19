@@ -1,10 +1,15 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import NavBar from "./components/Navbar";
+import "./App.css";
+import { Container } from "react-bootstrap";
 
 function App() {
   return (
     <>
-    <h1>Expert Finderrr</h1>
+      <NavBar />
+      <Container fluid="lg" style={{textAlign: "center"}}>
+        <h1>Expert Finderrr</h1>
+      </Container>
     </>
   );
 }
