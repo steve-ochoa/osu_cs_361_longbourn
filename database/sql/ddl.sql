@@ -50,8 +50,10 @@ CREATE TABLE `contact_details` (
 
 LOCK TABLES `contact_details` WRITE;
 /*!40000 ALTER TABLE `contact_details` DISABLE KEYS */;
-INSERT INTO `contact_details` VALUES (0,3,'+110-234-345-9887','workEmail3@gmail.com','schoolEmail3@gmail.com','GitHubUser3','https://linkedin.com/aliaskjalskdf/9087234s3/myprofile.php','Chicago','IL','United States'),
-                                     (0,4,'(650)867-5309','work_email_4@hotmail.com','my_uni_4@uni.edu','MineGithub4','https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile.html','San Francisco','CA','United States');
+INSERT INTO `contact_details` VALUES (0,1,'+110-234-345-9887','workEmail1@gmail.com','schoolEmail1@gmail.com','GitHubUser1','https://linkedin.com/aliaskjalskdf/9087234s3/myprofile.php','Chicago','IL','United States'),
+                                     (0,2,'(650)867-5309','work_email_2@hotmail.com','my_uni_2@uni.edu','MineGithub2','https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile2.html','San Francisco','CA','United States'),
+                                     (0,3,'(415)666-5555','work_email_3@hotmail.com','my_uni_3@uni.edu','MineGithub3','https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile3.html','Denver','CO','United States'),
+                                     (0,4,'(510)444-4567','work_email_4@hotmail.com','my_uni_4@uni.edu','MineGithub4','https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile4.html','Sun Valley','ID','United States');
 /*!40000 ALTER TABLE `contact_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +150,7 @@ CREATE TABLE `expert_courses` (
 
 LOCK TABLES `expert_courses` WRITE;
 /*!40000 ALTER TABLE `expert_courses` DISABLE KEYS */;
-INSERT INTO `expert_courses` VALUES (0,3,1,'Winter 2019','B+'),(0,3,2,'Spring 2019','A-'),(0,4,3,'Winter 2020','A'),(0,4,4,'Spring 2020','B-');
+INSERT INTO `expert_courses` VALUES (0,1,1,'Winter 2019','B+'),(0,2,2,'Spring 2019','A-'),(0,3,3,'Winter 2020','A'),(0,4,4,'Spring 2020','B-');
 /*!40000 ALTER TABLE `expert_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,6 +200,6 @@ CREATE TABLE `expert_companies` (
 
 LOCK TABLES `expert_companies` WRITE;
 /*!40000 ALTER TABLE `expert_companies` DISABLE KEYS */;
-INSERT INTO `expert_companies` VALUES (0,3,1,true,'Software Engineer I',1.75),(0,3,2,false,'Intern',0.5),(0,4,3,true,'Project Manager',2.25),(0,4,4,false,'Assoc Project Manager',1.5);
+INSERT INTO `expert_companies` VALUES (0,1,1,true,'Software Engineer I',1.75),(0,2,2,false,'Intern',0.5),(0,3,3,true,'Project Manager',2.25),(0,4,4,false,'Assoc Project Manager',1.5);
 /*!40000 ALTER TABLE `expert_companies` ENABLE KEYS */;
 UNLOCK TABLES;
