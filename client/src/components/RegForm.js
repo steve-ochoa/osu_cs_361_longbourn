@@ -5,7 +5,7 @@ import {
   RegionDropdown,
   CountryRegionData,
 } from "react-country-region-selector";
-import TagInput from "./TagInput.js.backup";
+import SkillInput from "./SkillInput";
 
 export default function RegForm(props) {
   const [country, setCountry] = useState("");
@@ -97,6 +97,7 @@ export default function RegForm(props) {
           </Form.Group>
         </Form.Row>
         <h3>Skills</h3>
+        <SkillInput />
 
         <Button variant="primary" type="submit">
           Submit
