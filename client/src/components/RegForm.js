@@ -5,6 +5,8 @@ import {
   RegionDropdown,
   CountryRegionData,
 } from "react-country-region-selector";
+import CompanyInput from "./CompanyInput";
+import CourseInput from "./CourseInput";
 import SkillInput from "./SkillInput";
 
 export default function RegForm(props) {
@@ -99,6 +101,10 @@ export default function RegForm(props) {
         <h3>Skills</h3>
         <SkillInput />
 
+        <h3>Courses</h3>
+        <CourseInput />
+        <h3>Companies</h3>
+        <CompanyInput />
         <Button variant="primary" type="submit">
           Submit
         </Button>
