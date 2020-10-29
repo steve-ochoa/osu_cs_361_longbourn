@@ -1,42 +1,27 @@
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `deleted` boolean NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `users_UN` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Users';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (0,'Bling','Swayze','bling@swayze.edu', false),(0,'Flogan','Mayne','flogan@gucci.com', false), (0,'Dashi','Exposee','dashi@flow.com',false), (0, 'Sharquarius','Liggins','sharq69@hotmail.com',false);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 DROP TABLE IF EXISTS `experts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `experts` (
   `expert_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(100) DEFAULT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `photo_url` varchar(2048) DEFAULT NULL,
   `active` boolean NOT NULL,
+  `deleted` boolean NOT NULL,
   PRIMARY KEY (`expert_id`),
-  UNIQUE KEY `experts_UN` (`nickname`),
-  FOREIGN KEY (`expert_id`) REFERENCES users (`user_id`)
+  UNIQUE KEY `experts_UN` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Experts';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
 LOCK TABLES `experts` WRITE;
 /*!40000 ALTER TABLE `experts` DISABLE KEYS */;
-INSERT INTO `experts` VALUES (3,'The Heir to Sakai Clan', true), (4, 'The Big Show', true);
+INSERT INTO `experts` VALUES (0,'Bling','Swayze','bling@swayze.edu','The Bouncer', null, true, false), 
+                             (0,'Flogan','Mayne','flogan@gucci.com','The Big Show', null, true, false),
+                             (0,'Dashi','Exposee','dashi@flow.com', 'The Heir to Sakai Clan', null, true, false),
+                             (0, 'Sharquarius','Liggins','sharq69@hotmail.com', 'The Excellence of Execution', null, true, false);
 /*!40000 ALTER TABLE `experts` ENABLE KEYS */;
 UNLOCK TABLES;
 

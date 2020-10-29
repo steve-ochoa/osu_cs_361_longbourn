@@ -2,14 +2,9 @@
 
 -- Select ALL Active Experts
 --
-SELECT e.expert_id, 
-       u.first_name, 
-       u.last_name, 
-       u.email 
-FROM   users u 
-       INNER JOIN experts e 
-               ON u.user_id = e.expert_id 
-WHERE  u.deleted = false 
+SELECT *
+FROM   experts e
+WHERE  e.deleted = false 
        AND e.active = true
 ORDER BY e.expert_id ASC
 LIMIT 100; 
