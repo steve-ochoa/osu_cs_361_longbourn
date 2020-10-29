@@ -66,7 +66,7 @@ exports.findOne = (req, res) => {
   });
 };
 
-
+/*
 // Update a Expert identified by the expertId in the request
 exports.update = (req, res) => {
   // Validate Request
@@ -96,3 +96,4 @@ exports.update = (req, res) => {
     }
   );
 };
+*/
