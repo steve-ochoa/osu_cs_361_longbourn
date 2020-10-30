@@ -67,9 +67,11 @@ export default function RegForm() {
     let payload = {
       firstName: staticState.firstName,
       lastName: staticState.lastName,
-      mainEmail: staticState.mainEmail,
+      email: staticState.mainEmail,
       description: staticState.tagLine,
       photoUrl: staticState.photoUrl,
+      expertId: 0,
+      active: true,
     };
     payload = { ...payload, contactDetails, skills, courses, companies };
     payload.skills.forEach((element, index) => {

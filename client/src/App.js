@@ -3,6 +3,7 @@ import NavBar from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
 import RegForm from "./components/RegForm";
 import SearchPage from "./pages/SearchPage";
+import Profile from "./pages/Profile";
 import "./App.css";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/register" component={RegForm} />
             <Route exact path="/results" component={ExpertResultsPage} />
             <Route exact path="/search" component={SearchPage} />
+            <Route path="/profile/:expertId" component={Profile} />
           </Switch>
         </Container>
       </Router>
