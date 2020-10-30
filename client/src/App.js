@@ -8,9 +8,12 @@ function App() {
   return (
     <>
       <NavBar />
-      <Container fluid="lg" style={{ textAlign: "center" }}>
-        {/* <h1>Expert Finderrr</h1> */}
-        <RegForm />
+      <Container
+        className="center"
+        fluid="md"
+        style={{ textAlign: "center", marginTop: "20%" }}
+      >
+        <h1>Expert Finderrr</h1>
       </Container>
     </>
   );
