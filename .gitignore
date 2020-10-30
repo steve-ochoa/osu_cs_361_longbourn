@@ -22,3 +22,6 @@ client/build
 
 # vim temp files
 **/*~
+
+# output logs
+**/output.log
