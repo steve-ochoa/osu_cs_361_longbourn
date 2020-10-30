@@ -1,7 +1,6 @@
-const Expert = require("../models/expert.model.js");
+const Expert = require('../models/expert.model.js');
+const ContactDetails = require('../models/contact_details.model.js');
 
-
-/*
 // Create and Save a new Expert
 exports.create = (req, res) => {
   // Validate request
@@ -11,25 +10,20 @@ exports.create = (req, res) => {
     });
   }
 
-
   // Create a Expert
-  const expert = new Expert({
-    email: req.body.email,
-    name: req.body.name,
-    active: req.body.active
-  });
+  const expert = Expert.fromReqBody(req.body);
 
   // Save Expert in the database
-  Expert.create(expert, (err, data) => {
+  Expert.create(expert, (err, newExpert) => {
     if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while creating the Expert."
       });
-    else res.send(data);
+    else res.send(newExpert);
   });
 };
-*/
+
 
 // Retrieve all Experts from the database.
 exports.findAll = (req, res) => {
@@ -52,7 +46,7 @@ exports.findOne = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Expert with id ${req.params.expertId}.`
+          message: `No Expert with id ${req.params.expertId}.`
         });
       } else {
         res.status(500).send({
