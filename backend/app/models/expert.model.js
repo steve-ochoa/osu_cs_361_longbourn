@@ -35,6 +35,7 @@ class Expert {
       expertDb.email,
       expertDb.description,
       expertDb.photo_url,
+      null,
       expertDb.active)
   }
 
@@ -89,6 +90,7 @@ Expert.create = (newExpert, result) => {
 
         console.log("Created expert: ", newExpertResult);
 
+        //TODO pass connection into new method ContactDetails.createWithConnection() 
         let contactDetailsDb = ContactDetailsDb.fromNewExpertId(res.insertId, newExpert.contactDetails);
         contactDetailsDb.expert_id = newExpertResult.expertId;
 
@@ -132,8 +134,20 @@ Expert.fetchById = (expertId, result) => {
     if (res.length) {
       var expert = Expert.fromExpertDb(res[0]);
       console.log("Found expert: ", expert);
-      result(null, expert);
-      return;
+
+      ContactDetails.fetchByExpertId(expert.expertId, (err2, contactDetails) => {
+        if (err2) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+
+        expert.contactDetails = contactDetails;
+
+        result(null, expert);
+        return;
+      });
+
     } else {
       result({ kind: "not_found" }, null);
     }

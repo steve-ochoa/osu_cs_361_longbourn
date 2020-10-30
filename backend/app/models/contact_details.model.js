@@ -56,6 +56,20 @@ class ContactDetails {
       contactDetailsDb.state,
       contactDetailsDb.country)
   }
+
+  static fromContactDetailsDb(contactDetailsDb) {
+    return new ContactDetails(
+      contactDetailsDb.contact_details_id,
+      contactDetailsDb.expert_id,
+      contactDetailsDb.phone,
+      contactDetailsDb.work_email,
+      contactDetailsDb.school_email,
+      contactDetailsDb.github_user,
+      contactDetailsDb.linkedin_url,
+      contactDetailsDb.city,
+      contactDetailsDb.state,
+      contactDetailsDb.country)
+  }
 }
 
 class ContactDetailsDb {
@@ -79,6 +93,9 @@ class ContactDetailsDb {
   }
 }
 
+//TODO Add method for createWithConnection() that has logic from expert model DAO
+
+
 ContactDetails.create = (newContactDetails, result) => {
   console.log("Creating contactDetails:");
   console.log(newContactDetails);
@@ -96,7 +113,6 @@ ContactDetails.create = (newContactDetails, result) => {
 };
 
 
-
 ContactDetails.fetchByExpertId = (expertId, result) => {
   sql.query("SELECT * FROM contact_details WHERE expert_id = ?", [expertId], (err, res) => {
     if (err) {
@@ -106,12 +122,14 @@ ContactDetails.fetchByExpertId = (expertId, result) => {
     }
 
     if (res.length) {
-      console.log("found expert: ", res[0]);
-      result(null, res[0]);
+      var contactDetails = ContactDetails.fromContactDetailsDb(res[0]);
+      console.log("Found contactDetails: ", contactDetails);
+
+      result(null, contactDetails);
       return;
     }
 
-    // not found Expert with the id
+    // Else no Not found 
     result({ kind: "not_found" }, null);
   });
 };

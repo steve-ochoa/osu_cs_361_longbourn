@@ -1,4 +1,5 @@
-const ContactDetails = require('../models/contact_details.model.js');
+const cd = require('../models/contact_details.model.js');
+const ContactDetails = cd.ContactDetails;
 
 // Find ContactDetails for one Expert
 exports.findOneByExpertId = (req, res) => {
