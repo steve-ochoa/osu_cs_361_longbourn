@@ -10,8 +10,41 @@ import CourseInput from "./CourseInput";
 import SkillInput from "./SkillInput";
 
 export default function RegForm(props) {
+  const [formStep, setFormStep] = useState(1);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [mainEmail, setMainEmail] = useState("");
+  const [tagLine, setTagLine] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
+  const [city, setCity] = useState("");
+  const [workEmail, setWorkEmail] = useState("");
+  const [schoolEmail, setSchoolEmail] = useState("");
+  const [gitHub, setGitHub] = useState("");
+  const [linkedIn, setLinkedIn] = useState("");
+  const [linkedIn, setLinkedIn] = useState("");
+  const [skills, setSkills] = useState([
+    { name: "", description: "", years: "" },
+  ]);
+  const [courses, setCourses] = useState([
+    { name: "", description: "", semester: "", year: "", grade: "" },
+  ]);
+  const [companies, setCompanies] = useState([
+    {
+      name: "",
+      description: "",
+      industry: "",
+      current: false,
+      position: "",
+      years: "",
+    },
+  ]);
+
+  function handleChangeBasic(event) {
+    const {firstName, lastName, mainEmail, }
+  }
+  }
 
   return (
     <div style={{ textAlign: "left" }}>
