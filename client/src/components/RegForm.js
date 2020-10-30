@@ -54,8 +54,24 @@ export default function RegForm() {
       alert("required fields missing!");
       return;
     }
-    let payload = staticState;
-    payload = { ...payload, country, region, skills, courses, companies };
+    let contactDetails = {
+      phone: staticState.phone,
+      workEmail: staticState.workEmail,
+      schoolEmail: staticState.schoolEmail,
+      gitHubUser: staticState.gitHub,
+      linkedInUrl: staticState.linkedIn,
+      city: staticState.city,
+      state: region,
+      country: country,
+    };
+    let payload = {
+      firstName: staticState.firstName,
+      lastName: staticState.lastName,
+      mainEmail: staticState.mainEmail,
+      description: staticState.tagLine,
+      photoUrl: staticState.photoUrl,
+    };
+    payload = { ...payload, contactDetails, skills, courses, companies };
     payload.skills.forEach((element, index) => {
       if (element.name === "") {
         payload.skills.splice(index, 1);
@@ -65,13 +81,17 @@ export default function RegForm() {
       if (element.name === "") {
         payload.courses.splice(index, 1);
       }
+      let term = element.semester + " " + element.year;
+      delete element.semester;
+      delete element.year;
+      element.term = term;
     });
     payload.companies.forEach((element, index) => {
       if (element.name === "") {
         payload.companies.splice(index, 1);
       }
     });
-    console.log("the payload is: ", payload);
+    console.log("the payload is: ", JSON.stringify(payload));
     // customFetch("localhost:6997", "POST", payload);
     /* TODO: redirect to profile page */
   }
