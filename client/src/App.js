@@ -10,7 +10,9 @@ function App() {
   return (
     <>
       <NavBar />
-      <ExpertResultsPage />
+      <Container className="center" fluid="md" style={{ textAlign: "center", marginTop: "20%" }}>
+          <h1>Expert Finderrr</h1>
+      </Container>
     </>
   );
 }
