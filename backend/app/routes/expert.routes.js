@@ -1,5 +1,5 @@
 module.exports = app => {
-  const experts = require("../controllers/expert.controller.js");
+  const experts = require("../controllers/expert.controller");
 
   // Create a new Expert
   app.post("/experts", experts.create);

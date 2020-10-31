@@ -64,7 +64,7 @@ DROP TABLE IF EXISTS `skills`;
 CREATE TABLE `skills` (
   `skill_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `description` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `skill_UN` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Products';
@@ -166,7 +166,7 @@ CREATE TABLE `companies` (
   `description` varchar(100) NOT NULL,
   `industry` varchar(50) NOT NULL,
   PRIMARY KEY (`company_id`),
-  UNIQUE KEY `course_UN` (`name`)
+  UNIQUE KEY `company_UN` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Companies';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
