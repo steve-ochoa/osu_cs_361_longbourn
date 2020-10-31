@@ -1,4 +1,4 @@
-const cd = require('../models/contact_details.model.js');
+const cd = require('../models/contact_details.model');
 const ContactDetails = cd.ContactDetails;
 
 // Find ContactDetails for one Expert
@@ -18,6 +18,5 @@ exports.findOneByExpertId = (req, res) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(data)
         }
-        ;
     });
 };

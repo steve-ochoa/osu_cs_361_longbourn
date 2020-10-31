@@ -28,6 +28,7 @@ app.get('/status', (req, res) => {
 require('./app/routes/expert.routes')(app);
 require('./app/routes/contact_details.routes')(app);
 require('./app/routes/skill.routes')(app);
+require('./app/routes/expert_skill.routes')(app);
 
 // Start server
 const PORT = process.env.PORT || 6997;

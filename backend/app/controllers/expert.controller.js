@@ -1,5 +1,5 @@
-const Expert = require('../models/expert.model.js');
-const ContactDetails = require('../models/contact_details.model.js');
+const Expert = require('../models/expert.model');
+const ContactDetails = require('../models/contact_details.model');
 
 // Create and Save a new Expert
 exports.create = (req, res) => {
@@ -56,7 +56,7 @@ exports.findOne = (req, res) => {
     } else {
       res.setHeader('Content-Type', 'application/json');
       res.send(data)
-    };
+    }
   });
 };
 

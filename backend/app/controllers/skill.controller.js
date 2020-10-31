@@ -1,4 +1,4 @@
-const skills = require('../models/skill.model.js');
+const skills = require('../models/skill.model');
 const Skill = skills.Skill;
 
 
@@ -19,7 +19,7 @@ exports.create = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Expert."
+                    err.message || "Some error occurred while creating the Skill."
             });
         else res.send(newSkill);
     });

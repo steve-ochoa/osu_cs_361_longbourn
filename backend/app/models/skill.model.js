@@ -1,4 +1,4 @@
-const sql = require('./db.js');
+const sql = require('./db');
 
 class Skill {
     constructor(skillId, name, description) {
