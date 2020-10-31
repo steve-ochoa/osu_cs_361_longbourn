@@ -20,7 +20,7 @@ function App() {
         <Container
           className="center"
           fluid="md"
-          style={{ textAlign: "center", marginTop: "20%" }}
+          style={{ textAlign: "center", marginTop: "10%" }}
         >
           <Switch>
             <Route exact path="/" component={LandingPage} />
