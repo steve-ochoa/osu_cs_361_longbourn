@@ -14,8 +14,8 @@ export default function NavBar() {
             <Nav.Link href="/Search">Search</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="/register">Register A Friend</Nav.Link>
-            <Nav.Link href="/register">Register As An Expert</Nav.Link>
+            <Nav.Link href="/register1">Register A Friend</Nav.Link>
+            <Nav.Link href="/register1">Register As An Expert</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
