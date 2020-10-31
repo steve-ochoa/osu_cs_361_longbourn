@@ -1,0 +1,517 @@
+[36mhelp[39m:    usage: forever [action] [options] SCRIPT [script-options]
+[36mhelp[39m:    
+[36mhelp[39m:    Monitors the script specified in the current process or as a daemon
+[36mhelp[39m:    
+[36mhelp[39m:    actions:
+[36mhelp[39m:      start               Start SCRIPT as a daemon
+[36mhelp[39m:      stop                Stop the daemon SCRIPT by Id|Uid|Pid|Index|Script
+[36mhelp[39m:      stopall             Stop all running forever scripts
+[36mhelp[39m:      restart             Restart the daemon SCRIPT
+[36mhelp[39m:      restartall          Restart all running forever scripts
+[36mhelp[39m:      list                List all running forever scripts
+[36mhelp[39m:      config              Lists all forever user configuration
+[36mhelp[39m:      set <key> <val>     Sets the specified forever config <key>
+[36mhelp[39m:      clear <key>         Clears the specified forever config <key>
+[36mhelp[39m:      logs                Lists log files for all forever processes
+[36mhelp[39m:      logs <script|index> Tails the logs for <script|index>
+[36mhelp[39m:      columns add <col>   Adds the specified column to the output in `forever list`. Supported columns: 'uid', 'command', 'script', 'forever', 'pid', 'id', 'logfile', 'uptime'
+[36mhelp[39m:      columns rm <col>    Removed the specified column from the output in `forever list`
+[36mhelp[39m:      columns set <cols>  Set all columns for the output in `forever list`
+[36mhelp[39m:      columns reset       Resets all columns to defaults for the output in `forever list`
+[36mhelp[39m:      cleanlogs           [CAREFUL] Deletes all historical forever log files
+[36mhelp[39m:    
+[36mhelp[39m:    options:
+[36mhelp[39m:      -m  MAX          Only run the specified script MAX times
+[36mhelp[39m:      -l  LOGFILE      Logs the forever output to LOGFILE
+[36mhelp[39m:      -o  OUTFILE      Logs stdout from child script to OUTFILE
+[36mhelp[39m:      -e  ERRFILE      Logs stderr from child script to ERRFILE
+[36mhelp[39m:      -p  PATH         Base path for all forever related files (pid files, etc.)
+[36mhelp[39m:      -c  COMMAND      COMMAND to execute (defaults to node)
+[36mhelp[39m:      -a, --append     Append logs
+[36mhelp[39m:      -f, --fifo       Stream logs to stdout
+[36mhelp[39m:      -n, --number     Number of log lines to print
+[36mhelp[39m:      --pidFile        The pid file
+[36mhelp[39m:      --uid            Process uid, useful as a namespace for processes (must wrap in a string)
+[36mhelp[39m:                       e.g. forever start --uid "production" app.js
+[36mhelp[39m:                           forever stop production
+[36mhelp[39m:      --sourceDir      The source directory for which SCRIPT is relative to
+[36mhelp[39m:      --workingDir     The working directory in which SCRIPT will execute
+[36mhelp[39m:      --minUptime      Minimum uptime (millis) for a script to not be considered "spinning"
+[36mhelp[39m:      --spinSleepTime  Time to wait (millis) between launches of a spinning script.
+[36mhelp[39m:      --colors         --no-colors will disable output coloring
+[36mhelp[39m:      --plain          alias of --no-colors
+[36mhelp[39m:      -d, --debug      Forces forever to log debug output
+[36mhelp[39m:      -v, --verbose    Turns on the verbose messages from Forever
+[36mhelp[39m:      -s, --silent     Run the child script silencing stdout and stderr
+[36mhelp[39m:      -w, --watch      Watch for file changes
+[36mhelp[39m:      --watchDirectory Top-level directory to watch from
+[36mhelp[39m:      --watchIgnore    To ignore pattern when watch is enabled (multiple option is allowed)
+[36mhelp[39m:      -t, --killTree   Kills the entire child process tree on `stop`
+[36mhelp[39m:      --killSignal     Support exit signal customization (default is SIGKILL)
+[36mhelp[39m:                       used for restarting script gracefully e.g. --killSignal=SIGTERM
+[36mhelp[39m:      --version        Print the current version
+[36mhelp[39m:      -h, --help       You're staring at it
+[36mhelp[39m:    
+[36mhelp[39m:    [Long Running Process]
+[36mhelp[39m:      The forever process will continue to run outputting log messages to the console.
+[36mhelp[39m:      ex. forever -o out.log -e err.log my-script.js
+[36mhelp[39m:    
+[36mhelp[39m:    [Daemon]
+[36mhelp[39m:      The forever process will run as a daemon which will make the target process start
+[36mhelp[39m:      in the background. This is extremely useful for remote starting simple node.js scripts
+[36mhelp[39m:      without using nohup. It is recommended to run start with -o -l, & -e.
+[36mhelp[39m:      ex. forever start -l forever.log -o out.log -e err.log my-daemon.js
+[36mhelp[39m:          forever stop my-daemon.js
+[36mhelp[39m:    
+[33mwarn[39m:    --minUptime not set. Defaulting to: 1000ms
+[33mwarn[39m:    --spinSleepTime not set. Your script will exit if it does not stay up for at least 1000ms
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+Server is running on port 6997.
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+found expert:  RowDataPacket {
+  contact_details_id: 1,
+  expert_id: 1,
+  phone: '+110-234-345-9887',
+  work_email: 'workEmail1@gmail.com',
+  school_email: 'schoolEmail1@gmail.com',
+  github_user: 'GitHubUser1',
+  linkedin_url: 'https://linkedin.com/aliaskjalskdf/9087234s3/myprofile.php',
+  city: 'Chicago',
+  state: 'IL',
+  country: 'United States' }
+found expert:  RowDataPacket {
+  contact_details_id: 4,
+  expert_id: 4,
+  phone: '(510)444-4567',
+  work_email: 'work_email_4@hotmail.com',
+  school_email: 'my_uni_4@uni.edu',
+  github_user: 'MineGithub4',
+  linkedin_url: 'https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile4.html',
+  city: 'Sun Valley',
+  state: 'ID',
+  country: 'United States' }
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+found expert:  RowDataPacket {
+  expert_id: 1,
+  first_name: 'Bling',
+  last_name: 'Swayze',
+  email: 'bling@swayze.edu',
+  description: 'The Bouncer',
+  photo_url: null,
+  active: 1,
+  deleted: 0 }
+found expert:  RowDataPacket {
+  expert_id: 3,
+  first_name: 'Dashi',
+  last_name: 'Exposee',
+  email: 'dashi@flow.com',
+  description: 'The Heir to Sakai Clan',
+  photo_url: null,
+  active: 1,
+  deleted: 0 }
+found expert:  RowDataPacket {
+  contact_details_id: 1,
+  expert_id: 1,
+  phone: '+110-234-345-9887',
+  work_email: 'workEmail1@gmail.com',
+  school_email: 'schoolEmail1@gmail.com',
+  github_user: 'GitHubUser1',
+  linkedin_url: 'https://linkedin.com/aliaskjalskdf/9087234s3/myprofile.php',
+  city: 'Chicago',
+  state: 'IL',
+  country: 'United States' }
+found expert:  RowDataPacket {
+  contact_details_id: 4,
+  expert_id: 4,
+  phone: '(510)444-4567',
+  work_email: 'work_email_4@hotmail.com',
+  school_email: 'my_uni_4@uni.edu',
+  github_user: 'MineGithub4',
+  linkedin_url: 'https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile4.html',
+  city: 'Sun Valley',
+  state: 'ID',
+  country: 'United States' }
+found expert:  RowDataPacket {
+  expert_id: 3,
+  first_name: 'Dashi',
+  last_name: 'Exposee',
+  email: 'dashi@flow.com',
+  description: 'The Heir to Sakai Clan',
+  photo_url: null,
+  active: 1,
+  deleted: 0 }
+found expert:  RowDataPacket {
+  contact_details_id: 4,
+  expert_id: 4,
+  phone: '(510)444-4567',
+  work_email: 'work_email_4@hotmail.com',
+  school_email: 'my_uni_4@uni.edu',
+  github_user: 'MineGithub4',
+  linkedin_url: 'https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile4.html',
+  city: 'Sun Valley',
+  state: 'ID',
+  country: 'United States' }
+found expert:  RowDataPacket {
+  contact_details_id: 3,
+  expert_id: 3,
+  phone: '(415)666-5555',
+  work_email: 'work_email_3@hotmail.com',
+  school_email: 'my_uni_3@uni.edu',
+  github_user: 'MineGithub3',
+  linkedin_url: 'https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile3.html',
+  city: 'Denver',
+  state: 'CO',
+  country: 'United States' }
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+found expert:  RowDataPacket {
+  expert_id: 4,
+  first_name: 'Sharquarius',
+  last_name: 'Liggins',
+  email: 'sharq69@hotmail.com',
+  description: 'The Excellence of Execution',
+  photo_url: null,
+  active: 1,
+  deleted: 0 }
+found expert:  RowDataPacket {
+  contact_details_id: 4,
+  expert_id: 4,
+  phone: '(510)444-4567',
+  work_email: 'work_email_4@hotmail.com',
+  school_email: 'my_uni_4@uni.edu',
+  github_user: 'MineGithub4',
+  linkedin_url: 'https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile4.html',
+  city: 'Sun Valley',
+  state: 'ID',
+  country: 'United States' }
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+found expert:  RowDataPacket {
+  contact_details_id: 4,
+  expert_id: 4,
+  phone: '(510)444-4567',
+  work_email: 'work_email_4@hotmail.com',
+  school_email: 'my_uni_4@uni.edu',
+  github_user: 'MineGithub4',
+  linkedin_url: 'https://linkedin.com/alkjasdlfkjx323452/as33zcmexxxlkj333/profile4.html',
+  city: 'Sun Valley',
+  state: 'ID',
+  country: 'United States' }
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+experts:  [ RowDataPacket {
+    expert_id: 1,
+    first_name: 'Bling',
+    last_name: 'Swayze',
+    email: 'bling@swayze.edu',
+    description: 'The Bouncer',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 2,
+    first_name: 'Flogan',
+    last_name: 'Mayne',
+    email: 'flogan@gucci.com',
+    description: 'The Big Show',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 3,
+    first_name: 'Dashi',
+    last_name: 'Exposee',
+    email: 'dashi@flow.com',
+    description: 'The Heir to Sakai Clan',
+    photo_url: null,
+    active: 1,
+    deleted: 0 },
+  RowDataPacket {
+    expert_id: 4,
+    first_name: 'Sharquarius',
+    last_name: 'Liggins',
+    email: 'sharq69@hotmail.com',
+    description: 'The Excellence of Execution',
+    photo_url: null,
+    active: 1,
+    deleted: 0 } ]
+found expert:  RowDataPacket {
+  expert_id: 3,
+  first_name: 'Dashi',
+  last_name: 'Exposee',
+  email: 'dashi@flow.com',
+  description: 'The Heir to Sakai Clan',
+  photo_url: null,
+  active: 1,
+  deleted: 0 }
+found expert:  RowDataPacket {
+  contact_details_id: 1,
+  expert_id: 1,
+  phone: '+110-234-345-9887',
+  work_email: 'workEmail1@gmail.com',
+  school_email: 'schoolEmail1@gmail.com',
+  github_user: 'GitHubUser1',
+  linkedin_url: 'https://linkedin.com/aliaskjalskdf/9087234s3/myprofile.php',
+  city: 'Chicago',
+  state: 'IL',
+  country: 'United States' }
+error: Forever detected script was killed by signal: SIGTERM
+error: Script restart attempt #1
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+Server is running on port 6997.
+error: Forever detected script was killed by signal: SIGTERM
+error: Script restart attempt #2
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+Server is running on port 6997.
+error: Forever detected script was killed by signal: SIGTERM
+error: Script restart attempt #3
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+Server is running on port 6997.
+error: Forever detected script was killed by signal: SIGTERM
+error: Script restart attempt #4
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+Server is running on port 6997.
+error: Forever detected script was killed by signal: SIGTERM
+error: Script restart attempt #5
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+/nfs/stak/users/ochoast/osu_cs_361_longbourn/backend/app/models/contact_details.model.js:110
+    console.log("Created contactDetails: ", { contact_details_id: res.insertId, ...newContactDetails });
+                                                                                ^^^
+SyntaxError: Unexpected token ...
+    at createScript (vm.js:56:10)
+    at Object.runInThisContext (vm.js:97:10)
+    at Module._compile (module.js:542:28)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/nfs/stak/users/ochoast/osu_cs_361_longbourn/backend/app/models/expert.model.js:2:12)
+error: Forever detected script exited with code: 1

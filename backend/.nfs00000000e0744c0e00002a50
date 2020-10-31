@@ -1,0 +1,57 @@
+[33mwarn[39m:    --minUptime not set. Defaulting to: 1000ms
+[33mwarn[39m:    --spinSleepTime not set. Your script will exit if it does not stay up for at least 1000ms
+{ DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast' }
+/nfs/stak/users/ochoast/osu_cs_361_longbourn/backend/app/models/contact_details.model.js:110
+    console.log("Created contactDetails: ", { contact_details_id: res.insertId, ...newContactDetails });
+                                                                                ^^^
+SyntaxError: Unexpected token ...
+    at createScript (vm.js:56:10)
+    at Object.runInThisContext (vm.js:97:10)
+    at Module._compile (module.js:542:28)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/nfs/stak/users/ochoast/osu_cs_361_longbourn/backend/app/models/expert.model.js:2:12)
+error: Forever detected script exited with code: 1
+[33mwarn[39m:    --minUptime not set. Defaulting to: 1000ms
+[33mwarn[39m:    --spinSleepTime not set. Your script will exit if it does not stay up for at least 1000ms
+(node:11424) Warning: Accessing non-existent property 'padLevels' of module exports inside circular dependency
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11424) Warning: Accessing non-existent property 'padLevels' of module exports inside circular dependency
+{
+  DB_HOST: 'classmysql.engr.oregonstate.edu',
+  DB_USER: 'cs361_ochoast',
+  DB_PASSWORD: '9078',
+  DB_DATABASE: 'cs361_ochoast'
+}
+events.js:291
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::6997
+    at Server.setupListenHandle [as _listen2] (net.js:1318:16)
+    at listenInCluster (net.js:1366:12)
+    at Server.listen (net.js:1452:7)
+    at Function.listen (/nfs/stak/users/ochoast/osu_cs_361_longbourn/backend/node_modules/express/lib/application.js:618:24)
+    at Object.<anonymous> (/nfs/stak/users/ochoast/osu_cs_361_longbourn/backend/server.js:33:5)
+    at Module._compile (internal/modules/cjs/loader.js:1075:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1096:10)
+    at Module.load (internal/modules/cjs/loader.js:940:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:781:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (net.js:1345:8)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 6997
+}
+error: Forever detected script exited with code: 1
