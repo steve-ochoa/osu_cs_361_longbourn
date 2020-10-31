@@ -5,3 +5,4 @@ Group Members:
 Peter Conti
 Daniel Gwon
 Brian Rud
+Seok "Dan" Choi
