@@ -62,13 +62,17 @@ export default function Profile(props) {
       const expertSkills = await customFetch(
         Urls.Local + "expertSkills/" + expertId.toString()
       );
-      setSkillsData(expertSkills);
+      console.log("retrieved expert skills are: ", expertSkills);
+      console.log(Array.isArray(expertSkills));
       let skillTableData = [];
-      expertSkills.forEach((element) => {
-        delete element.expertId;
-        delete element.skillId;
-        skillTableData.push(element);
-      });
+      if ((Array.isArray(expertSkills))) {
+        setSkillsData(expertSkills);
+        expertSkills.forEach((element) => {
+          delete element.expertId;
+          delete element.skillId;
+          skillTableData.push(element);
+        });
+      }
       setSkillTableData(skillTableData);
       setNewSkill(0);
     }
