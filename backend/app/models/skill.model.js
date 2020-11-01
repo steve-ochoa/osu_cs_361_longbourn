@@ -15,23 +15,23 @@ class Skill {
         )
     }
 
-    static fromSkillDb(skillDb) {
+    static fromSkillDbDto(skillDbDto) {
         return new Skill(
-            skillDb.skill_id,
-            skillDb.name,
-            skillDb.description)
+            skillDbDto.skill_id,
+            skillDbDto.name,
+            skillDbDto.description)
     }
 
-    static fromNewSkillDb(skillId, newSkillDb) {
+    static fromNewSkillDbDto(skillId, newSkillDbDto) {
         return new Skill(
             skillId,
-            newSkillDb.name,
-            newSkillDb.description
+            newSkillDbDto.name,
+            newSkillDbDto.description
         )
     }
 }
 
-class SkillDb {
+class SkillDbDto {
     constructor(skill) {
         this.skill_id = skill.skillId;
         this.name = skill.name;
@@ -40,18 +40,18 @@ class SkillDb {
 }
 
 Skill.create = (newSkill, result) => {
-    let skillDb = new SkillDb(newSkill);
+    let skillDbDto = new SkillDbDto(newSkill);
     console.log("Creating skill:");
-    console.log(skillDb);
+    console.log(skillDbDto);
 
-    sql.query("INSERT INTO skills SET ?", skillDb, (err, res) => {
+    sql.query("INSERT INTO skills SET ?", skillDbDto, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
 
-        var newSkillResult = Skill.fromNewSkillDb(res.insertId, skillDb);
+        var newSkillResult = Skill.fromNewSkillDbDto(res.insertId, skillDbDto);
 
         console.log("Created skill: ", newSkillResult);
         result(null, newSkillResult);
@@ -67,12 +67,12 @@ Skill.fetchAll = result => {
         }
 
         var skillsArray = [];
-        res.forEach(skillDb => skillsArray.push(Skill.fromSkillDb(skillDb)));
+        res.forEach(skillDbDto => skillsArray.push(Skill.fromSkillDbDto(skillDbDto)));
         console.log("skills: ", skillsArray);
         result(null, skillsArray);
     });
 };
 
 module.exports = {
-    Skill, SkillDb
+    Skill, SkillDbDto
 };
