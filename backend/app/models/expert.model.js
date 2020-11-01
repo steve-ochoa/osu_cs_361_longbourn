@@ -1,5 +1,5 @@
-const sql = require('./db.js');
-const cd = require('./contact_details.model.js');
+const sql = require('./db');
+const cd = require('./contact_details.model');
 const ContactDetails = cd.ContactDetails;
 const ContactDetailsDb = cd.ContactDetailsDb;
 
@@ -50,7 +50,7 @@ class Expert {
             null,
             expertDb.active)
     }
-};
+}
 
 
 class ExpertDb {
@@ -63,7 +63,7 @@ class ExpertDb {
         this.photo_url = expert.photoUrl;
         this.active = expert.active;
     }
-};
+}
 
 
 Expert.create = (newExpert, result) => {

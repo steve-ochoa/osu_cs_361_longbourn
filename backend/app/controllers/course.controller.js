@@ -1,8 +1,8 @@
-const skills = require('../models/skill.model');
-const Skill = skills.Skill;
+const courses = require('../models/course.model.js');
+const Course = courses.Course;
 
 
-//Create a new Skill
+//Create a new Course
 exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -11,23 +11,25 @@ exports.create = (req, res) => {
         });
     }
 
-    // Create a Expert
-    const skill = Skill.fromReqBody(req.body);
+    // Create a Course
+    const course = Course.fromReqBody(req.body);
 
-    // Save Expert in the database
-    Skill.create(skill, (err, newSkill) => {
+    // Save Course in the database
+    Course.create(course, (err, newCourse) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Skill."
+                    err.message || "Some error occurred while creating the Expert."
             });
-        else res.send(newSkill);
+
+        else res.send(newCourse);
+        console.log('newCourse: ', newCourse)
     });
 };
 
-//Retrieve all Skills from the database.
+//Retrieve all Courses from the database.
 exports.findAll = (req, res) => {
-    Skill.fetchAll((err, data) => {
+    Course.fetchAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:
