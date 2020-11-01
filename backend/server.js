@@ -32,6 +32,7 @@ require('./app/routes/course.routes')(app);
 require('./app/routes/company.routes')(app);
 require('./app/routes/expert_course.routes')(app);
 require('./app/routes/expert_skill.routes')(app);
+require('./app/routes/expert_company.routes')(app);
 
 // Start server
 const PORT = process.env.PORT || 6997;
