@@ -17,7 +17,6 @@ export default function AddSkill(props) {
   const [nameSuggestions, setNameSuggestions] = useState([]);
   const [descSuggestions, setDescSuggestions] = useState([]);
 
-  console.log(props);
   useEffect(() => {
     async function fetchData() {
       const skillsList = await customFetch(Urls.Local + "skills");

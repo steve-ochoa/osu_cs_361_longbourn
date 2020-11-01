@@ -1,0 +1,12 @@
+for local development:
+
+make sure you have all dependencies by running:
+npm install
+
+start the backend locally OR edit /src/data/Constants.js and change
+the Local Url to the Base Url
+
+start the development server with:
+npm run start
+
+access the app at http://localhost:3000

@@ -15,11 +15,7 @@ import {
 } from "react-bootstrap";
 import Table from "../components/Table";
 import { skillCols, courseCols, companyCols } from "../data/TableCols";
-import {
-  sampleSkillData,
-  sampleCourseData,
-  sampleCompanyData,
-} from "../data/SampleTableData";
+import { sampleCourseData, sampleCompanyData } from "../data/SampleTableData";
 import { Urls } from "../data/Constants";
 import AddSkill from "../components/AddSkill";
 
@@ -65,7 +61,7 @@ export default function Profile(props) {
       console.log("retrieved expert skills are: ", expertSkills);
       console.log(Array.isArray(expertSkills));
       let skillTableData = [];
-      if ((Array.isArray(expertSkills))) {
+      if (Array.isArray(expertSkills)) {
         setSkillsData(expertSkills);
         expertSkills.forEach((element) => {
           delete element.expertId;

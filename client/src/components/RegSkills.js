@@ -28,10 +28,6 @@ export default function RegSkills(props) {
   }
 
   function handleChange(idx, event, newValue, className) {
-    console.log("idx is", idx);
-    console.log("event.target.value iz: ", newValue);
-    console.log("class name:", className);
-    //   console.log("event target iz:", newValue);
     const updatedFields = [...fields];
     updatedFields[idx][className] = newValue;
     setFields(updatedFields);
