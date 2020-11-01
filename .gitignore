@@ -25,3 +25,5 @@ client/build
 
 # output logs
 **/output.log
+!/backend/.idea/
+**/.idea
