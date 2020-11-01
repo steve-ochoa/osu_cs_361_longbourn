@@ -1,6 +1,13 @@
 # Experts Finder Backend API
 
 ## Project setup
+Make sure you have Node.js v14.9.0 installed.
+```
+work1$ node --version
+v14.9.0
+```
+
+Install dependencies:
 ```
 npm install
 ```
@@ -12,6 +19,8 @@ Request from team or create your own .env file with credential environment varia
 ```
 
 ### Run
+Default port is 6997. 
+
 ```
 node server.js
 ```
