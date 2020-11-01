@@ -64,25 +64,29 @@ export default function RegSkills(props) {
           skillId: result.skillId,
           experienceYears: element.years,
         };
-        payload.push(payload_obj)
+        payload.push(payload_obj);
       } else {
-          /* if not found, add the skill to the db with post */
-          let req_body = {name: element.name, description: element.description}
-          let response = await customFetch(Urls.Local + "skills", "POST", req_body);
-          let payload_obj = {
+        /* if not found, add the skill to the db with post */
+        let req_body = { name: element.name, description: element.description };
+        let response = await customFetch(
+          Urls.Local + "skills",
+          "POST",
+          req_body
+        );
+        let payload_obj = {
           expertId: props.history.location.state.expertId,
           skillId: response.skillId,
-          experienceYears: element.years
-          }
-          payload.push(payload_obj)
+          experienceYears: element.years,
+        };
+        payload.push(payload_obj);
       }
     });
     console.log("step 1 complete, payload is: ", payload);
 
     /* step 2: create the expertSkills relationships */
     payload.forEach(async (element) => {
-        await customFetch(Urls.Local + "expertSkills", "POST", element);
-    })
+      await customFetch(Urls.Local + "expertSkills", "POST", element);
+    });
     history.push({
       pathname: "/register3",
       state: { expertId: props.history.location.state.expertId },

@@ -20,6 +20,7 @@ import {
   sampleCourseData,
   sampleCompanyData,
 } from "../data/SampleTableData";
+import { Urls } from "../data/Constants";
 
 /* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
@@ -41,6 +42,8 @@ export default function Profile(props) {
     state: "",
     country: "",
   });
+  const [skillsData, setSkillsData] = useState([]);
+  const [skillTableData, setSkillTableData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -54,6 +57,15 @@ export default function Profile(props) {
       );
       console.log("contact data is: ", contactDetails);
       setContactData(contactDetails);
+      const expertSkills = await customFetch(Urls.Local + "expertSkills/" + expertId.toString());
+      setSkillsData(expertSkills);
+      let skillTableData = [];
+      expertSkills.forEach(element => {
+        delete element.expertId;
+        delete element.skillId;
+        skillTableData.push(element);
+      })
+      setSkillTableData(skillTableData);
     }
     fetchData();
   }, []);
@@ -153,7 +165,7 @@ export default function Profile(props) {
         <Tab eventKey="skills" title="Skills">
           <Table
             tableCols={skillCols}
-            data={sampleSkillData}
+            data={skillTableData}
             title={"Expert Skills"}
             options={{
               paging: false,
