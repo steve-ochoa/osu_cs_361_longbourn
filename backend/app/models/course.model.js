@@ -11,7 +11,7 @@ class Course {
     static fromReqBody(reqBody) {
         return new Course(
             reqBody.courseId,
-            reqBody.courseNumber
+            reqBody.courseNumber,
             reqBody.name,
             reqBody.description,
         )
@@ -20,7 +20,7 @@ class Course {
     static fromCourseDbDto(courseDbDto) {
         return new Course(
             courseDbDto.course_id,
-            courseDbDto.course_number
+            courseDbDto.course_number,
             courseDbDto.name,
             courseDbDto.description)
     }
@@ -28,7 +28,7 @@ class Course {
     static fromNewCourseDbDto(courseId, newCourseDbDto) {
         return new Course(
             courseId,
-            newCourseDbDto.course_numver
+            newCourseDbDto.course_number,
             newCourseDbDto.name,
             newCourseDbDto.description
         )

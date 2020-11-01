@@ -21,13 +21,15 @@ exports.create = (req, res) => {
                 message:
                     err.message || "Some error occurred while creating the Expert."
             });
+
         else res.send(newCourse);
+        console.log('newCourse: ', newCourse)
     });
 };
 
 //Retrieve all Courses from the database.
 exports.findAll = (req, res) => {
-    Courses.fetchAll((err, data) => {
+    Course.fetchAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:

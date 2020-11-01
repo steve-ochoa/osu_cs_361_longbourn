@@ -5,7 +5,7 @@ class Company {
 		this.companyId = companyId;
 		this.name = name;
 		this.description = description;
-		this.indsutry = industry;
+		this.industry = industry;
 	}
 
 	static fromReqBody(reqBody){
@@ -26,7 +26,7 @@ class Company {
 			)
 	}
 
-	static fromNewCompanyDbDto(companyId, newCompanyDvDto){
+	static fromNewCompanyDbDto(companyId, newCompanyDbDto){
 		return new Company(
 			companyId,
 			companyDbDto.name,

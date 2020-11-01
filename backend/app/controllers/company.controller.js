@@ -4,7 +4,7 @@ const Company = companies.Company;
 //Create a new Company
 exports.create = (req,res) => {
 	//Validate requrest
-	if(!reqBody){
+	if(!req.body){
 		res.status(400).send({
 			message: "Content can not be empty"
 		});
@@ -33,7 +33,7 @@ exports.findAll = (req, res) => {
 				message:
 					err.message || "Some error occurred while retrieving Companies"
 			})
-		};
+		}
 		else{
 			res.setHeader('Content-Type', 'application/json');
 			res.send(data)
