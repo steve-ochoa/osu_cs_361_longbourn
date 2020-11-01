@@ -1,4 +1,4 @@
-const sql = require('./db.js');
+const sql = require('./db');
 
 class ContactDetails {
     constructor(contactDetailsId, expertId, phone, workEmail, schoolEmail,
