@@ -1,21 +1,19 @@
 const sql = require("./db")
 
 class ExpertCompany {
-	constructor(expertCompanyId, expertId, companyId, name, description, industry, current, position, employedYears){
-		this.expertCompanyId = expertCompanyId;
+	constructor(expertId, companyId, name, description, industry, current, position, employedYears){
 		this.expertId = expertId;
 		this.companyId = companyId;
 		this.name = name;
 		this.description = description;
 		this.industry = industry;
 		this.current = current;
-		this.position = postion;
+		this.position = position;
 		this.employedYears = employedYears;
 	}
 
 	static fromReqBody(reqBody){
 		return new ExpertCompany(
-			reqBody.expertCompanyId,
 			reqBody.expertId,
 			reqBody.companyId,
 			reqBody.name,
@@ -29,15 +27,14 @@ class ExpertCompany {
 
 	static fromExpertCompanyRow(expertCompanyRow){
 		return new ExpertCompany(
-			expertCompanyRow.expertCompanyId,
-			expertCompanyRow.expertId,
-			expertCompanyRow.companyId,
+			expertCompanyRow.expert_id,
+			expertCompanyRow.company_id,
 			expertCompanyRow.name,
 			expertCompanyRow.description,
 			expertCompanyRow.industry,
 			expertCompanyRow.current,
 			expertCompanyRow.position,
-			expertCompanyRow.employedYears
+			expertCompanyRow.employed_years
 			)
 
 
@@ -46,13 +43,12 @@ class ExpertCompany {
 
 
 class ExpertCompanyDbDto {
-	constructor(expert_company_id, expert_id, company_id, current, position, employed_years) {
-		this.expert_company_id = expert_company_id;
-		this.expert_id = expert_id;
-		this.company_id = company_id;
-		this.current = current;
-		this.position = position;
-		this.empoyed_years = employed_years;
+	constructor(expertCompany) {
+		this.expert_id = expertCompany.expertId;
+		this.company_id = expertCompany.companyId;
+		this.current = expertCompany.current;
+		this.position = expertCompany.position;
+		this.employed_years = expertCompany.employedYears;
 	}
 }
 
@@ -71,8 +67,7 @@ Companies<->Experts.
 	console.log(expertCompanyDbDto);
 
  	sql.query("INSERT INTO expert_companies (expert_company_id, expert_id, company_id, current, position, employed_years) VALUES (?,?,?,?,?,?)",
- 		[0, expertCompanyDbDto.expert_company_id, expertCompanyDbDto.expert_id, expertCompanyDbDto.company_id, expertCompanyDbDto.current,
- 		expertCompanyDbDto.position, expertCompanyDbDto.employed_years], 
+ 		[0, expertCompanyDbDto.expert_id, expertCompanyDbDto.company_id, expertCompanyDbDto.current, expertCompanyDbDto.position, expertCompanyDbDto.employed_years], 
  		(err, res) => {
  			if (err){
 				console.log("error: ", err);
@@ -87,7 +82,7 @@ Companies<->Experts.
  };
 
  ExpertCompany.fetchByExpertId = (expertId, result) => {
-	sql.query("SELECT ec.expert_id, ec.company_id, c.name, c.description, c.industry, ec.term, ec.current, ec.position, ec.employed_years FROM expert_companies ec " + 
+	sql.query("SELECT ec.expert_id, ec.company_id, c.name, c.description, c.industry, ec.current, ec.position, ec.employed_years FROM expert_companies ec " + 
 	"JOIN companies c ON ec.company_id = c.company_id WHERE ec.expert_id = ?",
 	[expertId],
 	(err, res) => {
