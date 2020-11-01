@@ -3,7 +3,7 @@
 ## Project setup
 Make sure you have Node.js v14.9.0 installed.
 ```
-work1$ node --version
+myShell$ node --version
 v14.9.0
 ```
 
