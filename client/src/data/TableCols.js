@@ -1,7 +1,7 @@
 export const skillCols = [
   { title: "Name", field: "name" },
   { title: "Description", field: "description" },
-  { title: "Years Experience", field: "years", type: "numeric" },
+  { title: "Years Experience", field: "experienceYears", type: "numeric" },
 ];
 
 export const courseCols = [

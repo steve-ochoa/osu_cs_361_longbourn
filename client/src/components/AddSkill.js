@@ -17,6 +17,7 @@ export default function AddSkill(props) {
   const [nameSuggestions, setNameSuggestions] = useState([]);
   const [descSuggestions, setDescSuggestions] = useState([]);
 
+  console.log(props);
   useEffect(() => {
     async function fetchData() {
       const skillsList = await customFetch(Urls.Local + "skills");
@@ -27,13 +28,43 @@ export default function AddSkill(props) {
   }, []);
 
   function handleChange(event, newValue, targetName) {
-    const updatedInputState = [...inputState];
+    const updatedInputState = { ...inputState };
     updatedInputState[targetName] = newValue;
     setInputState(updatedInputState);
   }
 
   async function handleSubmit() {
-    return;
+    /* check if inputState contains a skill the expert already has */
+    let result = props.expertSkills.find(
+      (object) => object.name === inputState.name
+    );
+    if (result) {
+      alert("expert already has this skill!");
+      return;
+    }
+    /* check if inputState contains a skill already known by the db */
+    result = skillsList.find((object) => object.name === inputState.name);
+    if (result) {
+      let payload = {
+        expertId: props.expertId,
+        skillId: result.skillId,
+        experienceYears: inputState.experienceYears,
+      };
+      await customFetch(Urls.Local + "expertSkills", "POST", payload);
+    } else {
+      let req_body = {
+        name: inputState.name,
+        description: inputState.description,
+      };
+      let response = await customFetch(Urls.Local + "skills", "POST", req_body);
+      let payload = {
+        expertId: props.expertId,
+        skillId: response.skillId,
+        experienceYears: inputState.experienceYears,
+      };
+      await customFetch(Urls.Local + "expertSkills", "POST", payload);
+    }
+    history.go(0);
   }
 
   function escapeRegexCharacters(str) {
@@ -73,8 +104,9 @@ export default function AddSkill(props) {
   }
 
   function onNameSuggestionSelected(event, suggestion) {
-    const updatedInputState = [...inputState];
+    const updatedInputState = { ...inputState };
     updatedInputState["description"] = suggestion.description;
+    updatedInputState["name"] = suggestion.name;
     setInputState(updatedInputState);
   }
 
@@ -87,8 +119,9 @@ export default function AddSkill(props) {
   }
 
   function onDescSuggestionSelected(event, suggestion, idx) {
-    const updatedInputState = [...inputState];
+    const updatedInputState = { ...inputState };
     updatedInputState["name"] = suggestion.name;
+    updatedInputState["description"] = suggestion.description;
     setInputState(updatedInputState);
   }
 
@@ -143,11 +176,11 @@ export default function AddSkill(props) {
         />
         <Form.Control
           as="select"
-          name="years"
-          className="years"
-          value={inputState.years}
+          name="experienceYears"
+          className="experienceYears"
+          value={inputState.experienceYears}
           onChange={(e) => {
-            handleChange(e, e.target.value, "years");
+            handleChange(e, e.target.value, "experienceYears");
           }}
         >
           <option>Years of Experience</option>
