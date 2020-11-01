@@ -21,6 +21,7 @@ import {
   sampleCompanyData,
 } from "../data/SampleTableData";
 
+/* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
   const { expertId } = props.match.params;
   const [expertData, setExpertData] = useState({
