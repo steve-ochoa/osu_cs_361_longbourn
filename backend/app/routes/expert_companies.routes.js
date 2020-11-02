@@ -5,7 +5,7 @@
 
 
 module.exports = app => {
-	const expertCourse = require('../controllers/expert_companies.controller.js');
+	const expertCompanies = require('../controllers/expert_companies.controller.js');
 
 	//Create new ExpertCompanies
 	app.post("/expertCompanies", expertCompanies.create);
