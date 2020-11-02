@@ -99,7 +99,7 @@ ExpertCompanies.fetchByExpertId = (expertId, result) => {
                 res.forEach(expertCompaniesRow => expertCompaniesArr.push(ExpertCompanies.fromExpertCompaniesRow(expertCompaniesRow)));
                 console.log("expertCompanies:");
                 console.log(expertCompaniesArr);
-                result(null, expertCompaniessArr);
+                result(null, expertCompaniesArr);
                 return;
             }
 
