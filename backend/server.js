@@ -34,6 +34,7 @@ require('./app/routes/expert_companies.routes')(app);
 require('./app/routes/expert_course.routes')(app);
 require('./app/routes/findExpertsBySkill.routes')(app);
 require('./app/routes/findExpertsByCourse.routes')(app);
+require('./app/routes/findExpertsByCompany.routes')(app);
 
 // Start server
 const PORT = process.env.PORT || 6997;
