@@ -42,6 +42,17 @@ require('./app/routes/findExpertsBySkill.routes')(app);
 require('./app/routes/findExpertsByCourse.routes')(app);
 require('./app/routes/findExpertsByCompany.routes')(app);
 
+// Search Query routes (by name)
+require('./app/routes/fetchExpertByFirstName.routes')(app);
+require('./app/routes/fetchExpertByLastName.routes')(app);
+require('./app/routes/fetchExpertByCourseName.routes')(app);
+require('./app/routes/fetchExpertBySkillName.routes')(app);
+require('./app/routes/fetchExpertByCompanyName.routes')(app);
+
+// Search Query route - by course number (e.g., CS340)
+require('./app/routes/fetchExpertByCourseNumber.routes')(app); 
+
+
 
 // Start server
 const PORT = process.env.PORT || 6997;
