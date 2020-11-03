@@ -46,12 +46,12 @@ export default function Profile(props) {
   useEffect(() => {
     async function fetchData() {
       const expertData = await customFetch(
-        "http://localhost:6997/experts/" + expertId.toString()
+        Urls.Local + "experts/" + expertId.toString()
       );
       console.log("expert data is: ", expertData);
       setExpertData(expertData);
       const contactDetails = await customFetch(
-        "http://localhost:6997/contact_details/" + expertId.toString()
+        Urls.Local + "contact_details/" + expertId.toString()
       );
       console.log("contact data is: ", contactDetails);
       setContactData(contactDetails);
