@@ -15,12 +15,11 @@ import {
 } from "react-bootstrap";
 import Table from "../components/Table";
 import { skillCols, courseCols, companyCols } from "../data/TableCols";
-import {
-  sampleSkillData,
-  sampleCourseData,
-  sampleCompanyData,
-} from "../data/SampleTableData";
+import { sampleCourseData, sampleCompanyData } from "../data/SampleTableData";
+import { Urls } from "../data/Constants";
+import AddSkill from "../components/AddSkill";
 
+/* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
   const { expertId } = props.match.params;
   const [expertData, setExpertData] = useState({
@@ -40,6 +39,9 @@ export default function Profile(props) {
     state: "",
     country: "",
   });
+  const [skillsData, setSkillsData] = useState([]);
+  const [skillTableData, setSkillTableData] = useState([]);
+  const [newSkill, setNewSkill] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -53,9 +55,34 @@ export default function Profile(props) {
       );
       console.log("contact data is: ", contactDetails);
       setContactData(contactDetails);
+      const expertSkills = await customFetch(
+        Urls.Local + "expertSkills/" + expertId.toString()
+      );
+      console.log("retrieved expert skills are: ", expertSkills);
+      console.log(Array.isArray(expertSkills));
+      let skillTableData = [];
+      if (Array.isArray(expertSkills)) {
+        setSkillsData(expertSkills);
+        expertSkills.forEach((element) => {
+          delete element.expertId;
+          delete element.skillId;
+          skillTableData.push(element);
+        });
+      }
+      setSkillTableData(skillTableData);
+      setNewSkill(0);
     }
     fetchData();
   }, []);
+
+  function renderNewSkill() {
+    setNewSkill(1);
+  }
+
+  const newSkillProps = {
+    expertId: expertId,
+    expertSkills: skillsData,
+  };
 
   return (
     <>
@@ -144,15 +171,11 @@ export default function Profile(props) {
       </Container>
       <br />
       <br />
-      <Tabs
-        defaultActiveKey="skills"
-        id="uncontrolled-tab-example"
-        fill
-      >
+      <Tabs defaultActiveKey="skills" id="uncontrolled-tab-example" fill>
         <Tab eventKey="skills" title="Skills">
           <Table
             tableCols={skillCols}
-            data={sampleSkillData}
+            data={skillTableData}
             title={"Expert Skills"}
             options={{
               paging: false,
@@ -161,7 +184,9 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary">Add New Skill</Button>
+          <Button variant="outline-primary" onClick={renderNewSkill}>
+            Add New Skill
+          </Button>
           <br />
         </Tab>
         <Tab eventKey="courses" title="Coursework">
@@ -195,6 +220,7 @@ export default function Profile(props) {
           <br />
         </Tab>
       </Tabs>
+      {newSkill && <AddSkill {...newSkillProps} />}
     </>
   );
 }
