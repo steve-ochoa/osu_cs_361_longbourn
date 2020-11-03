@@ -24,15 +24,24 @@ app.get('/status', (req, res) => {
   res.json({ message: "Status OK." });
 });
 
-// Load routes
+// Entity routes
 require('./app/routes/expert.routes')(app);
 require('./app/routes/contact_details.routes')(app);
 require('./app/routes/skill.routes')(app);
 require('./app/routes/course.routes')(app);
 require('./app/routes/company.routes')(app);
+
+// Relatinoship routes
+require('./app/routes/expert_companies.routes')(app);
 require('./app/routes/expert_course.routes')(app);
 require('./app/routes/expert_skill.routes')(app);
 require('./app/routes/expert_company.routes')(app);
+
+// Search Query routes
+require('./app/routes/findExpertsBySkill.routes')(app);
+require('./app/routes/findExpertsByCourse.routes')(app);
+require('./app/routes/findExpertsByCompany.routes')(app);
+
 
 // Start server
 const PORT = process.env.PORT || 6997;
