@@ -175,7 +175,7 @@ export default function RegBasics() {
             <Form.Label>Work Email - Optional</Form.Label>
             <Form.Control
               type="email"
-              placeholder="ayyy@microsoft.com"
+              placeholder="russor@microsoft.com"
               name="workEmail"
               value={staticState.workEmail}
               onChange={handleChangeStatic}
@@ -187,7 +187,7 @@ export default function RegBasics() {
             <Form.Label>School Email - Optional</Form.Label>
             <Form.Control
               type="email"
-              placeholder="charlotte@upenn.edu"
+              placeholder="charlotte@oregonstate.edu"
               name="schoolEmail"
               value={staticState.schoolEmail}
               onChange={handleChangeStatic}
@@ -205,7 +205,7 @@ export default function RegBasics() {
               onChange={handleChangeStatic}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="formGridGitHub">
+          <Form.Group as={Col} controlId="formGridLinkedIn">
             <Form.Label>LinkedIn Profile</Form.Label>
             <Form.Control
               placeholder="https://www.linkedin.com/in/charlotte_russo"
