@@ -46,8 +46,12 @@ export default function Profile(props) {
   const [courseList, setCourseList] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [newCourse, setNewCourse] = useState(0);
+  const [companiesLIst, setCompaniesList] = useState([]);
+  const [companyData, setCompanyData] = useState([]);
+  const [newCompany, setNewCompany] = useState([]);
 
   useEffect(() => {
+    /* todo: breakout this fetchData function into general getAllExpertData */
     async function fetchData() {
       const expertData = await customFetch(
         Urls.Local + "experts/" + expertId.toString()
@@ -95,14 +99,31 @@ export default function Profile(props) {
         setCourseData(expertCourses);
       }
       setNewCourse(0);
+
+      /* company data */
+      /* get all company data */
+      const companies = await customFetch(Urls.Local + "companies");
+      setCompaniesList(companies);
+      /* get expert company data */
+      const expertCompanies = await customFetch(
+        Urls.Local + "expertCompanies/" + expertId.toString()
+      );
+      console.log("retrieved expert companies are: ", expertCompanies);
+
+      if (Array.isArray(expertCompanies)) {
+        expertCompanies.forEach((element, index) => {
+          delete element.companyId;
+          delete element.expertId;
+          expertCompanies[index] = element;
+        });
+      }
+      setCompanyData(expertCompanies);
+      setNewCompany(0);
     }
     fetchData();
   }, []);
 
-  function renderNewSkill() {
-    setNewSkill(1);
-  }
-
+  /* todo: just add these inline */
   const newSkillProps = {
     expertId: expertId,
     expertSkills: skillsData,
@@ -208,7 +229,7 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary" onClick={renderNewSkill}>
+          <Button variant="outline-primary" onClick={setNewSkill}>
             Add New Skill
           </Button>
           <br />
@@ -233,7 +254,7 @@ export default function Profile(props) {
         <Tab eventKey="companies" title="Industry Experience">
           <Table
             tableCols={companyCols}
-            data={sampleCompanyData}
+            data={companyData}
             title={"Expert Courses"}
             options={{
               paging: false,
