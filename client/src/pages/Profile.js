@@ -42,6 +42,9 @@ export default function Profile(props) {
   const [skillsData, setSkillsData] = useState([]);
   const [skillTableData, setSkillTableData] = useState([]);
   const [newSkill, setNewSkill] = useState(0);
+  const [courseList, setCourseList] = useState([]);
+  const [courseData, setCourseData] = useState([]);
+  const [newCourse, setNewCourse] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -59,7 +62,6 @@ export default function Profile(props) {
         Urls.Local + "expertSkills/" + expertId.toString()
       );
       console.log("retrieved expert skills are: ", expertSkills);
-      console.log(Array.isArray(expertSkills));
       let skillTableData = [];
       if (Array.isArray(expertSkills)) {
         setSkillsData(expertSkills);
@@ -71,6 +73,25 @@ export default function Profile(props) {
       }
       setSkillTableData(skillTableData);
       setNewSkill(0);
+      /* get all the course data */
+      const courses = await customFetch(Urls.Local + "courses");
+      setCourseList(courses);
+      const expertCourses = await customFetch(
+        Urls.Local + "expertCourses/" + expertId.toString()
+      );
+      console.log("retrieved expert courses are: ", expertCourses);
+      expertCourses.forEach((element, index) => {
+        let courseLookup = courses.find(
+          (obj) => obj.courseId === element.courseId
+        );
+        element.description = element.name;
+        element.name = courseLookup.courseNumber;
+        delete element.courseId;
+        delete element.expertId;
+        expertCourses[index] = element;
+      });
+      setCourseData(expertCourses);
+      setNewCourse(0);
     }
     fetchData();
   }, []);
@@ -192,7 +213,7 @@ export default function Profile(props) {
         <Tab eventKey="courses" title="Coursework">
           <Table
             tableCols={courseCols}
-            data={sampleCourseData}
+            data={courseData}
             title={"Expert Courses"}
             options={{
               paging: false,
