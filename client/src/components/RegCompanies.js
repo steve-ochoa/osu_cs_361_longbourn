@@ -3,11 +3,18 @@ import { customFetch } from "./Helpers";
 import { Urls } from "../data/Constants";
 import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, FormControl, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 export default function RegCompanies(props) {
-  let history = useHistory();
-  const expertId = props.history.location.state.expertId;
+  const history = useHistory();
+  const location = useLocation();
+  let expertId;
+  if (location.pathname.split("/")[1] === "profile") {
+    expertId = props.expertId;
+  } else {
+    expertId = props.history.location.state.expertId;
+  }
+  //   const expertId = props.history.location.state.expertId;
   const [companiesList, setCompaniesList] = useState([]);
   const [nameSuggestions, setNameSuggestions] = useState([]);
   const [descSuggestions, setDescSuggestions] = useState([]);
@@ -78,14 +85,17 @@ export default function RegCompanies(props) {
     let payload = [];
     /* payload format:  { expertId, companyId, current, employedYears, position } */
 
+    let processed_items = 0;
     updatedFields.forEach(async (element) => {
-      let result = companiesList.find((object) => object.name === element.name);
+      let result = await companiesList.find(
+        (object) => object.name === element.name
+      );
       if (result) {
         /* if found, append object to the payload */
         let payload_obj = {
           expertId: expertId,
           companyId: result.companyId,
-          current: element.current,
+          current: element.current === "Yes" ? true : false,
           employedYears: element.years,
           position: element.position,
         };
@@ -105,17 +115,26 @@ export default function RegCompanies(props) {
         );
         let payload_obj = {
           expertId: expertId,
-          companyId: response.companyId,
-          current: element.current,
+          companyId: await response.companyId,
+          current: element.current === "Yes" ? true : false,
           employedYears: element.years,
           position: element.position,
         };
         payload.push(payload_obj);
       }
+      processed_items++;
+      if (processed_items === updatedFields.length) {
+        createRelationships(payload);
+      }
     });
     console.log("step 1 complete, payload is: ", payload);
+    console.log("length of the payload is: ", payload.length);
 
     /* step 2: create the expertCompanies relationships */
+  }
+
+  async function createRelationships(payload) {
+    let processed_items = 0;
     payload.forEach(async (element) => {
       let response = await customFetch(
         Urls.Local + "expertCompanies",
@@ -123,10 +142,21 @@ export default function RegCompanies(props) {
         element
       );
       console.log(response);
+      processed_items++;
+      if (processed_items === payload.length) {
+        redirectCallback();
+      }
     });
-    history.push({
-      pathname: `/profile/${expertId}`,
-    });
+  }
+
+  function redirectCallback() {
+    if (location.pathname.split("/")[1] === "profile") {
+      history.go(0);
+    } else {
+      history.push({
+        pathname: `/profile/${expertId}`,
+      });
+    }
   }
 
   function escapeRegexCharacters(str) {
@@ -327,23 +357,27 @@ export default function RegCompanies(props) {
                 value={fields[idx].years}
                 onChange={handleChangeRegInputs}
               ></Form.Control>
-              <InputGroup.Append>
-                <Button
-                  variant="outline-secondary"
-                  onClick={() => handleDelete(idx)}
-                >
-                  Remove
-                </Button>
-                <Button variant="outline-secondary" onClick={addCompany}>
-                  Add More
-                </Button>
-              </InputGroup.Append>
+              {location.pathname.split("/")[1] !== "profile" && (
+                <InputGroup.Append>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => handleDelete(idx)}
+                  >
+                    Remove
+                  </Button>
+                  <Button variant="outline-secondary" onClick={addCompany}>
+                    Add More
+                  </Button>
+                </InputGroup.Append>
+              )}
             </InputGroup>
           </div>
         );
       })}
       <Button variant="primary" onClick={handleSubmit}>
-        Next
+        {location.pathname.split("/")[1] !== "profile"
+          ? "Submit!"
+          : "Add Company!"}
       </Button>
     </>
   );
