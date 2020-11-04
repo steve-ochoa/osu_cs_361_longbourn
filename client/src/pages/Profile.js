@@ -18,6 +18,7 @@ import { skillCols, courseCols, companyCols } from "../data/TableCols";
 import { sampleCourseData, sampleCompanyData } from "../data/SampleTableData";
 import { Urls } from "../data/Constants";
 import AddSkill from "../components/AddSkill";
+import AddCourse from "../components/AddCourse";
 
 /* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
@@ -222,7 +223,9 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary">Add New Course</Button>
+          <Button variant="outline-primary" onClick={setNewCourse}>
+            Add New Course
+          </Button>
           <br />
         </Tab>
         <Tab eventKey="companies" title="Industry Experience">
@@ -242,6 +245,7 @@ export default function Profile(props) {
         </Tab>
       </Tabs>
       {newSkill && <AddSkill {...newSkillProps} />}
+      {newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
     </>
   );
 }
