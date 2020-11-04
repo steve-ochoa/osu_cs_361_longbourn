@@ -81,17 +81,19 @@ export default function Profile(props) {
         Urls.Local + "expertCourses/" + expertId.toString()
       );
       console.log("retrieved expert courses are: ", expertCourses);
-      expertCourses.forEach((element, index) => {
-        let courseLookup = courses.find(
-          (obj) => obj.courseId === element.courseId
-        );
-        element.description = element.name;
-        element.name = courseLookup.courseNumber;
-        delete element.courseId;
-        delete element.expertId;
-        expertCourses[index] = element;
-      });
-      setCourseData(expertCourses);
+      if (Array.isArray(expertCourses)) {
+        expertCourses.forEach((element, index) => {
+          let courseLookup = courses.find(
+            (obj) => obj.courseId === element.courseId
+          );
+          element.description = element.name;
+          element.name = courseLookup.courseNumber;
+          delete element.courseId;
+          delete element.expertId;
+          expertCourses[index] = element;
+        });
+        setCourseData(expertCourses);
+      }
       setNewCourse(0);
     }
     fetchData();
