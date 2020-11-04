@@ -8,9 +8,9 @@ import "./App.css";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ExpertResultsPage from "./pages/ExpertResultsPage";
-import RegSkills from "./components/RegSkills";
 import RegCourses from "./components/RegCourses";
 import RegCompanies from "./components/RegCompanies";
+import RegSkills from "./components/RegSkills";
 
 function App() {
   return (

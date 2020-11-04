@@ -23,8 +23,8 @@ class ExpertCourse {
 
 	static fromExpertCourseRow(expertCourseRow){
 		return new ExpertCourse(
-			expertCourseRow.expertId,
-			expertCourseRow.courseId,
+			expertCourseRow.expert_id,
+			expertCourseRow.course_id,
 			expertCourseRow.name,
 			expertCourseRow.description,
 			expertCourseRow.term,
