@@ -10,7 +10,7 @@ function SearchPage() {
                 <div key="inline" className="mb-3">
                     <Form.Check inline type="radio" name="search" label="Skill" value="Skill" checked />
                     <Form.Check inline type="radio" name="search" label="Course" value="Course" />
-                    {/* <Form.Check inline type="radio" label="Companies" /> 
+                    <Form.Check inline type="radio" name="search" label="Companies" value="Company" /> 
                     add later if we have time*/}
                 </div>
             </Form>
