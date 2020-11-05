@@ -86,7 +86,7 @@ class ContactDetailsDb {
         this.country = contactDetails.country;
     }
 
-    static fromNewExpertId(newExpertId, contactDetails) {
+    static fromExpertId(newExpertId, contactDetails) {
         let contactDetailsDb = new ContactDetailsDb(contactDetails);
         contactDetailsDb.expert_id = newExpertId;
         return contactDetailsDb;

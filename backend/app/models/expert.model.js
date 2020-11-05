@@ -89,7 +89,7 @@ Expert.create = (newExpert, result) => {
                 console.log("Created expert: ", newExpertResult);
 
                 //TODO pass connection into new method ContactDetails.createWithConnection()
-                let contactDetailsDb = ContactDetailsDb.fromNewExpertId(res.insertId, newExpert.contactDetails);
+                let contactDetailsDb = ContactDetailsDb.fromExpertId(res.insertId, newExpert.contactDetails);
                 contactDetailsDb.expert_id = newExpertResult.expertId;
 
                 console.log("Inserting contactDetails: ", contactDetailsDb);
@@ -113,7 +113,6 @@ Expert.create = (newExpert, result) => {
                     console.log("Created new expert: ", newExpertResult);
 
                     result(null, newExpertResult);
-                    return;
                 });
             });
         })
@@ -168,29 +167,65 @@ Expert.fetchAll = result => {
     });
 };
 
-/* TODO add all fields
-Expert.updateById = (id, expert, result) => {
-  sql.query(
-    "UPDATE experts SET email = ?, name = ?, active = ? WHERE id = ?",
-    [expert.email, expert.name, expert.active, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
+Expert.updateById = (expertId, expertToUpdate, result) => {
+    let expertDb = new ExpertDb(expertToUpdate);
+    console.log("Updating expert:");
+    console.log(expertDb);
 
-      if (res.affectedRows == 0) {
-        // not found Expert with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
+    sql.getConnection(function (err, connection) {
 
-      console.log("updated expert: ", { id: id, ...expert });
-      result(null, { id: id, ...expert });
-    }
-  );
+        connection.beginTransaction(function (err) {
+
+            connection.query("UPDATE experts SET first_name=?, last_name=?, email=?, description=?, photo_url=? WHERE expert_id=?",
+                [expertDb.first_name, expertDb.last_name, expertDb.email, expertDb.description, expertDb.photo_url, expertId], (err, res) => {
+                    if (err) {
+                        connection.rollback();
+                        connection.release();
+                        console.log("error: ", err);
+                        result(err, null);
+                        return;
+                    }
+
+                    if (res.affectedRows === 0) {
+                        //No Expert found with that expertId
+                        result({kind: "not_found"}, null);
+                        return;
+                    }
+
+                    console.log("Updated expert: ", expertDb);
+
+                    //TODO pass connection into new method ContactDetails.createWithConnection()
+                    let contactDetailsDb = ContactDetailsDb.fromExpertId(expertId, expertToUpdate.contactDetails);
+
+                    console.log("Updating contactDetails: ", contactDetailsDb);
+
+                    connection.query("UPDATE contact_details SET phone=?, work_email=?, school_email=?, github_user=?, linkedin_url=?, city=?, state=?, country=? WHERE expert_id=?",
+                        [contactDetailsDb.phone, contactDetailsDb.work_email, contactDetailsDb.school_email, contactDetailsDb.github_user,
+                            contactDetailsDb.linkedin_url, contactDetailsDb.city, contactDetailsDb.state, contactDetailsDb.country, expertId],
+                        (err, res2) => {
+                            if (err) {
+                                connection.rollback();
+                                connection.release();
+                                result(err, null);
+                                return;
+                            }
+
+                            if (res2.affectedRows === 0) {
+                                //No ContactDetails found with that expertId
+                                result({kind: "not_found"}, null);
+                                return;
+                            }
+
+                            connection.commit();
+                            connection.release();
+
+                            console.log("Updated contactDetails: ", contactDetailsDb);
+
+                            result(null, expertToUpdate);
+                        });
+                });
+        })
+    });
 };
-*/
 
 module.exports = Expert;
