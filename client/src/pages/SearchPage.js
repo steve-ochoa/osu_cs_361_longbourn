@@ -11,7 +11,6 @@ function SearchPage() {
                     <Form.Check inline type="radio" name="search" label="Skill" value="Skill" checked />
                     <Form.Check inline type="radio" name="search" label="Course" value="Course" />
                     <Form.Check inline type="radio" name="search" label="Companies" value="Company" /> 
-                    add later if we have time*/}
                 </div>
             </Form>
             <Button variant="primary" size="lg" type="submit">Find Your Expert</Button>

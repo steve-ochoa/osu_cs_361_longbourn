@@ -15,9 +15,9 @@ function ExpertCard(props) {
         <Card.Text>
           {props.description}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary" href={props.email}>{props.email}</Button>
       </Card.Body>
-    </Card>
+    </Card >
   )
 
 }
