@@ -11,11 +11,11 @@ function ExpertCard(props) {
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={props.photoUrl} />
       <Card.Body>
-        <Card.Title>{props.name}</Card.Title>
+        <Card.Title>{props.firstName + " " + props.lastName}</Card.Title>
         <Card.Text>
           {props.description}
         </Card.Text>
-        <Button variant="primary" href={props.email}>{props.email}</Button>
+        <Button variant="primary" size="sm" href={"/profile/:" + props.expertId}>Profile</Button>
       </Card.Body>
     </Card >
   )

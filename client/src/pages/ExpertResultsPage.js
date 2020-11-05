@@ -6,11 +6,11 @@ import { customFetch } from "../components/Helpers";
 
 function ExpertResultsPage() {
   const [expertsData, setExpertData] = useState({
+    expertId: "",
     firstName: "",
     description: "",
     photoUrl: null,
   });
-  const [contactData, setContactData] = useState({ linkedInUrl: "" });
 
   useEffect(() => {
     async function fetchData() {
@@ -30,28 +30,28 @@ function ExpertResultsPage() {
         <Col>
           <Card
             key={expertsData[i].expertId}
-            name={expertsData[i].firstName}
+            expertId={expertsData[i].expertId}
+            firstName={expertsData[i].firstName}
             description={expertsData[i].description}
             photoUrl={expertsData[i].photoUrl}
-            email={expertsData[i].email}
           />
         </Col>
         <Col>
           <Card
             key={expertsData[i + 1].expertId}
-            name={expertsData[i + 1].firstName}
+            expertId={expertsData[i + 1].expertId}
+            firstName={expertsData[i + 1].firstName}
             description={expertsData[i + 1].description}
             photoUrl={expertsData[i + 1].photoUrl}
-            email={expertsData[i + 1].email}
           />
         </Col>
         <Col>
           <Card
             key={expertsData[i + 2].expertId}
-            name={expertsData[i + 2].firstName}
+            expertId={expertsData[i + 2].expertId}
+            firstName={expertsData[i + 2].firstName}
             description={expertsData[i + 2].description}
             photoUrl={expertsData[i + 2].photoUrl}
-            email={expertsData[i + 2].email}
           />
         </Col>
       </Row>
