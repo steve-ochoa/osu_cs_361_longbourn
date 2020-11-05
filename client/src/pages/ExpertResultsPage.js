@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/ExpertCard";
 import { Container, Row, Col } from "react-bootstrap";
 import { customFetch } from "../components/Helpers";
+import { useHistory } from "react-router-dom";
 
 
 function ExpertResultsPage() {
+  const history = useHistory();
   const [expertsData, setExpertData] = useState({
     expertId: "",
     firstName: "",
