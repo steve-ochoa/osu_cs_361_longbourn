@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { customFetch } from "../components/Helpers";
+import React from "react";
 import { Card, Button } from "react-bootstrap";
 
 // TODO: route go somewhere to user profile - need expertId
