@@ -14,6 +14,26 @@ function ExpertResultsPage() {
     photoUrl: null,
   });
 
+  console.log(history);
+
+  // async function getCategoryData(route) {
+  //     return (
+  //         await axios.get(route).then(
+  //             response => {
+  //                 findCategoryId(response);
+  //             }).catch(function (error) {
+  //                 console.log(error);
+  //             }));
+  // }
+
+  // function findCategoryId(category) {
+  //     category.forEach(obj => {
+  //         if (obj.name === input.toLowerCase()) {
+  //             return obj.skillId;
+  //         }
+  //     });
+  // }
+
   useEffect(() => {
     async function fetchData() {
       const expertsData = await customFetch(
