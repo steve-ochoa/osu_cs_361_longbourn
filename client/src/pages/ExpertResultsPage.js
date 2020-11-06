@@ -2,15 +2,51 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/ExpertCard";
 import { Container, Row, Col } from "react-bootstrap";
 import { customFetch } from "../components/Helpers";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 
 function ExpertResultsPage() {
+  const history = useHistory();
+  const searchInput = history.location.state;
   const [expertsData, setExpertData] = useState({
     expertId: "",
     firstName: "",
     description: "",
     photoUrl: null,
   });
+
+  console.log(searchInput);
+
+  async function getExperts() {
+    const route = "http://flip3.engr.oregonstate.edu:6997/" + searchInput.radio;
+    const categories = await axios.get(route);
+    console.log(categories);
+  }
+
+  getExperts();
+
+  // async function getCategoryData(route) {
+  //   return (
+  //     await axios.get(route).then(
+  //       response => {
+  //         findCategoryId(response);
+  //       }).catch(function (error) {
+  //         console.log(error);
+  //       }));
+  // }
+
+  // function findCategoryId(category) {
+  //   category.forEach(obj => {
+  //     if (obj.name === input.toLowerCase()) {
+  //       return obj.skillId;
+  //     }
+  //   });
+  // }
+
+  // get skill/course/company ids and select the one that matches input
+  // query skill/course/company with id for experts with matching profiles
+
 
   useEffect(() => {
     async function fetchData() {
