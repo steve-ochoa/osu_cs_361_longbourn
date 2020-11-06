@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/ExpertCard";
 import { Container, Row, Col } from "react-bootstrap";
-import { customFetch } from "../components/Helpers";
+import { customFetch } from "../components/Helper;
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -15,6 +15,7 @@ function ExpertResultsPage() {
     description: "",
     photoUrl: null,
   });
+
 
   console.log(searchInput);
 
