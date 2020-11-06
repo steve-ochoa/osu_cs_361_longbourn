@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { customFetch } from "../components/Helpers";
 import { Card, Button } from "react-bootstrap";
 
-function ExpertCard() {
-    return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
-            <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-        </Card>
-    )
+// TODO: route go somewhere to user profile - need expertId
+
+
+function ExpertCard(props) {
+
+  return (
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={props.photoUrl} />
+      <Card.Body>
+        <Card.Title>{props.firstName + " " + props.lastName}</Card.Title>
+        <Card.Text>
+          {props.description}
+        </Card.Text>
+        <Button variant="primary" size="sm" href={"/profile/:" + props.expertId}>Profile</Button>
+      </Card.Body>
+    </Card >
+  )
 
 }
 
