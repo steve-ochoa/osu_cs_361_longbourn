@@ -20,6 +20,7 @@ import { Urls } from "../data/Constants";
 import AddSkill from "../components/AddSkill";
 import AddCourse from "../components/AddCourse";
 import RegCompanies from "../components/RegCompanies";
+import GitHubPopUp from "../components/GitHubPopUp";
 
 /* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
@@ -189,7 +190,7 @@ export default function Profile(props) {
                     action
                     href={"https://github.com/" + contactData.gitHubUser}
                   >
-                    <OverlayTrigger
+                    {/* <OverlayTrigger
                       placement="right"
                       delay={{ show: 250, hide: 400 }}
                       overlay={
@@ -202,7 +203,8 @@ export default function Profile(props) {
                       }
                     >
                       <Button variant="link">{contactData.gitHubUser}</Button>
-                    </OverlayTrigger>
+                    </OverlayTrigger> */}
+                    <GitHubPopUp userName={contactData.gitHubUser} />
                   </ListGroup.Item>
                 )}
                 {contactData.linkedInUrl !== "" && (

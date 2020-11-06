@@ -1,5 +1,6 @@
 export const Urls = {
   Local: "http://localhost:6997/",
+  GitHub: "https://api.github.com/",
 };
 
 const years = [
@@ -19,21 +20,21 @@ const years = [
 ];
 
 export const YearOptions = [];
-years.forEach(element => {
-    YearOptions.push({label: element, value: element});
+years.forEach((element) => {
+  YearOptions.push({ label: element, value: element });
 });
 
 export const SemesterOptions = [
-    {label: "Fall", value: "Fall"},
-    {label: "Winter", value: "Winter"},
-    {label: "Spring", value: "Spring"},
-    {label: "Summer", value: "Summer"},
+  { label: "Fall", value: "Fall" },
+  { label: "Winter", value: "Winter" },
+  { label: "Spring", value: "Spring" },
+  { label: "Summer", value: "Summer" },
 ];
 
 export const GradeOptions = [
-    {label: "A", value: "A"},
-    {label: "B", value: "B"},
-    {label: "C", value: "C"},
-    {label: "D", value: "D"},
-    {label: "F", value: "F"},
+  { label: "A", value: "A" },
+  { label: "B", value: "B" },
+  { label: "C", value: "C" },
+  { label: "D", value: "D" },
+  { label: "F", value: "F" },
 ];
