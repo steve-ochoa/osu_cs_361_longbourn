@@ -4,37 +4,81 @@ import { Container, Row, Col } from "react-bootstrap";
 // import { customFetch } from "../components/Helper";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { customFetch } from "../components/Helpers";
 
 
 function ExpertResultsPage() {
   const history = useHistory();
   const searchInput = history.location.state;
-  const URL = "http://flip3.engr.oregonstate.edu:6997/" + searchInput.radio;
+  const name = searchInput.input;
+  const category = searchInput.radio;
+  const URL = "http://flip3.engr.oregonstate.edu:6997/" + category;
   const [categoryData, setCategoryData] = useState([]);
   const [categoryId, setCategoryId] = useState('');
-  const [expertsData, setExpertData] = useState({
+  const [expertsData, setExpertsData] = useState({
     expertId: "",
     firstName: "",
     description: "",
     photoUrl: null,
   });
 
-  console.log(searchInput);
+  // fetch(URL).then(function(response) {    // get array of skills/courses/companies
+  //   if (response.ok) {
+  //     return response.json();
+  //   } else {
+  //     return Promise.reject(response);
+  //   }
+  // }).then(function (data) {     // get the matching id
+  //   data.forEach(obj => {
+  //     if (obj['name'].toLowerCase() === name) {
+  //       if (category === 'skills') {
+  //         setCategoryId(obj['skillId']);
+  //       } else if (category === 'courses') {
+  //         setCategoryId(obj['courseId']);
+  //       } else {
+  //         setCategoryId(obj['companyId']);
+  //       }
+  //     }
+  //   })
+  // }).then(function (response) {
+  //   fetch("http://flip3.engr.oregonstate.edu:6997/findExperts/skill/:" + categoryId).then(function (data) {
+  //     setExpertsData(data);
+  //   });
+  // });
 
-  // get data for user-specified category
-  useEffect(() => {
-    async function getCategories() {
-      const categories = await axios.get(URL);
-      console.log(`Your requested category data: ${categories}`);
-      setCategoryData(categories);
-    }
-    getCategories();
-  }, []);
+  // console.log(categoryId);
+  // console.log(expertsData);
 
-  console.log(categoryData.data);
 
-  //categoryData.data.forEach(console.log("hello"));
 
+  // // get data for user-specified category
+  // useEffect(() => {
+  //   async function getCategories() {
+  //     const categories = await axios.get(URL);
+
+  //     // for (let i = 0; i < categories.length(); i++) {
+  //     //   if (categories[i].name === searchInput.input) {
+  //     //     if (searchInput.radio === 'skills') {
+  //     //       setCategoryId(categories[i]['skillId']);
+  //     //     } else if (searchInput.radio === 'courses') {
+  //     //       setCategoryId(categories[i]['courseId']);
+  //     //     }
+  //     //     if (searchInput.radio === 'companies') {
+  //     //       setCategoryId(categories[i]['companyId']);
+  //     //     }
+  //     //   }
+
+  //       console.log(`Your requested category id is ${categories}`);
+
+
+  //       setCategoryData(categories);
+
+
+  //   }
+  //   getCategories();
+  // }, []);
+
+  // console.log(categoryData.data);
 
   // categoryData.data.map(category => {
   //   // return matching id
@@ -71,16 +115,16 @@ function ExpertResultsPage() {
 
   // console.log(searchInput.radio);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const expertsData = await customFetch(
-  //       "http://flip3.engr.oregonstate.edu:6997/experts/"
-  //     );
-  //     console.log("Your experts are are: ", expertsData);
-  //     setExpertData(expertsData);
-  //   }
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    async function fetchData() {
+      const expertsData = await customFetch(
+        "http://flip3.engr.oregonstate.edu:6997/experts/"
+      );
+      console.log("Your experts are are: ", expertsData);
+      setExpertsData(expertsData);
+    }
+    fetchData();
+  }, []);
 
   // async function getCategoryData(route) {
   //   return (
