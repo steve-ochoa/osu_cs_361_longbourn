@@ -1,10 +1,24 @@
-import React, { useState } from "react";
-import { InputGroup, Button, FormControl, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 import { customFetch } from "./Helpers";
-import { useHistory } from "react-router-dom";
+import { Urls } from "../data/Constants";
+import Autosuggest from "react-autosuggest";
+import { InputGroup, Form, FormControl, Button } from "react-bootstrap";
+import { useHistory, useLocation } from "react-router-dom";
 
-export default function CompanyInput(props) {
-  let history = useHistory();
+export default function RegCompanies(props) {
+  const history = useHistory();
+  const location = useLocation();
+  let expertId;
+  if (location.pathname.split("/")[1] === "profile") {
+    expertId = props.expertId;
+  } else {
+    expertId = props.history.location.state.expertId;
+  }
+  //   const expertId = props.history.location.state.expertId;
+  const [companiesList, setCompaniesList] = useState([]);
+  const [nameSuggestions, setNameSuggestions] = useState([]);
+  const [descSuggestions, setDescSuggestions] = useState([]);
+  const [industrySuggestions, setIndustrySuggestions] = useState([]);
   const [fields, setFields] = useState([
     {
       name: "",
@@ -16,7 +30,17 @@ export default function CompanyInput(props) {
     },
   ]);
 
-  function addCourse() {
+  console.log(`expert id is: ${expertId}`);
+  useEffect(() => {
+    async function fetchData() {
+      const companiesList = await customFetch(Urls.Local + "companies");
+      console.log(`companies data is: ${companiesList}`);
+      setCompaniesList(companiesList);
+    }
+    fetchData();
+  }, []);
+
+  function addCompany() {
     setFields([
       ...fields,
       {
@@ -30,25 +54,13 @@ export default function CompanyInput(props) {
     ]);
   }
 
-  async function handleSubmit() {
-    let payload = fields;
-    payload.forEach((element, index) => {
-      if (element.name === "") {
-        payload.splice(index, 1);
-      }
-    });
-    console.log("the payload is: ", JSON.stringify(payload));
-    // let response = await customFetch(
-    //   "http://localhost:6997/expertSkills",
-    //   "POST",
-    //   payload
-    // );
-    history.push({
-      pathname: `/profile/${props.history.location.state.expertId}`,
-    });
+  function handleChange(idx, event, newValue, className) {
+    const updatedFields = [...fields];
+    updatedFields[idx][className] = newValue;
+    setFields(updatedFields);
   }
 
-  function handleChange(event) {
+  function handleChangeRegInputs(event) {
     const updatedFields = [...fields];
     updatedFields[event.target.dataset.idx][
       event.target.className.split(" ")[0]
@@ -62,6 +74,166 @@ export default function CompanyInput(props) {
     setFields(updatedFields);
   }
 
+  async function handleSubmit() {
+    let updatedFields = fields;
+    updatedFields.forEach((element, index) => {
+      if (element.name === "") {
+        updatedFields.splice(index, 1);
+      }
+    });
+    console.log("the list of fields is: ", JSON.stringify(updatedFields));
+    let payload = [];
+    /* payload format:  { expertId, companyId, current, employedYears, position } */
+
+    let processed_items = 0;
+    updatedFields.forEach(async (element) => {
+      let result = await companiesList.find(
+        (object) => object.name === element.name
+      );
+      if (result) {
+        /* if found, append object to the payload */
+        let payload_obj = {
+          expertId: expertId,
+          companyId: result.companyId,
+          current: element.current === "Yes" ? true : false,
+          employedYears: element.years,
+          position: element.position,
+        };
+        payload.push(payload_obj);
+      } else {
+        /* if not found, add the company to the db with post */
+        let req_body = {
+          companyId: "0",
+          name: element.name,
+          description: element.description,
+          industry: element.industry,
+        };
+        let response = await customFetch(
+          Urls.Local + "companies",
+          "POST",
+          req_body
+        );
+        let payload_obj = {
+          expertId: expertId,
+          companyId: await response.companyId,
+          current: element.current === "Yes" ? true : false,
+          employedYears: element.years,
+          position: element.position,
+        };
+        payload.push(payload_obj);
+      }
+      processed_items++;
+      if (processed_items === updatedFields.length) {
+        createRelationships(payload);
+      }
+    });
+    console.log("step 1 complete, payload is: ", payload);
+    console.log("length of the payload is: ", payload.length);
+
+    /* step 2: create the expertCompanies relationships */
+  }
+
+  async function createRelationships(payload) {
+    let processed_items = 0;
+    payload.forEach(async (element) => {
+      let response = await customFetch(
+        Urls.Local + "expertCompanies",
+        "POST",
+        element
+      );
+      console.log(response);
+      processed_items++;
+      if (processed_items === payload.length) {
+        redirectCallback();
+      }
+    });
+  }
+
+  function redirectCallback() {
+    if (location.pathname.split("/")[1] === "profile") {
+      history.go(0);
+    } else {
+      history.push({
+        pathname: `/profile/${expertId}`,
+      });
+    }
+  }
+
+  function escapeRegexCharacters(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function getSuggestions(value) {
+    const escapedValue = escapeRegexCharacters(value.trim());
+    const regex = new RegExp("^" + escapedValue, "i");
+    return companiesList.filter(
+      (skill) => regex.test(skill.name) || regex.test(skill.description)
+    );
+  }
+
+  function getSuggestionName(suggestion) {
+    return suggestion.name;
+  }
+
+  function getSuggestionDesc(suggestion) {
+    return suggestion.description;
+  }
+
+  function getSuggestionIndustry(suggestion) {
+    return suggestion.industry;
+  }
+
+  function renderSuggestion(suggestion) {
+    return (
+      <span>
+        {suggestion.name} - {suggestion.description} ({suggestion.industry})
+      </span>
+    );
+  }
+
+  function onNameSuggestionsFetchRequested({ value }) {
+    setNameSuggestions(getSuggestions(value));
+  }
+
+  function onNameSuggestionsClearRequested() {
+    setNameSuggestions([]);
+  }
+
+  function onNameSuggestionSelected(event, suggestion, idx) {
+    const updatedFields = [...fields];
+    updatedFields[idx]["description"] = suggestion.description;
+    updatedFields[idx]["industry"] = suggestion.industry;
+    setFields(updatedFields);
+  }
+
+  function onDescSuggestionsFetchRequested({ value }) {
+    setDescSuggestions(getSuggestions(value));
+  }
+
+  function onDescSuggestionsClearRequested() {
+    setDescSuggestions([]);
+  }
+
+  function onDescSuggestionSelected(event, suggestion, idx) {
+    const updatedFields = [...fields];
+    // updatedFields[idx]["name"] = suggestion.name;
+    setFields(updatedFields);
+  }
+
+  function onIndustrySuggestionsFetchRequested({ value }) {
+    setIndustrySuggestions(getSuggestions(value));
+  }
+
+  function onIndustrySuggestionsClearRequested() {
+    setIndustrySuggestions([]);
+  }
+
+  function onIndustrySuggestionSelected(event, suggestion, idx) {
+    const updatedFields = [...fields];
+    // updatedFields[idx]["name"] = suggestion.name;
+    setFields(updatedFields);
+  }
+
   return (
     <>
       {fields.map((val, idx) => {
@@ -71,44 +243,86 @@ export default function CompanyInput(props) {
         const currentId = `current-${idx}`;
         const positionId = `position-${idx}`;
         const yearsId = `years-${idx}`;
+        const nameInputProps = {
+          placeholder: "Company Name",
+          "aria-label": "Company Name",
+          name: nameId,
+          "data-idx": idx,
+          id: nameId,
+          className: "name",
+          value: fields[idx].name,
+          onChange: (e, { newValue }) => {
+            handleChange(idx, e, newValue, "name");
+          },
+        };
+
+        const descInputProps = {
+          placeholder: "Company Description",
+          "aria-label": "Company Description",
+          name: descId,
+          "data-idx": idx,
+          id: descId,
+          className: "description",
+          value: fields[idx].description,
+          onChange: (e, { newValue }) => {
+            handleChange(idx, e, newValue, "description");
+          },
+        };
+
+        const industryInputProps = {
+          placeholder: "Industry",
+          "aria-label": "Industry",
+          name: industryId,
+          "data-idx": idx,
+          id: industryId,
+          className: "industry",
+          value: fields[idx].industry,
+          onChange: (e, { newValue }) => {
+            handleChange(idx, e, newValue, "industry");
+          },
+        };
         return (
-          <div key={`course-${idx}`}>
+          <div key={`skill-${idx}`}>
             <InputGroup>
-              <FormControl
-                placeholder="Company Name"
-                aria-label="Company Name"
-                aria-describedby="basic-addon2"
-                name={nameId}
-                data-idx={idx}
-                id={nameId}
-                className="name"
-                value={fields[idx].name}
-                onChange={handleChange}
+              <Autosuggest
+                suggestions={nameSuggestions}
+                onSuggestionsFetchRequested={onNameSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onNameSuggestionsClearRequested}
+                onSuggestionSelected={(e, { suggestion }) => {
+                  onNameSuggestionSelected(e, suggestion, idx);
+                }}
+                getSuggestionValue={getSuggestionName}
+                renderSuggestion={renderSuggestion}
+                inputProps={nameInputProps}
               />
-
-              <FormControl
-                placeholder="Company Description"
-                aria-label="Company Description"
-                aria-describedby="basic-addon2"
-                name={descId}
-                data-idx={idx}
-                id={descId}
-                className="description"
-                value={fields[idx].description}
-                onChange={handleChange}
+              <Autosuggest
+                suggestions={descSuggestions}
+                onSuggestionsFetchRequested={onDescSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onDescSuggestionsClearRequested}
+                onSuggestionSelected={(e, { suggestion }) => {
+                  onDescSuggestionSelected(e, suggestion, idx);
+                }}
+                getSuggestionValue={getSuggestionDesc}
+                renderSuggestion={renderSuggestion}
+                inputProps={descInputProps}
               />
-              <FormControl
-                placeholder="Industry"
-                aria-label="Industry"
-                aria-describedby="basic-addon2"
-                name={industryId}
-                data-idx={idx}
-                id={industryId}
-                className="industry"
-                value={fields[idx].industry}
-                onChange={handleChange}
+              <Autosuggest
+                suggestions={industrySuggestions}
+                onSuggestionsFetchRequested={
+                  onIndustrySuggestionsFetchRequested
+                }
+                onSuggestionsClearRequested={
+                  onIndustrySuggestionsClearRequested
+                }
+                onSuggestionSelected={(e, { suggestion }) => {
+                  onIndustrySuggestionSelected(e, suggestion, idx);
+                }}
+                getSuggestionValue={getSuggestionIndustry}
+                renderSuggestion={renderSuggestion}
+                inputProps={industryInputProps}
               />
-
+            </InputGroup>
+            <InputGroup>
               <Form.Control
                 as="select"
                 name={currentId}
@@ -116,7 +330,7 @@ export default function CompanyInput(props) {
                 id={currentId}
                 className="current"
                 value={fields[idx].current}
-                onChange={handleChange}
+                onChange={handleChangeRegInputs}
               >
                 <option>Current?</option>
                 <option>Yes</option>
@@ -131,36 +345,40 @@ export default function CompanyInput(props) {
                 id={positionId}
                 className="position"
                 value={fields[idx].position}
-                onChange={handleChange}
+                onChange={handleChangeRegInputs}
               />
               <Form.Control
+                placeholder="Years employed"
+                type="number"
                 name={yearsId}
-                value="number"
                 data-idx={idx}
                 id={yearsId}
                 className="years"
                 value={fields[idx].years}
-                onChange={handleChange}
-              >
-              </Form.Control>
-              <InputGroup.Append>
-                <Button
-                  variant="outline-secondary"
-                  onClick={() => handleDelete(idx)}
-                >
-                  Remove
-                </Button>
-                <Button variant="outline-secondary" onClick={addCourse}>
-                  Add More
-                </Button>
-              </InputGroup.Append>
+                onChange={handleChangeRegInputs}
+              ></Form.Control>
+              {location.pathname.split("/")[1] !== "profile" && (
+                <InputGroup.Append>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => handleDelete(idx)}
+                  >
+                    Remove
+                  </Button>
+                  <Button variant="outline-secondary" onClick={addCompany}>
+                    Add More
+                  </Button>
+                </InputGroup.Append>
+              )}
             </InputGroup>
           </div>
         );
       })}
-            <Button variant="primary" onClick={handleSubmit}>
-              Submit!
-            </Button>
+      <Button variant="primary" onClick={handleSubmit}>
+        {location.pathname.split("/")[1] !== "profile"
+          ? "Submit!"
+          : "Add Company!"}
+      </Button>
     </>
   );
 }

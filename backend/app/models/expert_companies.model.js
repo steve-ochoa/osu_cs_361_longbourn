@@ -50,7 +50,7 @@ class ExpertCompaniesDbDto {
         this.company_id = expertCompanies.companyId;
         this.current = expertCompanies.current;
         this.position = expertCompanies.position;
-        this.employed_years = expertSkill.employedYears;
+        this.employed_years = expertCompanies.employedYears;
     }
 }
 
