@@ -17,5 +17,5 @@ export const companyCols = [
   { title: "Industry", field: "industry" },
   { title: "Currently Employed", field: "current" },
   { title: "Position", field: "position" },
-  { title: "Years at Company", field: "years", type: "numeric" },
+  { title: "Years at Company", field: "employedYears", type: "numeric" },
 ];

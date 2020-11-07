@@ -18,6 +18,8 @@ import { skillCols, courseCols, companyCols } from "../data/TableCols";
 import { sampleCourseData, sampleCompanyData } from "../data/SampleTableData";
 import { Urls } from "../data/Constants";
 import AddSkill from "../components/AddSkill";
+import AddCourse from "../components/AddCourse";
+import RegCompanies from "../components/RegCompanies";
 
 /* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
@@ -42,8 +44,15 @@ export default function Profile(props) {
   const [skillsData, setSkillsData] = useState([]);
   const [skillTableData, setSkillTableData] = useState([]);
   const [newSkill, setNewSkill] = useState(0);
+  const [courseList, setCourseList] = useState([]);
+  const [courseData, setCourseData] = useState([]);
+  const [newCourse, setNewCourse] = useState(0);
+  const [companiesLIst, setCompaniesList] = useState([]);
+  const [companyData, setCompanyData] = useState([]);
+  const [newCompany, setNewCompany] = useState([]);
 
   useEffect(() => {
+    /* todo: breakout this fetchData function into general getAllExpertData */
     async function fetchData() {
       const expertData = await customFetch(
         Urls.Local + "experts/" + expertId.toString()
@@ -59,7 +68,6 @@ export default function Profile(props) {
         Urls.Local + "expertSkills/" + expertId.toString()
       );
       console.log("retrieved expert skills are: ", expertSkills);
-      console.log(Array.isArray(expertSkills));
       let skillTableData = [];
       if (Array.isArray(expertSkills)) {
         setSkillsData(expertSkills);
@@ -71,14 +79,52 @@ export default function Profile(props) {
       }
       setSkillTableData(skillTableData);
       setNewSkill(0);
+      /* get all the course data */
+      const courses = await customFetch(Urls.Local + "courses");
+      setCourseList(courses);
+      const expertCourses = await customFetch(
+        Urls.Local + "expertCourses/" + expertId.toString()
+      );
+      console.log("retrieved expert courses are: ", expertCourses);
+      if (Array.isArray(expertCourses)) {
+        expertCourses.forEach((element, index) => {
+          let courseLookup = courses.find(
+            (obj) => obj.courseId === element.courseId
+          );
+          element.description = element.name;
+          element.name = courseLookup.courseNumber;
+          delete element.courseId;
+          delete element.expertId;
+          expertCourses[index] = element;
+        });
+        setCourseData(expertCourses);
+      }
+      setNewCourse(0);
+
+      /* company data */
+      /* get all company data */
+      const companies = await customFetch(Urls.Local + "companies");
+      setCompaniesList(companies);
+      /* get expert company data */
+      const expertCompanies = await customFetch(
+        Urls.Local + "expertCompanies/" + expertId.toString()
+      );
+      console.log("retrieved expert companies are: ", expertCompanies);
+
+      if (Array.isArray(expertCompanies)) {
+        expertCompanies.forEach((element, index) => {
+          delete element.companyId;
+          delete element.expertId;
+          expertCompanies[index] = element;
+        });
+      }
+      setCompanyData(expertCompanies);
+      setNewCompany(0);
     }
     fetchData();
   }, []);
 
-  function renderNewSkill() {
-    setNewSkill(1);
-  }
-
+  /* todo: just add these inline */
   const newSkillProps = {
     expertId: expertId,
     expertSkills: skillsData,
@@ -184,7 +230,7 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary" onClick={renderNewSkill}>
+          <Button variant="outline-primary" onClick={setNewSkill}>
             Add New Skill
           </Button>
           <br />
@@ -192,7 +238,7 @@ export default function Profile(props) {
         <Tab eventKey="courses" title="Coursework">
           <Table
             tableCols={courseCols}
-            data={sampleCourseData}
+            data={courseData}
             title={"Expert Courses"}
             options={{
               paging: false,
@@ -201,13 +247,15 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary">Add New Course</Button>
+          <Button variant="outline-primary" onClick={setNewCourse}>
+            Add New Course
+          </Button>
           <br />
         </Tab>
         <Tab eventKey="companies" title="Industry Experience">
           <Table
             tableCols={companyCols}
-            data={sampleCompanyData}
+            data={companyData}
             title={"Expert Courses"}
             options={{
               paging: false,
@@ -216,11 +264,13 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary">Add New Company</Button>
+          <Button variant="outline-primary" onClick={setNewCompany}>Add New Company</Button>
           <br />
         </Tab>
       </Tabs>
       {newSkill && <AddSkill {...newSkillProps} />}
+      {newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
+      {newCompany && <RegCompanies {...{expertId: expertId}} />}
     </>
   );
 }

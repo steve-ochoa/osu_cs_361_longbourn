@@ -29,9 +29,9 @@ class Company {
 	static fromNewCompanyDbDto(companyId, newCompanyDbDto){
 		return new Company(
 			companyId,
-			companyDbDto.name,
-			companyDbDto.description,
-			companyDbDto.industry
+			newCompanyDbDto.name,
+			newCompanyDbDto.description,
+			newCompanyDbDto.industry
 			)
 	}
 

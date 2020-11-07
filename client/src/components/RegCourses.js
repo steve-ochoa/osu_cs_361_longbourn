@@ -1,18 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InputGroup, Button, FormControl, Form } from "react-bootstrap";
 import { customFetch } from "./Helpers";
+import { Urls } from "../data/Constants";
 import { useHistory } from "react-router-dom";
+import Select from "react-select";
 
 export default function RegCourses(props) {
-  let history = useHistory();
+  const history = useHistory();
+  const [courseList, setCourseList] = useState([]);
   const [fields, setFields] = useState([
     { name: "", description: "", semester: "", year: "", grade: "" },
   ]);
 
+  /* first, retrieve a list of all the available courses */
+  useEffect(() => {
+    async function fetchData() {
+      const courses = await customFetch(Urls.Local + "courses");
+      // console.log(`course data is: ${courses}`);
+      setCourseList(courses);
+    }
+    fetchData();
+  }, []);
+
+  const options = [];
+  courseList.forEach((element) => {
+    let to_add = {};
+    let element_label = element.courseNumber;
+    element_label += ` - ${element.name}`;
+    to_add.label = element_label;
+    to_add.value = element.courseId;
+    options.push(to_add);
+  });
+
   function addCourse() {
     setFields([
       ...fields,
-      { name: "", description: "", semester: "", year: "", grade: "" },
+      { id: "", name: "", description: "", semester: "", year: "", grade: "" },
     ]);
   }
 
@@ -24,65 +47,90 @@ export default function RegCourses(props) {
     setFields(updatedFields);
   }
 
+  function handleSelectChange(event, idx) {
+    console.log(event);
+    const updatedFields = [...fields];
+    updatedFields[idx]["name"] = event.label;
+    updatedFields[idx]["id"] = event.value;
+    let element = courseList.find((obj) => obj.courseId === event.value);
+    updatedFields[idx]["description"] = element.description;
+    setFields(updatedFields);
+  }
+
   function handleDelete(idx) {
     const updatedFields = [...fields];
     updatedFields.splice(idx, 1);
     setFields(updatedFields);
   }
 
+  /* payload requires: expertId, courseId, name, desc, term, grade */
   async function handleSubmit() {
-    let payload = fields;
-    payload.forEach((element, index) => {
+    let payload_builder = fields;
+    payload_builder.forEach((element, index) => {
       if (element.name === "") {
-        payload.splice(index, 1);
+        payload_builder.splice(index, 1);
       }
     });
-    console.log("the payload is: ", JSON.stringify(payload));
-    // let response = await customFetch(
-    //   "http://localhost:6997/expertSkills",
-    //   "POST",
-    //   payload
-    // );
+    // console.log("the payload so far is: ", JSON.stringify(payload_builder));
+
+    /* combine semester and year into term */
+    let payload = [];
+    payload_builder.forEach((element) => {
+      let to_add = {};
+      to_add.expertId = props.history.location.state.expertId;
+      to_add.courseId = element.id;
+      to_add.name = element.name.split(" - ")[1];
+      to_add.description = element.description;
+      to_add.term = `${element.semester} ${element.year}`;
+      to_add.grade = element.grade;
+      payload.push(to_add);
+    });
+    console.log(`the real payload is ${JSON.stringify(payload)}`);
+
+    payload.forEach(async (element) => {
+      let response = await customFetch(
+        Urls.Local + "expertCourses",
+        "POST",
+        element
+      );
+      console.log(response);
+    });
+
     history.push({
       pathname: "/register4",
       state: { expertId: props.history.location.state.expertId },
     });
   }
 
+  // function descFromId(id) {
+  //   const element = courseList.find((obj) => {obj.courseId === id})
+  //   return element.description
+  // }
+
   return (
     <>
       {fields.map((val, idx) => {
         const nameId = `name-${idx}`;
-        const descId = `description-${idx}`;
         const semesterId = `term-${idx}`;
         const yearId = `term-${idx}`;
         const gradeId = `grade-${idx}`;
         return (
           <div key={`course-${idx}`}>
+            <br />
+            <Select
+              aria-label="Course Name"
+              name={nameId}
+              data-idx={idx}
+              id={nameId}
+              className="name"
+              // value={fields[idx].name}
+              onChange={(event) => handleSelectChange(event, idx)}
+              options={options}
+            />
+            <Form.Text className="text-muted">
+              {fields[idx].description}
+            </Form.Text>
             <InputGroup>
-              <FormControl
-                placeholder="Course Name"
-                aria-label="Course Name"
-                aria-describedby="basic-addon2"
-                name={nameId}
-                data-idx={idx}
-                id={nameId}
-                className="name"
-                value={fields[idx].name}
-                onChange={handleChange}
-              />
-
-              <FormControl
-                placeholder="Course Description"
-                aria-label="Course Description"
-                aria-describedby="basic-addon2"
-                name={descId}
-                data-idx={idx}
-                id={descId}
-                className="description"
-                value={fields[idx].description}
-                onChange={handleChange}
-              />
               <Form.Control
                 as="select"
                 name={semesterId}
@@ -92,7 +140,7 @@ export default function RegCourses(props) {
                 value={fields[idx].semester}
                 onChange={handleChange}
               >
-                <option>Semester</option>
+                <option value="">Semester</option>
                 <option>Fall</option>
                 <option>Winter</option>
                 <option>Spring</option>
@@ -107,7 +155,7 @@ export default function RegCourses(props) {
                 value={fields[idx].year}
                 onChange={handleChange}
               >
-                <option>Years</option>
+                <option value="">Years</option>
                 <option>2000</option>
                 <option>2001</option>
                 <option>2002</option>
@@ -140,7 +188,7 @@ export default function RegCourses(props) {
                 value={fields[idx].grade}
                 onChange={handleChange}
               >
-                <option>Grade</option>
+                <option value="">Grade</option>
                 <option>A</option>
                 <option>B</option>
                 <option>C</option>
