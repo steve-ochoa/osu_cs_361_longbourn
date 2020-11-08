@@ -78,6 +78,27 @@ Course.fetchAll = result => {
     });
 };
 
+Course.updateById = (id, course, result) => {
+    console.log(course.course_number)
+    sql.query("UPDATE courses SET course_number=?,name=?,description=? WHERE course_id=?",
+        [course.courseNumber, course.name, course.description, id],
+        (err, res) => {
+            if(err){
+                console.log("error: ", err);
+                result(null, err);
+                return
+            }
+
+            if (res.affectedRows == 0){
+                result({kind : "not_found"}, null);
+                return;
+            }
+
+            console.log("updated course: ", {id: id, ...course});
+            result(null, {id: id, ...course});
+        });
+};
+
 module.exports = {
     Course, CourseDbDto
 };

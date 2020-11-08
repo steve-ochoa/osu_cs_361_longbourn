@@ -80,7 +80,28 @@ Company.fetchAll = result => {
 		result(null, companiesArray);
 	})
 
-}
+};
+
+Company.updateById = (id, company, result) => {
+    console.log(company.company_number)
+    sql.query("UPDATE companies SET name = ?,description = ?, industry = ? WHERE company_id = ?",
+        [company.name, company.description, company.industry, id],
+        (err, res) => {
+            if(err){
+                console.log("error: ", err);
+                result(null, err);
+                return
+            }
+
+            if (res.affectedRows == 0){
+                result({kind : "not_found"}, null);
+                return;
+            }
+
+            console.log("updated company: ", {id: id, ...company});
+            result(null, {id: id, ...company});
+        });
+};
 
 module.exports = {
 	Company, CompanyDbDto
