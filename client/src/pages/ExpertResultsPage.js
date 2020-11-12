@@ -17,9 +17,12 @@ function ExpertResultsPage() {
   const [expertsData, setExpertsData] = useState({
     expertId: "",
     firstName: "",
+    lastName: "",
     description: "",
     photoUrl: null,
   });
+
+  console.log(searchInput);
 
   // fetch(URL).then(function(response) {    // get array of skills/courses/companies
   //   if (response.ok) {
@@ -112,10 +115,46 @@ function ExpertResultsPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const expertsData = await customFetch(
-        process.env.REACT_APP_BASE_URL + "experts"
-      );
+      let expertsData = [];
+      switch (searchInput.radio) {
+        case "skills":
+          expertsData = await customFetch(
+            process.env.REACT_APP_BASE_URL +
+              "fetchExperts/skillName/" +
+              searchInput.input
+          );
+          console.log("retrieved expert data is:", expertsData);
+          break;
+        case "courses":
+          expertsData = await customFetch(
+            process.env.REACT_APP_BASE_URL +
+              "fetchExperts/courseNumber/" +
+              searchInput.input
+          );
+          break;
+        case "companies":
+          expertsData = await customFetch(
+            process.env.REACT_APP_BASE_URL +
+              "fetchExperts/companyName/" +
+              searchInput.input
+          );
+
+          break;
+        default:
+          alert("error searching!!!");
+          break;
+      }
       console.log("Your experts are are: ", expertsData);
+      /* temporary fix for returned photo_url field (should be photoUrl) */
+      if (Array.isArray(expertsData)) {
+        expertsData.forEach((expert, index) => {
+          if ("photo_url" in expert) {
+            expert.photoUrl = expert.photo_url;
+            delete expert.photo_url;
+            expertsData[index] = expert;
+          }
+        });
+      }
       setExpertsData(expertsData);
     }
     fetchData();
@@ -151,6 +190,7 @@ function ExpertResultsPage() {
             key={expertsData[i].expertId}
             expertId={expertsData[i].expertId}
             firstName={expertsData[i].firstName}
+            lastName={expertsData[i].lastName}
             description={expertsData[i].description}
             photoUrl={expertsData[i].photoUrl}
           />
@@ -160,6 +200,7 @@ function ExpertResultsPage() {
             key={expertsData[i + 1].expertId}
             expertId={expertsData[i + 1].expertId}
             firstName={expertsData[i + 1].firstName}
+            lastName={expertsData[i + 1].lastName}
             description={expertsData[i + 1].description}
             photoUrl={expertsData[i + 1].photoUrl}
           />
@@ -169,6 +210,7 @@ function ExpertResultsPage() {
             key={expertsData[i + 2].expertId}
             expertId={expertsData[i + 2].expertId}
             firstName={expertsData[i + 2].firstName}
+            lastName={expertsData[i + 2].lastName}
             description={expertsData[i + 2].description}
             photoUrl={expertsData[i + 2].photoUrl}
           />
