@@ -16,7 +16,6 @@ import {
 import Table from "../components/Table";
 import { skillCols, courseCols, companyCols } from "../data/TableCols";
 import { sampleCourseData, sampleCompanyData } from "../data/SampleTableData";
-import { Urls } from "../data/Constants";
 import AddSkill from "../components/AddSkill";
 import AddCourse from "../components/AddCourse";
 import RegCompanies from "../components/RegCompanies";
@@ -56,17 +55,19 @@ export default function Profile(props) {
     /* todo: breakout this fetchData function into general getAllExpertData */
     async function fetchData() {
       const expertData = await customFetch(
-        Urls.Local + "experts/" + expertId.toString()
+        process.env.REACT_APP_BASE_URL + "experts/" + expertId.toString()
       );
       console.log("expert data is: ", expertData);
       setExpertData(expertData);
       const contactDetails = await customFetch(
-        Urls.Local + "contact_details/" + expertId.toString()
+        process.env.REACT_APP_BASE_URL +
+          "contact_details/" +
+          expertId.toString()
       );
       console.log("contact data is: ", contactDetails);
       setContactData(contactDetails);
       const expertSkills = await customFetch(
-        Urls.Local + "expertSkills/" + expertId.toString()
+        process.env.REACT_APP_BASE_URL + "expertSkills/" + expertId.toString()
       );
       console.log("retrieved expert skills are: ", expertSkills);
       let skillTableData = [];
@@ -81,10 +82,12 @@ export default function Profile(props) {
       setSkillTableData(skillTableData);
       setNewSkill(0);
       /* get all the course data */
-      const courses = await customFetch(Urls.Local + "courses");
+      const courses = await customFetch(
+        process.env.REACT_APP_BASE_URL + "courses"
+      );
       setCourseList(courses);
       const expertCourses = await customFetch(
-        Urls.Local + "expertCourses/" + expertId.toString()
+        process.env.REACT_APP_BASE_URL + "expertCourses/" + expertId.toString()
       );
       console.log("retrieved expert courses are: ", expertCourses);
       if (Array.isArray(expertCourses)) {
@@ -104,11 +107,15 @@ export default function Profile(props) {
 
       /* company data */
       /* get all company data */
-      const companies = await customFetch(Urls.Local + "companies");
+      const companies = await customFetch(
+        process.env.REACT_APP_BASE_URL + "companies"
+      );
       setCompaniesList(companies);
       /* get expert company data */
       const expertCompanies = await customFetch(
-        Urls.Local + "expertCompanies/" + expertId.toString()
+        process.env.REACT_APP_BASE_URL +
+          "expertCompanies/" +
+          expertId.toString()
       );
       console.log("retrieved expert companies are: ", expertCompanies);
 
@@ -204,7 +211,7 @@ export default function Profile(props) {
                     >
                       <Button variant="link">{contactData.gitHubUser}</Button>
                     </OverlayTrigger> */}
-                    <GitHubPopUp userName={contactData.gitHubUser} />
+                    {/* <GitHubPopUp userName={contactData.gitHubUser} /> */}
                   </ListGroup.Item>
                 )}
                 {contactData.linkedInUrl !== "" && (
@@ -266,13 +273,15 @@ export default function Profile(props) {
               sorting: true,
             }}
           />
-          <Button variant="outline-primary" onClick={setNewCompany}>Add New Company</Button>
+          <Button variant="outline-primary" onClick={setNewCompany}>
+            Add New Company
+          </Button>
           <br />
         </Tab>
       </Tabs>
       {newSkill && <AddSkill {...newSkillProps} />}
       {newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
-      {newCompany && <RegCompanies {...{expertId: expertId}} />}
+      {newCompany && <RegCompanies {...{ expertId: expertId }} />}
     </>
   );
 }

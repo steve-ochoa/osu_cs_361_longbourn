@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { customFetch } from "./Helpers";
-import { Urls } from "../data/Constants";
 import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -19,7 +18,7 @@ export default function AddSkill(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const skillsList = await customFetch(Urls.Local + "skills");
+      const skillsList = await customFetch(process.env.REACT_APP_BASE_URL + "skills");
       console.log(`skills data is: ${skillsList}`);
       setSkillsList(skillsList);
     }
@@ -49,19 +48,19 @@ export default function AddSkill(props) {
         skillId: result.skillId,
         experienceYears: inputState.experienceYears,
       };
-      await customFetch(Urls.Local + "expertSkills", "POST", payload);
+      await customFetch(process.env.REACT_APP_BASE_URL + "expertSkills", "POST", payload);
     } else {
       let req_body = {
         name: inputState.name,
         description: inputState.description,
       };
-      let response = await customFetch(Urls.Local + "skills", "POST", req_body);
+      let response = await customFetch(process.env.REACT_APP_BASE_URL + "skills", "POST", req_body);
       let payload = {
         expertId: props.expertId,
         skillId: response.skillId,
         experienceYears: inputState.experienceYears,
       };
-      await customFetch(Urls.Local + "expertSkills", "POST", payload);
+      await customFetch(process.env.REACT_APP_BASE_URL + "expertSkills", "POST", payload);
     }
     history.go(0);
   }

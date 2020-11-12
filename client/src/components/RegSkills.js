@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { customFetch } from "./Helpers";
-import { Urls } from "../data/Constants";
 import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -16,7 +15,9 @@ export default function RegSkills(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const skillsList = await customFetch(Urls.Local + "skills");
+      const skillsList = await customFetch(
+        process.env.REACT_APP_BASE_URL + "skills"
+      );
       console.log(`skills data is: ${skillsList}`);
       setSkillsList(skillsList);
     }
@@ -65,7 +66,7 @@ export default function RegSkills(props) {
         /* if not found, add the skill to the db with post */
         let req_body = { name: element.name, description: element.description };
         let response = await customFetch(
-          Urls.Local + "skills",
+          process.env.REACT_APP_BASE_URL + "skills",
           "POST",
           req_body
         );
@@ -81,7 +82,11 @@ export default function RegSkills(props) {
 
     /* step 2: create the expertSkills relationships */
     payload.forEach(async (element) => {
-      await customFetch(Urls.Local + "expertSkills", "POST", element);
+      await customFetch(
+        process.env.REACT_APP_BASE_URL + "expertSkills",
+        "POST",
+        element
+      );
     });
     history.push({
       pathname: "/register3",
