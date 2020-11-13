@@ -3,7 +3,7 @@
 // From Slack group discussion:  3. models - implements the class definition (loose) and Database functions
 // (code adapted from expert_skill.model.js)
 
-const sql = require('./db');
+const sql = require('../daos/db');
 
 class ExpertCompanies {
     constructor(expertId, companyId, name, description, industry, current, position, employedYears) {

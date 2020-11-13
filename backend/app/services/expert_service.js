@@ -1,11 +1,12 @@
 const Expert = require('../models/expert.model');
+const ExpertDao = require('../daos/expert_dao');
 
 exports.create = (req, res) => {
     // Create an Expert
     const expert = Expert.fromReqBody(req.body);
 
     // Save Expert in the database
-    Expert.create(expert, (err, newExpert) => {
+    ExpertDao.create(expert, (err, newExpert) => {
         if (err)
             res.status(500).send({
                 message:
@@ -16,7 +17,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Expert.fetchAll((err, data) => {
+    ExpertDao.fetchAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -30,7 +31,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-    Expert.fetchById(req.params.expertId, (err, data) => {
+    ExpertDao.fetchById(req.params.expertId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
@@ -53,7 +54,7 @@ exports.update = (req, res) => {
 
     console.log(expert);
 
-    Expert.updateById(req.params.expertId, expert, (err, data) => {
+    ExpertDao.updateById(req.params.expertId, expert, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({

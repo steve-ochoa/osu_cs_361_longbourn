@@ -1,4 +1,4 @@
-const sql = require('./db.js')
+const sql = require('../daos/db.js')
 
 class Company {
 	constructor(companyId, name, description, industry){

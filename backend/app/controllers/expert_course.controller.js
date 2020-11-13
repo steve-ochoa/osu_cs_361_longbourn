@@ -5,7 +5,7 @@ exports.create = (req, res) => {
 	//Validate request
 	if(!req.body) {
 		res.status(400).send({
-			message:"Conent cannot be empty!"
+			message:"Content cannot be empty!"
 		});
 	}
 

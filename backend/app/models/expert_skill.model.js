@@ -1,4 +1,4 @@
-const sql = require('./db');
+const sql = require('../daos/db');
 
 class ExpertSkill {
     constructor(expertId, skillId, name, description, experienceYears) {
