@@ -6,15 +6,14 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { customFetch } from "../components/Helpers";
 
-
 function ExpertResultsPage() {
   const history = useHistory();
   const searchInput = history.location.state;
   const name = searchInput.input;
   const category = searchInput.radio;
-  const URL = "http://flip3.engr.oregonstate.edu:6997/" + category;
+  const URL = process.env.REACT_APP_BASE_URL + category;
   const [categoryData, setCategoryData] = useState([]);
-  const [categoryId, setCategoryId] = useState('');
+  const [categoryId, setCategoryId] = useState("");
   const [expertsData, setExpertsData] = useState({
     expertId: "",
     firstName: "",
@@ -49,8 +48,6 @@ function ExpertResultsPage() {
   // console.log(categoryId);
   // console.log(expertsData);
 
-
-
   // // get data for user-specified category
   // useEffect(() => {
   //   async function getCategories() {
@@ -70,9 +67,7 @@ function ExpertResultsPage() {
 
   //       console.log(`Your requested category id is ${categories}`);
 
-
   //       setCategoryData(categories);
-
 
   //   }
   //   getCategories();
@@ -118,7 +113,7 @@ function ExpertResultsPage() {
   useEffect(() => {
     async function fetchData() {
       const expertsData = await customFetch(
-        "http://flip3.engr.oregonstate.edu:6997/experts/"
+        process.env.REACT_APP_BASE_URL + "experts"
       );
       console.log("Your experts are are: ", expertsData);
       setExpertsData(expertsData);
@@ -147,10 +142,8 @@ function ExpertResultsPage() {
   // get skill/course/company ids and select the one that matches input
   // query skill/course/company with id for experts with matching profiles
 
-
-
   let rows = [];
-  for (let i = 0; i < (expertsData.length - 2); i += 3) {
+  for (let i = 0; i < expertsData.length - 2; i += 3) {
     rows.push(
       <Row style={{ marginTop: ".5em", marginBottom: ".5em" }}>
         <Col>
@@ -185,7 +178,11 @@ function ExpertResultsPage() {
   }
 
   return (
-    <Container className="center" fluid="md" style={{ textAlign: "center", marginTop: "20%" }}>
+    <Container
+      className="center"
+      fluid="md"
+      style={{ textAlign: "center", marginTop: "20%" }}
+    >
       {rows}
     </Container>
   );

@@ -6,4 +6,7 @@ module.exports = app => {
 
     //Retrieve all Companies
     app.get("/companies", company.findAll);
+
+    //Update Company by companyId
+    app.put("/companies/:companyId", company.update);
 };

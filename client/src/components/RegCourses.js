@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { InputGroup, Button, FormControl, Form } from "react-bootstrap";
 import { customFetch } from "./Helpers";
-import { Urls } from "../data/Constants";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
 
@@ -15,7 +14,9 @@ export default function RegCourses(props) {
   /* first, retrieve a list of all the available courses */
   useEffect(() => {
     async function fetchData() {
-      const courses = await customFetch(Urls.Local + "courses");
+      const courses = await customFetch(
+        process.env.REACT_APP_BASE_URL + "courses"
+      );
       // console.log(`course data is: ${courses}`);
       setCourseList(courses);
     }
@@ -89,7 +90,7 @@ export default function RegCourses(props) {
 
     payload.forEach(async (element) => {
       let response = await customFetch(
-        Urls.Local + "expertCourses",
+        process.env.REACT_APP_BASE_URL + "expertCourses",
         "POST",
         element
       );
