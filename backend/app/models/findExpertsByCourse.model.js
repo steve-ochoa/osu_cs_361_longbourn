@@ -2,13 +2,13 @@ const sql = require('./db');
 
 class ExpertsByCourse {
 
-    constructor(expertId, firstName, lastName, email, description, photo_url) {
+    constructor(expertId, firstName, lastName, email, description, photoUrl) {
         this.expertId = expertId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.description = description;
-        this.photo_url = photo_url;
+        this.photoUrl = photoUrl;
     }
 
     static fromExpertsByCourseRow(expertsByCourseRow) {
@@ -18,7 +18,7 @@ class ExpertsByCourse {
             expertsByCourseRow.last_name,
             expertsByCourseRow.email,
             expertsByCourseRow.description,
-            expertsByCourseRow.photo_url)
+            expertsByCourseRow.photoUrl)
     }
 
     static fromReqBody(reqBody) {
@@ -28,7 +28,7 @@ class ExpertsByCourse {
             reqBody.lastname,
             reqBody.email,
             reqBody.description,
-            reqBody.photo_url
+            reqBody.photoUrl
         )
     }
 }
