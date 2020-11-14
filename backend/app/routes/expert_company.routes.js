@@ -5,5 +5,5 @@ module.exports = app => {
 	app.post("/expertCompanies", expertCompany.create);
 
 	//Retrieve ExpertCompany by expertId
-	app.get("/expertCompanies/:expertId", expertCompany.findByExpertId);
+	app.get("/expertCompanies/:expertId", expertCompany.fetchByExpertId);
 }
