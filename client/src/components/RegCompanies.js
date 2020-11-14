@@ -130,6 +130,9 @@ export default function RegCompanies(props) {
     });
     console.log("step 1 complete, payload is: ", payload);
     console.log("length of the payload is: ", payload.length);
+    if (payload.length === 0) {
+      redirectCallback();
+    }
 
     /* step 2: create the expertCompanies relationships */
   }

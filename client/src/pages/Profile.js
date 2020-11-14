@@ -211,7 +211,7 @@ export default function Profile(props) {
                     >
                       <Button variant="link">{contactData.gitHubUser}</Button>
                     </OverlayTrigger> */}
-                    {/* <GitHubPopUp userName={contactData.gitHubUser} /> */}
+                    <GitHubPopUp userName={contactData.gitHubUser} />
                   </ListGroup.Item>
                 )}
                 {contactData.linkedInUrl !== "" && (
