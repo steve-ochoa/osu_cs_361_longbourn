@@ -10,15 +10,17 @@ export default async function GitHubFetch({ userName }) {
   let response = await customFetch(
     Urls.GitHub + "users/" + userName + "/repos"
   );
-  response.forEach(async (element) => {
-    let project = {};
-    project.name = element.name;
-    project.description = element.description;
-    project.html_url = element.html_url;
+  if (Array.isArray(response)) {
+    response.forEach(async (element) => {
+      let project = {};
+      project.name = element.name;
+      project.description = element.description;
+      project.html_url = element.html_url;
 
-    let langResponse = await customFetch(element.languages_url);
-    project.languages = Object.keys(langResponse);
-    returnArray.push(project);
-  });
+      let langResponse = await customFetch(element.languages_url);
+      project.languages = Object.keys(langResponse);
+      returnArray.push(project);
+    });
+  }
   return returnArray;
 }
