@@ -1,5 +1,3 @@
-
-
 class Expert {
     constructor(expertId, firstName, lastName, email, description, photoUrl, contactDetails, active) {
         this.expertId = expertId;

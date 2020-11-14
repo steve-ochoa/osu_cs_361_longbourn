@@ -62,7 +62,7 @@ exports.create = (newExpert, result) => {
 };
 
 exports.fetchById = (expertId, result) => {
-    sql.query("SELECT * FROM experts WHERE expert_id = ? AND deleted='false'", [expertId], (err, res) => {
+    sql.query("SELECT * FROM experts WHERE expert_id = ? AND deleted='false' AND active='true'", [expertId], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -93,7 +93,7 @@ exports.fetchById = (expertId, result) => {
 };
 
 exports.fetchAll = result => {
-    sql.query("SELECT * FROM experts WHERE deleted='false'", (err, res) => {
+    sql.query("SELECT * FROM experts WHERE deleted='false' AND active='true'", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
