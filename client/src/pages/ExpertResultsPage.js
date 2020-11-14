@@ -30,7 +30,7 @@ function ExpertResultsPage() {
         case "courses":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-              "fetchExperts/courseNumber/" +
+              "findExperts/courseNumber/" +
               searchInput.input
           );
           break;
