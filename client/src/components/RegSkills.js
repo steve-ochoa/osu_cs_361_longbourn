@@ -51,7 +51,7 @@ export default function RegSkills(props) {
     let payload = [];
     /* payload format:  [ {expertId: 1,  skillId: 1, experienceYears: 2 }, ..]
     /* step 1: skill verification / skill creation: */
-    updatedFields.forEach(async (element) => {
+    for (const element of updatedFields) {
       /* is it in the skillsList? */
       let result = skillsList.find((object) => object.name === element.name);
       if (result) {
@@ -77,17 +77,17 @@ export default function RegSkills(props) {
         };
         payload.push(payload_obj);
       }
-    });
+    };
     console.log("step 1 complete, payload is: ", payload);
 
     /* step 2: create the expertSkills relationships */
-    payload.forEach(async (element) => {
+    for (const element of payload) {
       await customFetch(
         process.env.REACT_APP_BASE_URL + "expertSkills",
         "POST",
         element
       );
-    });
+    };
     history.push({
       pathname: "/register3",
       state: { expertId: props.history.location.state.expertId },

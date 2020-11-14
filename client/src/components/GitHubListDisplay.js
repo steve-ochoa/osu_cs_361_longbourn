@@ -1,27 +1,5 @@
-import { List } from "@material-ui/core";
 import React from "react";
 import { ListGroup } from "react-bootstrap";
-
-// const sampleData = [
-//   {
-//     name: "project1",
-//     description: "my first project",
-//     html_url: "https://github.com/contip/",
-//     languages: ["TypeScript", "HTML", "CSS"],
-//   },
-//   {
-//     name: "project2",
-//     description: "my second project",
-//     html_url: "https://github.com/contip/",
-//     languages: ["JavaScript", "C", "Python"],
-//   },
-//   {
-//     name: "project3",
-//     description: "my third project",
-//     html_url: "https://github.com/contip/",
-//     languages: ["C++", "Ruby", "Python"],
-//   },
-// ];
 
 function HorizontalList(lang_array) {
   let langs = [];
@@ -37,7 +15,7 @@ export default function GitHubListDisplay({ projects }) {
   let listItems = [];
   console.log(projects);
   if (Array.isArray(projects)) {
-    projects.forEach((project, index) => {
+    projects.forEach((project) => {
       listItems.push(
         <>
           <ListGroup.Item action href={project.html_url}>
