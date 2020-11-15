@@ -2,7 +2,7 @@ const sql = require('./db');
 
 const companyModels = require('../models/company.model');
 
-const Comapny = companyModels.Company;
+const Company = companyModels.Company;
 const CompanyDbDto = companyModels.CompanyDbDto;
 
 exports.create = (newCompany, result) => {

@@ -1,5 +1,6 @@
-const Company = require("../models/company.model.js");
-const CompanyDao = require("../daos/company_dao")
+const companyModel = require("../models/company.model");
+const Company = companyModel.Company;
+const CompanyDao = require("../daos/company_dao");
 
 //Create a new Company
 exports.create = (req, res) => {
@@ -14,7 +15,7 @@ exports.create = (req, res) => {
     const company = Company.fromReqBody(req.body);
 
     //Save Company in the database
-    ComapnyDao.create(company, (err, newCompany) => {
+    CompanyDao.create(company, (err, newCompany) => {
         if (err) {
             res.status(500).send({
                 message:
@@ -40,14 +41,11 @@ exports.findAll = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    //Validate request
-    if (!req.body)
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
 
     // Create a Company
     const company = Company.fromReqBody(req.body);
+
+    console.log(company);
 
     // Update Company in the database
     CompanyDao.updateById(company.companyId, company, (err, data) => {

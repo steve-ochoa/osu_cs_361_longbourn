@@ -12,7 +12,7 @@ class Company {
 			reqBody.name,
 			reqBody.description,
 			reqBody.industry
-			)
+			);
 	}
 
 	static fromCompanyDbDto(companyDbDto){
@@ -21,7 +21,7 @@ class Company {
 			companyDbDto.name,
 			companyDbDto.description,
 			companyDbDto.industry
-			)
+			);
 	}
 
 	static fromNewCompanyDbDto(companyId, newCompanyDbDto){
@@ -30,7 +30,7 @@ class Company {
 			newCompanyDbDto.name,
 			newCompanyDbDto.description,
 			newCompanyDbDto.industry
-			)
+			);
 	}
 
 }
@@ -45,3 +45,6 @@ class CompanyDbDto {
 
 }
 
+module.exports = {
+	Company, CompanyDbDto
+}
