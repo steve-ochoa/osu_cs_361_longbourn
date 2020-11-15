@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { customFetch } from "./Helpers";
-import { Urls } from "../data/Constants";
 import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, FormControl, Button } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
@@ -33,7 +32,9 @@ export default function RegCompanies(props) {
   console.log(`expert id is: ${expertId}`);
   useEffect(() => {
     async function fetchData() {
-      const companiesList = await customFetch(Urls.Local + "companies");
+      const companiesList = await customFetch(
+        process.env.REACT_APP_BASE_URL + "companies"
+      );
       console.log(`companies data is: ${companiesList}`);
       setCompaniesList(companiesList);
     }
@@ -109,7 +110,7 @@ export default function RegCompanies(props) {
           industry: element.industry,
         };
         let response = await customFetch(
-          Urls.Local + "companies",
+          process.env.REACT_APP_BASE_URL + "companies",
           "POST",
           req_body
         );
@@ -129,6 +130,9 @@ export default function RegCompanies(props) {
     });
     console.log("step 1 complete, payload is: ", payload);
     console.log("length of the payload is: ", payload.length);
+    if (payload.length === 0) {
+      redirectCallback();
+    }
 
     /* step 2: create the expertCompanies relationships */
   }
@@ -137,7 +141,7 @@ export default function RegCompanies(props) {
     let processed_items = 0;
     payload.forEach(async (element) => {
       let response = await customFetch(
-        Urls.Local + "expertCompanies",
+        process.env.REACT_APP_BASE_URL + "expertCompanies",
         "POST",
         element
       );

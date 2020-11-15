@@ -3,7 +3,6 @@ import { Form, Button, Col } from "react-bootstrap";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { customFetch } from "./Helpers";
 import { useHistory } from "react-router-dom";
-import { Urls } from "../data/Constants";
 
 /* TODO: input field validations, pagify registration form */
 /* form allowing for the registration of new experts */
@@ -59,7 +58,11 @@ export default function RegBasics() {
       active: true,
     };
     console.log("the payload is: ", JSON.stringify(payload));
-    let response = await customFetch(Urls.Local + "experts", "POST", payload);
+    let response = await customFetch(
+      process.env.REACT_APP_BASE_URL + "experts",
+      "POST",
+      payload
+    );
     history.push({
       pathname: "/register2",
       state: { expertId: response.expertId },

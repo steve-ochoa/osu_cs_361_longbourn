@@ -1,4 +1,4 @@
-const sql = require('./db');
+const sql = require('../daos/db');
 
 class ExpertSkill {
     constructor(expertId, skillId, name, description, experienceYears) {
@@ -38,56 +38,6 @@ class ExpertSkillDbDto {
     }
 }
 
-
-/*
-ManyToMany Experts<->Skills relationship table INSERT.
-
-We should never overwrite an Expert's fields nor a Skill's fields from this query.
-
-Instead only INSERT records into the relationship table to assign
-Skills<->Experts.
- */
-ExpertSkill.create = (newExpertSkill, result) => {
-    let expertSkillDb = new ExpertSkillDbDto(newExpertSkill);
-    console.log('Creating expertSkill:');
-    console.log(expertSkillDb);
-
-    sql.query("INSERT INTO expert_skills (expert_skill_id, expert_id, skill_id, experience_years) VALUES (?,?,?,?)",
-        [0, expertSkillDb.expert_id, expertSkillDb.skill_id, expertSkillDb.experience_years],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
-            }
-
-            console.log("Created expertSkill: ", newExpertSkill);
-            result(null, newExpertSkill);
-        });
+module.exports = {
+	ExpertSkill, ExpertSkillDbDto
 };
-
-ExpertSkill.fetchByExpertId = (expertId, result) => {
-    sql.query("SELECT es.expert_id, es.skill_id, s.name, s.description, es.experience_years FROM expert_skills es " +
-        "JOIN skills s ON es.skill_id = s.skill_id WHERE es.expert_id = ?",
-        [expertId],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
-            }
-
-            if (res.length) {
-                var expertSkillsArr = [];
-                res.forEach(expertSkillRow => expertSkillsArr.push(ExpertSkill.fromExpertSkillRow(expertSkillRow)));
-                console.log("expertSkills:");
-                console.log(expertSkillsArr);
-                result(null, expertSkillsArr);
-                return;
-            }
-
-            result({kind: "not_found"}, null);
-        });
-};
-
-module.exports = ExpertSkill;

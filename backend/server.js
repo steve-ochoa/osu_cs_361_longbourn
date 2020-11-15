@@ -32,27 +32,16 @@ require('./app/routes/course.routes')(app);
 require('./app/routes/company.routes')(app);
 
 // Relationship routes
-require('./app/routes/expert_companies.routes')(app);
 require('./app/routes/expert_course.routes')(app);
 require('./app/routes/expert_skill.routes')(app);
 require('./app/routes/expert_company.routes')(app);
 
-// Search Query routes
-require('./app/routes/findExpertsBySkill.routes')(app);
-require('./app/routes/findExpertsByCourse.routes')(app);
-require('./app/routes/findExpertsByCompany.routes')(app);
+// Search Query Routes
+require('./app/routes/expert_query.routes')(app);
 
 // Search Query routes (by name)
 require('./app/routes/fetchExpertByFirstName.routes')(app);
 require('./app/routes/fetchExpertByLastName.routes')(app);
-require('./app/routes/fetchExpertByCourseName.routes')(app);
-require('./app/routes/fetchExpertBySkillName.routes')(app);
-require('./app/routes/fetchExpertByCompanyName.routes')(app);
-
-// Search Query route - by course number (e.g., CS340)
-require('./app/routes/fetchExpertByCourseNumber.routes')(app); 
-
-
 
 // Start server
 const PORT = process.env.PORT || 6997;

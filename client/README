@@ -1,14 +1,14 @@
-for local development:
+for local development with flip backend:
+
+create .env in the /client directory with the following entry:
+REACT_APP_BASE_URL="our_backend_url/"
+
+or set the equivalent environment variable
 
 make sure you have all dependencies by running:
 npm install
-
-start the backend locally
 
 start the development server with:
 npm run start
 
 access the app at http://localhost:3000
-
-todo: figure out a quick way to swap between flip server url 
-(environment variable) and local server url
