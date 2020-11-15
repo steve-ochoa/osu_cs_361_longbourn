@@ -119,3 +119,46 @@ exports.findExpertsByCompanyIndustry = (req, res) => {
         }
     });
 };
+
+
+
+/*
+Experts By Skill
+*/
+exports.findExpertsBySkillId = (req, res) => {
+    ExpertQueryService.findExpertsBySkillId(req.params.skillId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No Experts with that skillId ${req.params.skillId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Expert with such skillId " + req.params.skillId
+                });
+            }
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data)
+        }
+    });
+};
+
+exports.findExpertsBySkillName = (req, res) => {
+    ExpertQueryService.findExpertsBySkillName(req.params.skillName, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No Experts with that skill name ${req.params.skillName}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Expert with such skillName " + req.params.skillName
+                });
+            }
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data)
+        }
+    });
+};

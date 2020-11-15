@@ -36,19 +36,13 @@ require('./app/routes/expert_course.routes')(app);
 require('./app/routes/expert_skill.routes')(app);
 require('./app/routes/expert_company.routes')(app);
 
-// TODO - Refactor the other expertsByX query routes into this one.
 // Search Query Routes
 require('./app/routes/expert_query.routes')(app);
-
-// Search Query routes
-require('./app/routes/findExpertsBySkill.routes')(app);
-require('./app/routes/findExpertsByCompany.routes')(app);
 
 // Search Query routes (by name)
 require('./app/routes/fetchExpertByFirstName.routes')(app);
 require('./app/routes/fetchExpertByLastName.routes')(app);
 require('./app/routes/fetchExpertBySkillName.routes')(app);
-require('./app/routes/fetchExpertByCompanyName.routes')(app);
 
 
 // Start server

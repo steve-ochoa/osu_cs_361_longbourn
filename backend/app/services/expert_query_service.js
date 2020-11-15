@@ -29,3 +29,15 @@ exports.findExpertsByCompanyName = (companyName, res) => {
 exports.findExpertsByCompanyIndustry = (companyIndustry, res) => {
     ExpertQueryDao.fetchExpertsByCompanyIndustry(companyIndustry, res);
 };
+
+
+/*
+Experts By Skill
+ */
+exports.findExpertsBySkillId = (skillId, res) => {
+    ExpertQueryDao.fetchExpertsBySkillId(skillId, res);
+};
+
+exports.findExpertsBySkillName = (skillName, res) => {
+    ExpertQueryDao.fetchExpertsBySkillName(skillName, res);
+};

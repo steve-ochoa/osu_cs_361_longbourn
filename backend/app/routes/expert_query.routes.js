@@ -22,6 +22,7 @@ module.exports = app => {
      /*
     Experts By Skill
      */
-
+    app.get("/findExperts/skillId/:skillId", expertQueryController.findExpertsBySkillId);
+    app.get("/findExperts/skillName/:skillName", expertQueryController.findExpertsBySkillName);
 
 };

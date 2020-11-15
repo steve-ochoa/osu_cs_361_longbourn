@@ -158,3 +158,53 @@ exports.fetchExpertsByCompanyIndustry = (companyIndustry, result) => {
         });
 };
 
+/*
+Experts By Skill
+*/
+
+exports.fetchExpertsBySkillId = (skillId, result) => {
+    sql.query("SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN expert_skills es JOIN skills s  ON e.expert_id = es.expert_id AND s.skill_id = es.skill_id WHERE e.active=true AND s.skill_id = ?",
+    [skillId],
+
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                var expertsBySkillIdArr = [];
+                res.forEach(expertsBySkillIdRow => expertsBySkillIdArr.push(Expert.fromExpertDb(expertsBySkillIdRow)));
+                console.log("expertsBySkillId:");
+                console.log(expertsBySkillIdArr);
+                result(null, expertsBySkillIdArr);
+                return;
+            }
+            result({kind: "not_found"}, null);
+        });
+};
+
+exports.fetchExpertsBySkillName = (skillName, result) => {
+    sql.query("SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN expert_skills es JOIN skills s  ON e.expert_id = es.expert_id AND s.skill_id = es.skill_id WHERE e.active=true AND s.name = ?",
+    [skillName],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                console.log(res);
+                var expertBySkillNameArr = [];
+                res.forEach(expertBySkillNameRow => expertBySkillNameArr.push(Expert.fromExpertDb(expertBySkillNameRow)));
+                console.log("expertBySkillName:");
+                console.log(expertBySkillNameArr);
+                result(null, expertBySkillNameArr);
+                return;
+            }
+
+            result({kind: "not_found"}, null);
+        });
+};
