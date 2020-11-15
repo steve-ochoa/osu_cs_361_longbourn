@@ -14,3 +14,18 @@ exports.findExpertsByCourseNumber = (courseNumber, res) => {
 exports.findExpertsByCourseName = (courseName, res) => {
     ExpertQueryDao.fetchExpertsByCourseName(courseName, res);
 };
+
+/*
+Experts By Company
+ */
+exports.findExpertsByCompanyId = (companyId, res) => {
+    ExpertQueryDao.fetchExpertsByCompanyId(companyId, res);
+};
+
+exports.findExpertsByCompanyName = (companyName, res) => {
+    ExpertQueryDao.fetchExpertsByCompanyName(companyName, res);
+};
+
+exports.findExpertsByCompanyIndustry = (companyIndustry, res) => {
+    ExpertQueryDao.fetchExpertsByCompanyIndustry(companyIndustry, res);
+};
