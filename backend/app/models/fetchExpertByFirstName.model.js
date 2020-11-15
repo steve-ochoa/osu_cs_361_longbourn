@@ -1,14 +1,14 @@
-const sql = require('./db');
+const sql = require('../daos/db');
 
 class ExpertByFirstName {
 
-    constructor(expertId, firstName, lastName, email, description, photo_url) {
+    constructor(expertId, firstName, lastName, email, description, photoUrl) {
         this.expertId = expertId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.description = description;
-        this.photo_url = photo_url;
+        this.photoUrl = photoUrl;
     }
 
     static fromExpertByFirstNameRow(expertByFirstNameRow) {
@@ -18,7 +18,7 @@ class ExpertByFirstName {
             expertByFirstNameRow.last_name,
             expertByFirstNameRow.email,
             expertByFirstNameRow.description,
-            expertByFirstNameRow.photo_url)
+            expertByFirstNameRow.photoUrl)
     }
 
     static fromReqBody(reqBody) {
@@ -28,7 +28,7 @@ class ExpertByFirstName {
             reqBody.lastname,
             reqBody.email,
             reqBody.description,
-            reqBody.photo_url
+            reqBody.photoUrl
         )
     }
 }

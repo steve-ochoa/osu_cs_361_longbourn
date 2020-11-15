@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { customFetch } from "./Helpers";
-import { Urls } from "../data/Constants";
 import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -16,7 +15,9 @@ export default function RegSkills(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const skillsList = await customFetch(Urls.Local + "skills");
+      const skillsList = await customFetch(
+        process.env.REACT_APP_BASE_URL + "skills"
+      );
       console.log(`skills data is: ${skillsList}`);
       setSkillsList(skillsList);
     }
@@ -50,7 +51,7 @@ export default function RegSkills(props) {
     let payload = [];
     /* payload format:  [ {expertId: 1,  skillId: 1, experienceYears: 2 }, ..]
     /* step 1: skill verification / skill creation: */
-    updatedFields.forEach(async (element) => {
+    for (const element of updatedFields) {
       /* is it in the skillsList? */
       let result = skillsList.find((object) => object.name === element.name);
       if (result) {
@@ -65,7 +66,7 @@ export default function RegSkills(props) {
         /* if not found, add the skill to the db with post */
         let req_body = { name: element.name, description: element.description };
         let response = await customFetch(
-          Urls.Local + "skills",
+          process.env.REACT_APP_BASE_URL + "skills",
           "POST",
           req_body
         );
@@ -76,13 +77,17 @@ export default function RegSkills(props) {
         };
         payload.push(payload_obj);
       }
-    });
+    };
     console.log("step 1 complete, payload is: ", payload);
 
     /* step 2: create the expertSkills relationships */
-    payload.forEach(async (element) => {
-      await customFetch(Urls.Local + "expertSkills", "POST", element);
-    });
+    for (const element of payload) {
+      await customFetch(
+        process.env.REACT_APP_BASE_URL + "expertSkills",
+        "POST",
+        element
+      );
+    };
     history.push({
       pathname: "/register3",
       state: { expertId: props.history.location.state.expertId },

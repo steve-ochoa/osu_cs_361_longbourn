@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -6,9 +7,9 @@ import { useHistory } from "react-router-dom";
 export default function SearchForm() {
     const history = useHistory();
     const [input, setInput] = useState('');
-    const [radio, setRadio] = useState('skill');
+    const [radio, setRadio] = useState('skills');
 
-    const handleSubmit = () => {
+    function handleSubmit() {
         history.push({
             pathname: '/results',
             state: { input, radio }
@@ -31,7 +32,7 @@ export default function SearchForm() {
                         inline type="radio"
                         name="search"
                         label="Skill"
-                        value='skill'
+                        value='skills'
                         onChange={e => setRadio(e.target.value)}
                         checked
                     />
@@ -39,14 +40,14 @@ export default function SearchForm() {
                         inline type="radio"
                         name="search"
                         label="Course"
-                        value='course'
+                        value='courses'
                         onChange={e => setRadio(e.target.value)}
                     />
                     <Form.Check
                         inline type="radio"
                         name="search"
                         label="Company"
-                        value='company'
+                        value='companies'
                         onChange={e => setRadio(e.target.value)}
                     />
                 </div>

@@ -3,7 +3,6 @@ import { Button, Container } from "react-bootstrap";
 import { YearOptions, GradeOptions, SemesterOptions } from "../data/Constants";
 import Select from "react-select";
 import { customFetch } from "./Helpers";
-import { Urls } from "../data/Constants";
 import { useHistory } from "react-router-dom";
 
 export default function AddCourse({ courseList, expertId }) {
@@ -59,7 +58,7 @@ export default function AddCourse({ courseList, expertId }) {
     payload.grade = courseState.grade;
 
     let response = await customFetch(
-      Urls.Local + "expertCourses",
+      process.env.REACT_APP_BASE_URL + "expertCourses",
       "POST",
       payload
     );
