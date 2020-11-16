@@ -30,11 +30,11 @@ exports.fetchByExpertId = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `No Experts with that expertId ${req.params.expertId}.`
+                    message: `No Course with that expertId ${req.params.expertId}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Expert with such expertId " + req.params.expertId
+                    message: "Error retrieving Course with such expertId " + req.params.expertId
                 });
             }
         } else {

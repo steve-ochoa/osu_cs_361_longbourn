@@ -1,7 +1,7 @@
 const ExpertCourseDao = require('../daos/expert_course_dao');
 
 /*
-Create Course
+Create expert_courses
 */
 exports.create = (expertCourse, res) => {
     ExpertCourseDao.create(expertCourse, res);
