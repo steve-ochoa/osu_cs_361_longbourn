@@ -1,4 +1,3 @@
-import React from "react";
 import { Urls } from "../data/Constants";
 import { customFetch } from "./Helpers";
 
@@ -11,7 +10,7 @@ export default async function GitHubFetch({ userName }) {
     Urls.GitHub + "users/" + userName + "/repos"
   );
   if (Array.isArray(response)) {
-    response.forEach(async (element) => {
+    for (const element of response) {
       let project = {};
       project.name = element.name;
       project.description = element.description;
@@ -20,7 +19,7 @@ export default async function GitHubFetch({ userName }) {
       let langResponse = await customFetch(element.languages_url);
       project.languages = Object.keys(langResponse);
       returnArray.push(project);
-    });
+    }
   }
   return returnArray;
 }
