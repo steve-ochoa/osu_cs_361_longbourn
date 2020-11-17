@@ -57,12 +57,7 @@ export default function Profile(props) {
         process.env.REACT_APP_BASE_URL + "experts/" + expertId.toString()
       );
       setExpertData(expertData);
-      const contactDetails = await customFetch(
-        process.env.REACT_APP_BASE_URL +
-        "contact_details/" +
-        expertId.toString()
-      );
-      setContactData(contactDetails);
+      setContactData(expertData.contactDetails);
       const expertSkills = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertSkills/" + expertId.toString()
       );
