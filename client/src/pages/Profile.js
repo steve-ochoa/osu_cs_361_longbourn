@@ -158,7 +158,7 @@ export default function Profile(props) {
       <Container>
         <Row>
           <Col>
-            <Card style={{ width: "18rem" }}>
+            <Card style={{ marginLeft: "auto", marginRight: "auto", width: "18rem" }}>
               <Card.Header>Contact Details</Card.Header>
               <ListGroup variant="flush">
                 {contactData.workEmail !== "" && (
@@ -181,7 +181,7 @@ export default function Profile(props) {
             </Card>
           </Col>
           <Col>
-            <Card style={{ width: "18rem" }}>
+            <Card style={{ marginLeft: "auto", marginRight: "auto", width: "18rem" }}>
               <Card.Header>Social Media</Card.Header>
               <ListGroup variant="flush">
                 {contactData.gitHubUser !== "" && (
@@ -271,9 +271,9 @@ export default function Profile(props) {
           <br />
         </Tab>
       </Tabs>
-      {newSkill && <AddSkill {...newSkillProps} />}
-      {newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
-      {newCompany && <RegCompanies {...{ expertId: expertId }} />}
+      { newSkill && <AddSkill {...newSkillProps} />}
+      { newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
+      { newCompany && <RegCompanies {...{ expertId: expertId }} />}
     </>
   );
 }

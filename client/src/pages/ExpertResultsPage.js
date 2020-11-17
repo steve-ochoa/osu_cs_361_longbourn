@@ -20,7 +20,6 @@ function ExpertResultsPage() {
       let expertsData = [];
       switch (searchInput.radio) {
         case "skills":
-          console.log(searchInput.input);
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
             "fetchExperts/skillName/" +
