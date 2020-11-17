@@ -16,7 +16,7 @@ function ExpertCard(props) {
         </Card.Text>
         <Button variant="primary" size="sm" href={"/profile/" + props.expertId}>Profile</Button>
       </Card.Body>
-    </Card >
+    </Card>
   )
 
 }

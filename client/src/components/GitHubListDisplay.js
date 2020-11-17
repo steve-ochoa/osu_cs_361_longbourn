@@ -18,7 +18,7 @@ export default function GitHubListDisplay({ projects }) {
       listItems.push(
         <>
           <ListGroup.Item action href={project.html_url}>
-            {project.name}
+            <strong>{project.name}</strong>
           </ListGroup.Item>
           <ListGroup.Item>{project.description}</ListGroup.Item>
           <ListGroup horizontal>{HorizontalList(project.languages)}</ListGroup>
