@@ -162,3 +162,44 @@ exports.findExpertsBySkillName = (req, res) => {
         }
     });
 };
+
+/*
+Experts By Name
+*/
+exports.findExpertsByFirstName = (req, res) => {
+    ExpertQueryService.findExpertsByFirstName(req.params.firstName, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No Experts with that first name ${req.params.firstName}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Expert with such firstName " + req.params.firstName
+                });
+            }
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data)
+        }
+    });
+};
+
+exports.findExpertsByLastName = (req, res) => {
+    ExpertQueryService.findExpertsByLastName(req.params.lastName, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No Experts with that last name ${req.params.lastName}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Expert with such lastName " + req.params.lastName
+                });
+            }
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data)
+        }
+    });
+};

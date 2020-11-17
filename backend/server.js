@@ -39,10 +39,6 @@ require('./app/routes/expert_company.routes')(app);
 // Search Query Routes
 require('./app/routes/expert_query.routes')(app);
 
-// Search Query routes (by name)
-require('./app/routes/fetchExpertByFirstName.routes')(app);
-require('./app/routes/fetchExpertByLastName.routes')(app);
-
 // Start server
 const PORT = process.env.PORT || 6997;
 app.listen(PORT, () => {

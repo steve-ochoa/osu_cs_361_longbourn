@@ -41,3 +41,14 @@ exports.findExpertsBySkillId = (skillId, res) => {
 exports.findExpertsBySkillName = (skillName, res) => {
     ExpertQueryDao.fetchExpertsBySkillName(skillName, res);
 };
+
+/*
+Experts By Name
+ */
+exports.findExpertsByFirstName = (firstName, res) => {
+	ExpertQueryDao.fetchExpertsByFirstName(firstName, res);
+}
+
+exports.findExpertsByLastName = (lastName, res) => {
+	ExpertQueryDao.fetchExpertsByLastName(lastName, res);
+}

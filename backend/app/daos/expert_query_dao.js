@@ -2,6 +2,7 @@ const sql = require('./db');
 const expertModels = require('../models/expert.model');
 const Expert = expertModels.Expert;
 
+
 /*
 Experts By Course
  */
@@ -208,3 +209,61 @@ exports.fetchExpertsBySkillName = (skillName, result) => {
             result({kind: "not_found"}, null);
         });
 };
+
+/*
+Experts By Name
+*/
+
+exports.fetchExpertsByFirstName = (firstName, result) => {
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e WHERE e.first_name = ?";
+    sql.query(q,
+            [firstName],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                console.log(res);
+                var expertByFirstNameArr = [];
+                res.forEach(expertByFirstNameRow => expertByFirstNameArr.push(Expert.fromExpertDb(expertByFirstNameRow)));
+                console.log("expertByFirstName:");
+                console.log(expertByFirstNameArr);
+                result(null, expertByFirstNameArr);
+                return;
+            }
+
+
+            result({kind: "not_found"}, null);
+        });
+};
+
+exports.fetchExpertsByLastName = (lastName, result) => {
+    console.log(lastName);
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e WHERE e.last_name = ?";
+    sql.query(q,
+            [lastName],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                console.log(res);
+                var expertByLastNameArr = [];
+                res.forEach(expertByLastNameRow => expertByLastNameArr.push(Expert.fromExpertDb(expertByLastNameRow)));
+                console.log("expertByLastName:");
+                console.log(expertByLastNameArr);
+                result(null, expertByLastNameArr);
+                return;
+            }
+
+
+            result({kind: "not_found"}, null);
+        });
+};
+
