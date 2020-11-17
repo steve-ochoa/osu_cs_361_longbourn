@@ -8,7 +8,7 @@ function ExpertCard(props) {
 
   return (
     <Card style={{ backgroundColor: "#f6f5f5", color: "#070d59", width: '18rem' }}>
-      <Card.Img variant="top" src={props.photoUrl} />
+      <Card.Img variant="top" src={props.photoUrl} style={{ height: "18rem" }} />
       <Card.Body>
         <Card.Title>{props.firstName + " " + props.lastName}</Card.Title>
         <Card.Text>
