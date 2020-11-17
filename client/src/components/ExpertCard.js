@@ -6,8 +6,6 @@ import { Card, Button } from "react-bootstrap";
 
 function ExpertCard(props) {
 
-  console.log("props i was passed is:", props);
-
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src={props.photoUrl} />

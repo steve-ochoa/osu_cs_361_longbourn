@@ -22,30 +22,28 @@ function ExpertResultsPage() {
         case "skills":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-              "fetchExperts/skillName/" +
-              searchInput.input
+            "fetchExperts/skillName/" +
+            searchInput.input
           );
-          console.log("retrieved expert data is:", expertsData);
           break;
         case "courses":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-              "findExperts/courseNumber/" +
-              searchInput.input
+            "findExperts/courseNumber/" +
+            searchInput.input
           );
           break;
         case "companies":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-              "fetchExperts/companyName/" +
-              searchInput.input
+            "fetchExperts/companyName/" +
+            searchInput.input
           );
           break;
         default:
           alert("error searching!!!");
           break;
       }
-      console.log("retrieved experts are: ", expertsData);
       /* temporary fix for returned photo_url field (should be photoUrl) */
       /* TODO: remove me after merge */
       if (Array.isArray(expertsData)) {
