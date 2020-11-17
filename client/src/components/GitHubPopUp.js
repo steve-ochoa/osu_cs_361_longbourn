@@ -24,7 +24,6 @@ export default function GitHubPopUp({ userName }) {
           <Popover>
             <Popover.Title as="h3">{`GitHub Projects`}</Popover.Title>
             <Popover.Content>
-              {/* <strong>{userName}'s GitHub Projects:</strong> */}
               {projectData.length > 0 && (
                 <GitHubListDisplay projects={projectData}/>
               )}
