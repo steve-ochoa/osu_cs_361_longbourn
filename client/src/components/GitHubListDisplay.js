@@ -13,7 +13,6 @@ function HorizontalList(lang_array) {
 /* (name, description, html_url, languages[]) */
 export default function GitHubListDisplay({ projects }) {
   let listItems = [];
-  console.log(projects);
   if (Array.isArray(projects)) {
     projects.forEach((project) => {
       listItems.push(

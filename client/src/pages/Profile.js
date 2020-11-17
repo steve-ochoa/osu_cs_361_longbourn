@@ -57,19 +57,16 @@ export default function Profile(props) {
       const expertData = await customFetch(
         process.env.REACT_APP_BASE_URL + "experts/" + expertId.toString()
       );
-      console.log("expert data is: ", expertData);
       setExpertData(expertData);
       const contactDetails = await customFetch(
         process.env.REACT_APP_BASE_URL +
           "contact_details/" +
           expertId.toString()
       );
-      console.log("contact data is: ", contactDetails);
       setContactData(contactDetails);
       const expertSkills = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertSkills/" + expertId.toString()
       );
-      console.log("retrieved expert skills are: ", expertSkills);
       let skillTableData = [];
       if (Array.isArray(expertSkills)) {
         setSkillsData(expertSkills);
@@ -89,7 +86,6 @@ export default function Profile(props) {
       const expertCourses = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertCourses/" + expertId.toString()
       );
-      console.log("retrieved expert courses are: ", expertCourses);
       if (Array.isArray(expertCourses)) {
         expertCourses.forEach((element, index) => {
           let courseLookup = courses.find(
@@ -117,8 +113,6 @@ export default function Profile(props) {
           "expertCompanies/" +
           expertId.toString()
       );
-      console.log("retrieved expert companies are: ", expertCompanies);
-
       if (Array.isArray(expertCompanies)) {
         expertCompanies.forEach((element, index) => {
           delete element.companyId;
