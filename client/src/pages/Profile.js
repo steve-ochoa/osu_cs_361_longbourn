@@ -59,8 +59,8 @@ export default function Profile(props) {
       setExpertData(expertData);
       const contactDetails = await customFetch(
         process.env.REACT_APP_BASE_URL +
-          "contact_details/" +
-          expertId.toString()
+        "contact_details/" +
+        expertId.toString()
       );
       setContactData(contactDetails);
       const expertSkills = await customFetch(
@@ -108,8 +108,8 @@ export default function Profile(props) {
       /* get expert company data */
       const expertCompanies = await customFetch(
         process.env.REACT_APP_BASE_URL +
-          "expertCompanies/" +
-          expertId.toString()
+        "expertCompanies/" +
+        expertId.toString()
       );
       if (Array.isArray(expertCompanies)) {
         expertCompanies.forEach((element, index) => {
