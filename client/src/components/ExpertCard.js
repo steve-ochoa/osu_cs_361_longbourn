@@ -7,7 +7,7 @@ import { Card, Button } from "react-bootstrap";
 function ExpertCard(props) {
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ backgroundColor: "#f6f5f5", color: "#070d59", width: '18rem' }}>
       <Card.Img variant="top" src={props.photoUrl} />
       <Card.Body>
         <Card.Title>{props.firstName + " " + props.lastName}</Card.Title>

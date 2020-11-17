@@ -21,7 +21,6 @@ import AddCourse from "../components/AddCourse";
 import RegCompanies from "../components/RegCompanies";
 import GitHubPopUp from "../components/GitHubPopUp";
 
-/* TODO: fix contact and social media card alignment for large viewports */
 export default function Profile(props) {
   const { expertId } = props.match.params;
   const [expertData, setExpertData] = useState({
@@ -140,7 +139,7 @@ export default function Profile(props) {
           }
           roundedCircle
         />
-        <Figure.Caption>
+        <Figure.Caption style={{ color: "#f6f5f5" }}>
           <strong>{expertData.description}</strong>
           <br />
           {contactData.city + ", " + contactData.state + " "}
@@ -150,7 +149,7 @@ export default function Profile(props) {
           {contactData.phone}
         </Figure.Caption>
       </Figure>
-      <Container>
+      <Container style={{ color: "#070d59" }}>
         <Row>
           <Col>
             <Card style={{ marginLeft: "auto", marginRight: "auto", width: "18rem" }}>
