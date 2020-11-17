@@ -47,7 +47,6 @@ export default function Profile(props) {
   const [courseList, setCourseList] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [newCourse, setNewCourse] = useState(0);
-  const [companiesLIst, setCompaniesList] = useState([]);
   const [companyData, setCompanyData] = useState([]);
   const [newCompany, setNewCompany] = useState([]);
 
@@ -106,7 +105,6 @@ export default function Profile(props) {
       const companies = await customFetch(
         process.env.REACT_APP_BASE_URL + "companies"
       );
-      setCompaniesList(companies);
       /* get expert company data */
       const expertCompanies = await customFetch(
         process.env.REACT_APP_BASE_URL +
