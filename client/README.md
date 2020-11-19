@@ -1,24 +1,31 @@
-for local development with flip backend:
+# Instructions
+for local development:
 
-create .env in the /client directory with the following entry:
-```REACT_APP_BASE_URL="our_backend_url/"
-PORT=1111```
+create .env in the /client directory with the following entry
+or set the equivalent environment variable:
 
-or set the equivalent environment variable.
+```
+REACT_APP_BASE_URL="our_backend_url/"
+PORT=1111
+```
 
-make sure you have all dependencies by running:
+The backend URL can be either our flip3 API or localhost.
+
+
+Make sure you have all dependencies by running:
 `npm install`
 
-start the development server with:
+Start the development server with:
 `npm run start`
 
-or for running remotely, install "forever" with:
+Or for running remotely, install "forever" with:
 `npm install forever`
-then run:
+
+Then run:
 `node_modules/forever/bin/forever start -c "npm start" ./ > output.log`
 
-access the app at http://localhost:1111
+Access the app at http://localhost:1111
 
-the logs will be output to the "output.log" file. 
+The logs will be output to the "output.log" file. 
 
 Note: This will run the server in development mode (slow)
