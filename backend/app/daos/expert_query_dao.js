@@ -6,7 +6,7 @@ const Expert = expertModels.Expert;
 Experts By Course
  */
 exports.fetchExpertsByCourseNumber = (courseNumber, result) => {
-    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN courses c JOIN expert_courses ec ON e.expert_id = ec.expert_id AND ec.course_id = c.course_id WHERE e.active=true AND c.course_number = ?";
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN courses c JOIN expert_courses ec ON e.expert_id = ec.expert_id AND ec.course_id = c.course_id WHERE e.active AND c.course_number = ?";
     sql.query(q,
         [courseNumber],
         (err, res) => {
@@ -31,7 +31,7 @@ exports.fetchExpertsByCourseNumber = (courseNumber, result) => {
 };
 
 exports.fetchExpertsByCourseId = (courseId, result) => {
-    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN courses c JOIN expert_courses ec ON e.expert_id = ec.expert_id AND ec.course_id = c.course_id WHERE e.active=true AND c.course_id = ?";
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN courses c JOIN expert_courses ec ON e.expert_id = ec.expert_id AND ec.course_id = c.course_id WHERE e.active AND c.course_id = ?";
     sql.query(q,
         [courseId],
         (err, res) => {
@@ -55,7 +55,7 @@ exports.fetchExpertsByCourseId = (courseId, result) => {
 };
 
 exports.fetchExpertsByCourseName = (courseName, result) => {
-    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN courses c JOIN expert_courses ec ON e.expert_id = ec.expert_id AND ec.course_id = c.course_id WHERE e.active=true AND c.name = ?";
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN courses c JOIN expert_courses ec ON e.expert_id = ec.expert_id AND ec.course_id = c.course_id WHERE e.active AND c.name = ?";
     sql.query(q,
         [courseName],
         (err, res) => {
@@ -83,9 +83,8 @@ exports.fetchExpertsByCourseName = (courseName, result) => {
 /*
 Experts By Company
  */
-
 exports.fetchExpertsByCompanyId = (companyId, result) => {
-    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN companies c JOIN expert_companies ec ON e.expert_id = ec.expert_id AND c.company_id = ec.company_id WHERE e.active=true AND c.company_id = ?";
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN companies c JOIN expert_companies ec ON e.expert_id = ec.expert_id AND c.company_id = ec.company_id WHERE e.active AND c.company_id = ?";
     sql.query(q,
         [companyId],
         (err, res) => {
@@ -108,9 +107,9 @@ exports.fetchExpertsByCompanyId = (companyId, result) => {
         });
 };
 
- exports.fetchExpertsByCompanyName = (companyName, result) => {
-        let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN companies c JOIN expert_companies ec ON e.expert_id = ec.expert_id AND c.company_id = ec.company_id WHERE e.active=true AND c.name = ?";
-        sql.query(q,
+exports.fetchExpertsByCompanyName = (companyName, result) => {
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN companies c JOIN expert_companies ec ON e.expert_id = ec.expert_id AND c.company_id = ec.company_id WHERE e.active AND c.name = ?";
+    sql.query(q,
         [companyName],
         (err, res) => {
             if (err) {
@@ -134,9 +133,9 @@ exports.fetchExpertsByCompanyId = (companyId, result) => {
 };
 
 exports.fetchExpertsByCompanyIndustry = (companyIndustry, result) => {
-    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN companies c JOIN expert_companies ec ON e.expert_id = ec.expert_id AND c.company_id = ec.company_id WHERE e.active=true AND c.industry = ?";
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN companies c JOIN expert_companies ec ON e.expert_id = ec.expert_id AND c.company_id = ec.company_id WHERE e.active AND c.industry = ?";
     sql.query(q,
-    [companyIndustry],
+        [companyIndustry],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -161,10 +160,9 @@ exports.fetchExpertsByCompanyIndustry = (companyIndustry, result) => {
 /*
 Experts By Skill
 */
-
 exports.fetchExpertsBySkillId = (skillId, result) => {
-    sql.query("SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN expert_skills es JOIN skills s  ON e.expert_id = es.expert_id AND s.skill_id = es.skill_id WHERE e.active=true AND s.skill_id = ?",
-    [skillId],
+    sql.query("SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN expert_skills es JOIN skills s  ON e.expert_id = es.expert_id AND s.skill_id = es.skill_id WHERE e.active AND s.skill_id = ?",
+        [skillId],
 
         (err, res) => {
             if (err) {
@@ -186,8 +184,8 @@ exports.fetchExpertsBySkillId = (skillId, result) => {
 };
 
 exports.fetchExpertsBySkillName = (skillName, result) => {
-    sql.query("SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN expert_skills es JOIN skills s  ON e.expert_id = es.expert_id AND s.skill_id = es.skill_id WHERE e.active=true AND s.name = ?",
-    [skillName],
+    sql.query("SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e JOIN expert_skills es JOIN skills s  ON e.expert_id = es.expert_id AND s.skill_id = es.skill_id WHERE e.active AND s.name = ?",
+        [skillName],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -202,6 +200,60 @@ exports.fetchExpertsBySkillName = (skillName, result) => {
                 console.log("expertBySkillName:");
                 console.log(expertBySkillNameArr);
                 result(null, expertBySkillNameArr);
+                return;
+            }
+
+            result({kind: "not_found"}, null);
+        });
+};
+
+/*
+Experts By Name
+ */
+exports.fetchExpertByFirstName = (firstName, result) => {
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e WHERE e.active AND e.first_name = ?";
+    sql.query(q,
+        [firstName],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                console.log(res);
+                var expertByFirstNameArr = [];
+                res.forEach(expertByFirstNameRow => expertByFirstNameArr.push(Expert.fromExpertDb(expertByFirstNameRow)));
+                console.log("expertByFirstName:");
+                console.log(expertByFirstNameArr);
+                result(null, expertByFirstNameArr);
+                return;
+            }
+
+            result({kind: "not_found"}, null);
+        });
+};
+
+exports.fetchExpertByLastName = (lastName, result) => {
+    console.log(lastName);
+    let q = "SELECT e.expert_id, e.first_name, e.last_name, e.email, e.description, e.photo_url FROM experts e WHERE e.active AND e.last_name = ?";
+    sql.query(q,
+        [lastName],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                console.log(res);
+                var expertByLastNameArr = [];
+                res.forEach(expertByLastNameRow => expertByLastNameArr.push(Expert.fromExpertDb(expertByLastNameRow)));
+                console.log("expertByLastName:");
+                console.log(expertByLastNameArr);
+                result(null, expertByLastNameArr);
                 return;
             }
 

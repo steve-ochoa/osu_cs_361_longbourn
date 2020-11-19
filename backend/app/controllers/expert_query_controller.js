@@ -121,7 +121,6 @@ exports.findExpertsByCompanyIndustry = (req, res) => {
 };
 
 
-
 /*
 Experts By Skill
 */
@@ -154,6 +153,47 @@ exports.findExpertsBySkillName = (req, res) => {
             } else {
                 res.status(500).send({
                     message: "Error retrieving Expert with such skillName " + req.params.skillName
+                });
+            }
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data)
+        }
+    });
+};
+
+/*
+Experts By Name
+ */
+exports.findExpertsByFirstName = (req, res) => {
+    ExpertQueryService.findExpertsByFirstName(req.params.firstName, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No Experts with that firstName ${req.params.firstName}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Expert with such firstName " + req.params.firstName
+                });
+            }
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data)
+        }
+    });
+};
+
+exports.findExpertsByLastName = (req, res) => {
+    ExpertQueryService.findExpertsByLastName(req.params.lastName, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `No Experts with that lastName ${req.params.lastName}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving Expert with such lastName " + req.params.lastName
                 });
             }
         } else {

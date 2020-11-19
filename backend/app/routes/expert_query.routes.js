@@ -1,9 +1,6 @@
 module.exports = app => {
     const expertQueryController = require('../controllers/expert_query_controller');
 
-    //TODO: Rename all "fetch" to "find". All methods/routes should be named "find". Only the DAO has named "fetch".
-    //TODO: "Experts" should be plural, since we are returning many Experts for each query.
-
     /*
     Experts By Course
      */
@@ -18,11 +15,15 @@ module.exports = app => {
     app.get("/findExperts/companyName/:companyName", expertQueryController.findExpertsByCompanyName);
     app.get("/findExperts/companyIndustry/:companyIndustry", expertQueryController.findExpertsByCompanyIndustry);
 
-
      /*
     Experts By Skill
      */
     app.get("/findExperts/skillId/:skillId", expertQueryController.findExpertsBySkillId);
     app.get("/findExperts/skillName/:skillName", expertQueryController.findExpertsBySkillName);
 
+    /*
+    Experts by Names
+     */
+    app.get("/findExperts/firstName/:firstName", expertQueryController.findExpertsByFirstName);
+    app.get("/findExperts/lastName/:lastName", expertQueryController.findExpertsByLastName);
 };
