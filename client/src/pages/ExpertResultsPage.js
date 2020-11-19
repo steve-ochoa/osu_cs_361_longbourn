@@ -22,7 +22,7 @@ function ExpertResultsPage() {
         case "skills":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "fetchExperts/skillName/" +
+            "findExperts/skillName/" +
             searchInput.input
           );
           break;
@@ -36,7 +36,7 @@ function ExpertResultsPage() {
         case "companies":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "fetchExperts/companyName/" +
+            "findExperts/companyName/" +
             searchInput.input
           );
           break;
