@@ -6,4 +6,4 @@ module.exports = app => {
 
 	//Retrieve ExpertCompany by expertId
 	app.get("/expertCompanies/:expertId", expertCompany.fetchByExpertId);
-}
+};
