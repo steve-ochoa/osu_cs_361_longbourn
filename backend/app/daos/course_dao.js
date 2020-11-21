@@ -16,6 +16,7 @@ exports.create = (newCourse, result) => {
 
             connection.query("INSERT INTO courses SET ?", courseDbDto, (err, res) => {
                 if (err) {
+
                     connection.rollback();
                     connection.release();
                     console.log("error: ", err);
@@ -61,6 +62,7 @@ exports.updateById = (id, course, result) => {
                 [course.courseNumber, course.name, course.description, id],
                 (err, res) => {
                     if(err){
+
                         connection.rollback();
                         connection.release();
                         console.log("error: ", err);

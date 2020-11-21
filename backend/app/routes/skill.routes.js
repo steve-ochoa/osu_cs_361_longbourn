@@ -6,4 +6,7 @@ module.exports = app => {
 
     //Retrieve all Skills
     app.get("/skills", skill.findAll);
+
+    //Update Skill
+    app.put("/skills/:skillId", skill.update)
 };
