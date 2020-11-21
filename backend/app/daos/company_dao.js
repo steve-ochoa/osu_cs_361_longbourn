@@ -71,7 +71,7 @@ exports.updateById = (id, company, result) => {
 		                return
 		            }
 
-		            if (res.affectedRows === 0){
+		            if (res.affectedRows == 0){
 		                result({kind : "not_found"}, null);
 		                return;
 		            }
@@ -80,7 +80,8 @@ exports.updateById = (id, company, result) => {
 		            connection.release();
 
 		            console.log("updated company: ", {id: id, ...company});
-		            result(null, company);
+
+		            result(null, {id: id, ...company});
 		        
 		        });
 		});
