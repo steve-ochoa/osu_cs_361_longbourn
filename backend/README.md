@@ -24,3 +24,10 @@ Default port is 6997.
 ```
 node server.js
 ```
+
+or to run with forever:
+```
+nohup node_modules/forever/bin/forever server.js > output.log &
+```
+
+Logs will be output to `output.log`. 
