@@ -16,6 +16,8 @@ exports.create = (newCompany, result) => {
 
 			connection.query("INSERT INTO companies SET ?", companyDbDto, (err, res) => {
 				if (err){
+					connection.rollback();
+					connection.release();
 					console.log("error: ", err);
 					result(err, null);
 					return;
@@ -58,16 +60,18 @@ exports.updateById = (id, company, result) => {
 
     	connection.beginTransaction(function (err) {
 
-		    sql.query("UPDATE companies SET name = ?,description = ?, industry = ? WHERE company_id = ?",
+		    connection.query("UPDATE companies SET name = ?,description = ?, industry = ? WHERE company_id = ?",
 		        [company.name, company.description, company.industry, id],
 		        (err, res) => {
 		            if(err){
+		            	connection.rollback();
+		            	connection.release();
 		                console.log("error: ", err);
 		                result(null, err);
 		                return
 		            }
 
-		            if (res.affectedRows == 0){
+		            if (res.affectedRows === 0){
 		                result({kind : "not_found"}, null);
 		                return;
 		            }
@@ -76,7 +80,7 @@ exports.updateById = (id, company, result) => {
 		            connection.release();
 
 		            console.log("updated company: ", {id: id, ...company});
-		            result(null, {id: id, ...company});
+		            result(null, company);
 		        
 		        });
 		});
