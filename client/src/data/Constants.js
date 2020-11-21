@@ -3,7 +3,7 @@ export const Urls = {
   GitHub: "https://api.github.com/",
 };
 
-const years = [
+export const Years = [
   "2010",
   "2011",
   "2012",
@@ -20,9 +20,13 @@ const years = [
 ];
 
 export const YearOptions = [];
-years.forEach((element) => {
+Years.forEach((element) => {
   YearOptions.push({ label: element, value: element });
 });
+
+export const Semesters = ["Fall", "Winter", "Spring", "Summer"];
+
+export const Grades = ["A", "B", "C", "D", "F"];
 
 export const SemesterOptions = [
   { label: "Fall", value: "Fall" },

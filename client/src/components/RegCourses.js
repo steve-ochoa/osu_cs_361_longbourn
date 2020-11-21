@@ -3,6 +3,7 @@ import { InputGroup, Button, Form } from "react-bootstrap";
 import { customFetch } from "./Helpers";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
+import { Semesters, Grades, Years } from "../data/Constants";
 
 export default function RegCourses(props) {
   const history = useHistory();
@@ -22,6 +23,21 @@ export default function RegCourses(props) {
     }
     fetchData();
   }, []);
+
+  const customStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+    control: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
 
   const options = [];
   courseList.forEach((element) => {
@@ -72,7 +88,6 @@ export default function RegCourses(props) {
         payload_builder.splice(index, 1);
       }
     });
-    // console.log("the payload so far is: ", JSON.stringify(payload_builder));
 
     /* combine semester and year into term */
     let payload = [];
@@ -86,7 +101,6 @@ export default function RegCourses(props) {
       to_add.grade = element.grade;
       payload.push(to_add);
     });
-    console.log(`the real payload is ${JSON.stringify(payload)}`);
 
     payload.forEach(async (element) => {
       let response = await customFetch(
@@ -94,7 +108,6 @@ export default function RegCourses(props) {
         "POST",
         element
       );
-      console.log(response);
     });
 
     history.push({
@@ -102,11 +115,6 @@ export default function RegCourses(props) {
       state: { expertId: props.history.location.state.expertId },
     });
   }
-
-  // function descFromId(id) {
-  //   const element = courseList.find((obj) => {obj.courseId === id})
-  //   return element.description
-  // }
 
   return (
     <>
@@ -119,6 +127,7 @@ export default function RegCourses(props) {
           <div key={`course-${idx}`}>
             <br />
             <Select
+              styles={customStyles}
               aria-label="Course Name"
               name={nameId}
               data-idx={idx}
@@ -142,10 +151,13 @@ export default function RegCourses(props) {
                 onChange={handleChange}
               >
                 <option value="">Semester</option>
-                <option>Fall</option>
-                <option>Winter</option>
-                <option>Spring</option>
-                <option>Summer</option>
+                {Semesters.map((semester) => {
+                  return (
+                    <option key={semester} value={semester}>
+                      {semester}
+                    </option>
+                  );
+                })}
               </Form.Control>
               <Form.Control
                 as="select"
@@ -157,28 +169,13 @@ export default function RegCourses(props) {
                 onChange={handleChange}
               >
                 <option value="">Years</option>
-                <option>2000</option>
-                <option>2001</option>
-                <option>2002</option>
-                <option>2003</option>
-                <option>2004</option>
-                <option>2005</option>
-                <option>2006</option>
-                <option>2007</option>
-                <option>2008</option>
-                <option>2009</option>
-                <option>2011</option>
-                <option>2012</option>
-                <option>2013</option>
-                <option>2014</option>
-                <option>2015</option>
-                <option>2016</option>
-                <option>2017</option>
-                <option>2018</option>
-                <option>2019</option>
-                <option>2020</option>
-                <option>2021</option>
-                <option>2022</option>
+                {Years.map((year) => {
+                  return (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  );
+                })}
               </Form.Control>
               <Form.Control
                 as="select"
@@ -190,11 +187,13 @@ export default function RegCourses(props) {
                 onChange={handleChange}
               >
                 <option value="">Grade</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
-                <option>F</option>
+                {Grades.map((grade) => {
+                  return (
+                    <option key={grade} value={grade}>
+                      {grade}
+                    </option>
+                  );
+                })}
               </Form.Control>
               <InputGroup.Append>
                 <Button
