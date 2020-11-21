@@ -1,5 +1,5 @@
-const companies = require("../models/company.model.js");
-const Company = companies.Company;
+const CompanyService = require("../services/company_service");
+const Company = require("../models/company.model").Company;
 
 //Create a new Company
 exports.create = (req, res) => {
@@ -10,58 +10,64 @@ exports.create = (req, res) => {
         });
     }
 
-    //Create a Company
-    const company = Company.fromReqBody(req.body);
+	// Instantiate a Company from incoming HTTP Request
+    let company = Company.fromReqBody(req.body);
 
-    //Save Company in the database
-    Company.create(company, (err, newCompany) => {
+    CompanyService.create(company, (err, data) => {
         if (err) {
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while creating the Company."
             });
-        } else res.send(newCompany);
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data);
+        }
     });
 };
 
-//Retrieve all Companies from the database
+        
+
+// Retrieve all Companies from the database.
 exports.findAll = (req, res) => {
-    Company.fetchAll((err, data) => {
-        if (err) {
+    CompanyService.findAll((err, data) => {
+        if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving Companies"
-            })
-        } else {
+                    err.message || "Some error occurred while retrieving companies."
+            });
+        else {
             res.setHeader('Content-Type', 'application/json');
             res.send(data)
         }
-    })
-}
+    });
+};
 
+// Update a Company identified by the companyId in the request
 exports.update = (req, res) => {
-    //Validate request
-    if (!req.body)
+    // Validate Request
+    if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
+    }
 
-    // Create a Company
-    const company = Company.fromReqBody(req.body);
+    let companyToUpdate = Company.fromReqBody(req.body);
 
-    // Update Company in the database
-    Company.updateById(company.companyId, company, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `No Company with company_id ${company.company}`
-                });
-            } else {
-                res.status(500).send({
-                    message: `Error updating Company with company_id ${company.companyId}`
-                });
-            };
-        } else res.send(data);
+    console.log(companyToUpdate);
 
-    });
+    CompanyService.update(req.params.companyId, companyToUpdate, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `No Company with company_id ${req.params.companyId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Company with company_id " + req.params.companyId
+                    });
+                }
+            } else res.send(data);
+        }
+    );
 };
