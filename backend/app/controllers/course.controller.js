@@ -1,8 +1,7 @@
-const courses = require('../models/course.model.js');
-const Course = courses.Course;
+const CourseService = require('../services/course_service');
+const Course = require('../models/course.model').Course;
 
-
-//Create a new Course
+// Create and Save a new Course
 exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -11,29 +10,29 @@ exports.create = (req, res) => {
         });
     }
 
-    // Create a Course
-    const course = Course.fromReqBody(req.body);
+    // Instantiate an Course from incoming HTTP Request
+    let course = Course.fromReqBody(req.body);
 
-    // Save Course in the database
-    Course.create(course, (err, newCourse) => {
-        if (err)
+    CourseService.create(course, (err, data) => {
+        if (err) {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Expert."
+                    err.message || "Some error occurred while creating the Course."
             });
-
-        else res.send(newCourse);
-        console.log('newCourse: ', newCourse)
+        } else {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(data);
+        }
     });
 };
 
-//Retrieve all Courses from the database.
+// Retrieve all Courses from the database.
 exports.findAll = (req, res) => {
-    Course.fetchAll((err, data) => {
+    CourseService.findAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving skills."
+                    err.message || "Some error occurred while retrieving courses."
             });
         else {
             res.setHeader('Content-Type', 'application/json');
@@ -42,32 +41,32 @@ exports.findAll = (req, res) => {
     });
 };
 
+
+// Update a Course identified by the courseId in the request
 exports.update = (req, res) => {
-    //Validate request
-    if(!req.body)
+    // Validate Request
+    if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"
         });
-    
-    // Create a course 
-    const course = Course.fromReqBody(req.body);
+    }
 
-    // Update Course in the database
-    Course.updateById(course.courseId, course, (err, data) => {
-        if(err){
-            if (err.kind  === "not_found"){
-                res.status(404).send({
-                    message: `No Course with course_id ${course.courseId}`
-                });
-            }
+    let courseToUpdate = Course.fromReqBody(req.body);
 
-            else{
-                res.status(500).send({
-                    message: `Error updating Course with course_id ${course.courseId}`
-                });
-            };
-        } else res.send(data);
-               
-    });
+    console.log(courseToUpdate);
+
+    CourseService.update(req.params.courseId, courseToUpdate, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `No Course with course_id ${req.params.courseId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Course with course_id " + req.params.courseId
+                    });
+                }
+            } else res.send(data);
+        }
+    );
 };
-

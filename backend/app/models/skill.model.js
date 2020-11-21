@@ -1,5 +1,3 @@
-const sql = require('../daos/db');
-
 class Skill {
     constructor(skillId, name, description) {
         this.skillId = skillId;
@@ -39,39 +37,6 @@ class SkillDbDto {
     }
 }
 
-Skill.create = (newSkill, result) => {
-    let skillDbDto = new SkillDbDto(newSkill);
-    console.log("Creating skill:");
-    console.log(skillDbDto);
-
-    sql.query("INSERT INTO skills SET ?", skillDbDto, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        var newSkillResult = Skill.fromNewSkillDbDto(res.insertId, skillDbDto);
-
-        console.log("Created skill: ", newSkillResult);
-        result(null, newSkillResult);
-    });
-};
-
-Skill.fetchAll = result => {
-    sql.query("SELECT * FROM skills", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        var skillsArray = [];
-        res.forEach(skillDbDto => skillsArray.push(Skill.fromSkillDbDto(skillDbDto)));
-        console.log("skills: ", skillsArray);
-        result(null, skillsArray);
-    });
-};
 
 module.exports = {
     Skill, SkillDbDto
