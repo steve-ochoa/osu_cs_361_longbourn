@@ -4,8 +4,7 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { customFetch } from "./Helpers";
 import { useHistory } from "react-router-dom";
 
-/* TODO: input field validations, pagify registration form */
-/* form allowing for the registration of new experts */
+/* first page of the registration form, gets basic expert and contact data */
 export default function RegBasics() {
   let history = useHistory();
   const [staticState, setStaticState] = useState({
@@ -57,7 +56,6 @@ export default function RegBasics() {
       expertId: 0,
       active: true,
     };
-    console.log("the payload is: ", JSON.stringify(payload));
     let response = await customFetch(
       process.env.REACT_APP_BASE_URL + "experts",
       "POST",
@@ -69,6 +67,8 @@ export default function RegBasics() {
     });
   }
 
+  /* updates state on change of any of the input fields except 
+   * country / region */
   function handleChangeStatic(event) {
     const value = event.target.value;
     setStaticState({

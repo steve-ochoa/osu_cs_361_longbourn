@@ -4,6 +4,7 @@ import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, FormControl, Button } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 
+/* page 4 of registration form, allows input of expert company information */
 export default function RegCompanies(props) {
   const history = useHistory();
   const location = useLocation();
@@ -13,7 +14,6 @@ export default function RegCompanies(props) {
   } else {
     expertId = props.history.location.state.expertId;
   }
-  //   const expertId = props.history.location.state.expertId;
   const [companiesList, setCompaniesList] = useState([]);
   const [nameSuggestions, setNameSuggestions] = useState([]);
   const [descSuggestions, setDescSuggestions] = useState([]);
@@ -29,8 +29,8 @@ export default function RegCompanies(props) {
     },
   ]);
 
-  console.log(`expert id is: ${expertId}`);
   useEffect(() => {
+    /* gets list of all companies tracked by the db on page load */
     async function fetchData() {
       const companiesList = await customFetch(
         process.env.REACT_APP_BASE_URL + "companies"
@@ -41,6 +41,7 @@ export default function RegCompanies(props) {
     fetchData();
   }, []);
 
+  /* adds a new empty company to the fields state */
   function addCompany() {
     setFields([
       ...fields,
@@ -55,6 +56,7 @@ export default function RegCompanies(props) {
     ]);
   }
 
+  /* handler functions */
   function handleChange(idx, event, newValue, className) {
     const updatedFields = [...fields];
     updatedFields[idx][className] = newValue;
@@ -82,10 +84,7 @@ export default function RegCompanies(props) {
         updatedFields.splice(index, 1);
       }
     });
-    console.log("the list of fields is: ", JSON.stringify(updatedFields));
     let payload = [];
-    /* payload format:  { expertId, companyId, current, employedYears, position } */
-
     let processed_items = 0;
     updatedFields.forEach(async (element) => {
       let result = await companiesList.find(
@@ -128,15 +127,12 @@ export default function RegCompanies(props) {
         createRelationships(payload);
       }
     });
-    console.log("step 1 complete, payload is: ", payload);
-    console.log("length of the payload is: ", payload.length);
     if (payload.length === 0) {
       redirectCallback();
     }
-
-    /* step 2: create the expertCompanies relationships */
   }
 
+  /* creates the expertCompanies relationships */
   async function createRelationships(payload) {
     let processed_items = 0;
     payload.forEach(async (element) => {
@@ -145,7 +141,6 @@ export default function RegCompanies(props) {
         "POST",
         element
       );
-      console.log(response);
       processed_items++;
       if (processed_items === payload.length) {
         redirectCallback();
@@ -153,6 +148,7 @@ export default function RegCompanies(props) {
     });
   }
 
+  /* reloads profile or redirects to user profile page depending on source */
   function redirectCallback() {
     if (location.pathname.split("/")[1] === "profile") {
       history.go(0);
@@ -163,6 +159,7 @@ export default function RegCompanies(props) {
     }
   }
 
+  /* autocomplete handlers */
   function escapeRegexCharacters(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
@@ -220,7 +217,6 @@ export default function RegCompanies(props) {
 
   function onDescSuggestionSelected(event, suggestion, idx) {
     const updatedFields = [...fields];
-    // updatedFields[idx]["name"] = suggestion.name;
     setFields(updatedFields);
   }
 
@@ -234,7 +230,6 @@ export default function RegCompanies(props) {
 
   function onIndustrySuggestionSelected(event, suggestion, idx) {
     const updatedFields = [...fields];
-    // updatedFields[idx]["name"] = suggestion.name;
     setFields(updatedFields);
   }
 

@@ -28,6 +28,8 @@ export const Semesters = ["Fall", "Winter", "Spring", "Summer"];
 
 export const Grades = ["A", "B", "C", "D", "F"];
 
+export const ExperienceYears = ["1", "2", "3", "4", "5", "6+"];
+
 export const SemesterOptions = [
   { label: "Fall", value: "Fall" },
   { label: "Winter", value: "Winter" },

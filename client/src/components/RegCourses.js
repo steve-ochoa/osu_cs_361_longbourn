@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import { Semesters, Grades, Years } from "../data/Constants";
 
+/* 3rd page of registration form, allows entry of expert OSU coursework */
 export default function RegCourses(props) {
   const history = useHistory();
   const [courseList, setCourseList] = useState([]);
@@ -12,18 +13,18 @@ export default function RegCourses(props) {
     { name: "", description: "", semester: "", year: "", grade: "" },
   ]);
 
-  /* first, retrieve a list of all the available courses */
   useEffect(() => {
+    /* retrieves all courses tracked by the db on page load */
     async function fetchData() {
       const courses = await customFetch(
         process.env.REACT_APP_BASE_URL + "courses"
       );
-      // console.log(`course data is: ${courses}`);
       setCourseList(courses);
     }
     fetchData();
   }, []);
 
+  /* black styles for react-select dropdowns */
   const customStyles = {
     option: (provided) => ({
       ...provided,
@@ -49,6 +50,7 @@ export default function RegCourses(props) {
     options.push(to_add);
   });
 
+  /* creates new empty course object and adds it to state */
   function addCourse() {
     setFields([
       ...fields,
@@ -56,6 +58,7 @@ export default function RegCourses(props) {
     ]);
   }
 
+  /* change handlers */
   function handleChange(event) {
     const updatedFields = [...fields];
     updatedFields[event.target.dataset.idx][
@@ -80,7 +83,6 @@ export default function RegCourses(props) {
     setFields(updatedFields);
   }
 
-  /* payload requires: expertId, courseId, name, desc, term, grade */
   async function handleSubmit() {
     let payload_builder = fields;
     payload_builder.forEach((element, index) => {
@@ -88,8 +90,6 @@ export default function RegCourses(props) {
         payload_builder.splice(index, 1);
       }
     });
-
-    /* combine semester and year into term */
     let payload = [];
     payload_builder.forEach((element) => {
       let to_add = {};
@@ -97,11 +97,11 @@ export default function RegCourses(props) {
       to_add.courseId = element.id;
       to_add.name = element.name.split(" - ")[1];
       to_add.description = element.description;
+      /* combine semester and year into term */
       to_add.term = `${element.semester} ${element.year}`;
       to_add.grade = element.grade;
       payload.push(to_add);
     });
-
     payload.forEach(async (element) => {
       let response = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertCourses",
@@ -109,7 +109,6 @@ export default function RegCourses(props) {
         element
       );
     });
-
     history.push({
       pathname: "/register4",
       state: { expertId: props.history.location.state.expertId },
@@ -133,7 +132,6 @@ export default function RegCourses(props) {
               data-idx={idx}
               id={nameId}
               className="name"
-              // value={fields[idx].name}
               onChange={(event) => handleSelectChange(event, idx)}
               options={options}
             />

@@ -3,7 +3,9 @@ import { customFetch } from "./Helpers";
 import Autosuggest from "react-autosuggest";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { ExperienceYears } from "../data/Constants";
 
+/* 2nd page of registration form, allows entry of expert skills */
 export default function RegSkills(props) {
   let history = useHistory();
   const [skillsList, setSkillsList] = useState([]);
@@ -14,20 +16,22 @@ export default function RegSkills(props) {
   ]);
 
   useEffect(() => {
+    /* retrieves all skills tracked by db on page load */
     async function fetchData() {
       const skillsList = await customFetch(
         process.env.REACT_APP_BASE_URL + "skills"
       );
-      console.log(`skills data is: ${skillsList}`);
       setSkillsList(skillsList);
     }
     fetchData();
   }, []);
 
+  /* creates new, empty skill object and adds to state */
   function addSkill() {
     setFields([...fields, { name: "", description: "", years: "" }]);
   }
 
+  /* change handlers */
   function handleChange(idx, event, newValue, className) {
     const updatedFields = [...fields];
     updatedFields[idx][className] = newValue;
@@ -47,12 +51,9 @@ export default function RegSkills(props) {
         updatedFields.splice(index, 1);
       }
     });
-    console.log("the list of fields is: ", JSON.stringify(updatedFields));
     let payload = [];
-    /* payload format:  [ {expertId: 1,  skillId: 1, experienceYears: 2 }, ..]
     /* step 1: skill verification / skill creation: */
     for (const element of updatedFields) {
-      /* is it in the skillsList? */
       let result = skillsList.find((object) => object.name === element.name);
       if (result) {
         /* if found, append object to the payload */
@@ -77,9 +78,7 @@ export default function RegSkills(props) {
         };
         payload.push(payload_obj);
       }
-    };
-    console.log("step 1 complete, payload is: ", payload);
-
+    }
     /* step 2: create the expertSkills relationships */
     for (const element of payload) {
       await customFetch(
@@ -87,13 +86,14 @@ export default function RegSkills(props) {
         "POST",
         element
       );
-    };
+    }
     history.push({
       pathname: "/register3",
       state: { expertId: props.history.location.state.expertId },
     });
   }
 
+  /* autocomplete handlers */
   function escapeRegexCharacters(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
@@ -219,13 +219,14 @@ export default function RegSkills(props) {
                   handleChange(idx, e, e.target.value, "years");
                 }}
               >
-                <option>Years of Experience</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6+</option>
+                <option value="">Years of Experience</option>
+                {ExperienceYears.map((year) => {
+                  return (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  );
+                })}
               </Form.Control>
               <InputGroup.Append>
                 <Button
