@@ -4,6 +4,8 @@ const cd = require('../models/contact_details.model');
 const ContactDetails = cd.ContactDetails;
 const ContactDetailsDb = cd.ContactDetailsDb;
 
+const ContactDetailsDao = require('../daos/contact_details_dao');
+
 const expertModels = require('../models/expert.model');
 const Expert = expertModels.Expert;
 const ExpertDb = expertModels.ExpertDb;
@@ -73,7 +75,7 @@ exports.fetchById = (expertId, result) => {
             var expert = Expert.fromExpertDb(res[0]);
             console.log("Found expert: ", expert);
 
-            ContactDetails.fetchByExpertId(expert.expertId, (err2, contactDetails) => {
+            ContactDetailsDao.fetchByExpertId(expert.expertId, (err2, contactDetails) => {
                 if (err2) {
                     console.log("error: ", err);
                     result(err, null);
