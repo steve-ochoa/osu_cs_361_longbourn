@@ -265,9 +265,9 @@ export default function Profile(props) {
           <br />
         </Tab>
       </Tabs>
-      { newSkill && <AddSkill {...newSkillProps} />}
-      { newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
-      { newCompany && <RegCompanies {...{ expertId: expertId }} />}
+      { !!newSkill && <AddSkill {...newSkillProps} />}
+      { !!newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
+      { !!newCompany && <RegCompanies {...{ expertId: expertId }} />}
     </>
   );
 }
