@@ -23,6 +23,22 @@ export default function AddCourse({ courseList, expertId }) {
     }),
   };
 
+  /* black styles for react-select dropdowns */
+  const customStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+    control: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
+
   const options = [];
   courseList.forEach((element) => {
     let to_add = {};
@@ -73,6 +89,7 @@ export default function AddCourse({ courseList, expertId }) {
         className="name"
         name="name"
         onChange={handleChange}
+        styles={customStyles}
       />
       <Container style={{ width: "100%", display: "flex", flexFlow: "row" }}>
         <Select
