@@ -7,15 +7,12 @@ import {
   Container,
   Row,
   Col,
-  OverlayTrigger,
   Button,
-  Popover,
   Tabs,
   Tab,
 } from "react-bootstrap";
 import Table from "../components/Table";
 import { skillCols, courseCols, companyCols } from "../data/TableCols";
-import { sampleCourseData, sampleCompanyData } from "../data/SampleTableData";
 import AddSkill from "../components/AddSkill";
 import AddCourse from "../components/AddCourse";
 import RegCompanies from "../components/RegCompanies";
@@ -50,13 +47,15 @@ export default function Profile(props) {
   const [newCompany, setNewCompany] = useState([]);
 
   useEffect(() => {
-    /* todo: breakout this fetchData function into general getAllExpertData */
+    /* gets all data associated with given expert on profile page load */
     async function fetchData() {
+      /* get expert and contact data */
       const expertData = await customFetch(
         process.env.REACT_APP_BASE_URL + "experts/" + expertId.toString()
       );
       setExpertData(expertData);
       setContactData(expertData.contactDetails);
+      /* get expert skills data */
       const expertSkills = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertSkills/" + expertId.toString()
       );
@@ -76,6 +75,7 @@ export default function Profile(props) {
         process.env.REACT_APP_BASE_URL + "courses"
       );
       setCourseList(courses);
+      /* get expert course data */
       const expertCourses = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertCourses/" + expertId.toString()
       );
@@ -93,17 +93,11 @@ export default function Profile(props) {
         setCourseData(expertCourses);
       }
       setNewCourse(0);
-
-      /* company data */
-      /* get all company data */
-      const companies = await customFetch(
-        process.env.REACT_APP_BASE_URL + "companies"
-      );
       /* get expert company data */
       const expertCompanies = await customFetch(
         process.env.REACT_APP_BASE_URL +
-        "expertCompanies/" +
-        expertId.toString()
+          "expertCompanies/" +
+          expertId.toString()
       );
       if (Array.isArray(expertCompanies)) {
         expertCompanies.forEach((element, index) => {
@@ -117,12 +111,6 @@ export default function Profile(props) {
     }
     fetchData();
   }, []);
-
-  /* todo: just add these inline */
-  const newSkillProps = {
-    expertId: expertId,
-    expertSkills: skillsData,
-  };
 
   return (
     <>
@@ -152,7 +140,13 @@ export default function Profile(props) {
       <Container style={{ color: "#070d59" }}>
         <Row>
           <Col>
-            <Card style={{ marginLeft: "auto", marginRight: "auto", width: "18rem" }}>
+            <Card
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "18rem",
+              }}
+            >
               <Card.Header>Contact Details</Card.Header>
               <ListGroup variant="flush">
                 {contactData.workEmail !== "" && (
@@ -175,7 +169,13 @@ export default function Profile(props) {
             </Card>
           </Col>
           <Col>
-            <Card style={{ marginLeft: "auto", marginRight: "auto", width: "18rem" }}>
+            <Card
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "18rem",
+              }}
+            >
               <Card.Header>Social Media</Card.Header>
               <ListGroup variant="flush">
                 {contactData.gitHubUser !== "" && (
@@ -183,20 +183,6 @@ export default function Profile(props) {
                     action
                     href={"https://github.com/" + contactData.gitHubUser}
                   >
-                    {/* <OverlayTrigger
-                      placement="right"
-                      delay={{ show: 250, hide: 400 }}
-                      overlay={
-                        <Popover>
-                          <Popover.Title as="h3">{`GitHub Projects`}</Popover.Title>
-                          <Popover.Content>
-                            <strong>TODO:</strong> add github projects here
-                          </Popover.Content>
-                        </Popover>
-                      }
-                    >
-                      <Button variant="link">{contactData.gitHubUser}</Button>
-                    </OverlayTrigger> */}
                     <GitHubPopUp userName={contactData.gitHubUser} />
                   </ListGroup.Item>
                 )}
@@ -265,9 +251,9 @@ export default function Profile(props) {
           <br />
         </Tab>
       </Tabs>
-      { !!newSkill && <AddSkill {...newSkillProps} />}
-      { !!newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
-      { !!newCompany && <RegCompanies {...{ expertId: expertId }} />}
+      {!!newSkill && <AddSkill expertId={expertId} expertSkills={skillsData} />}
+      {!!newCourse && <AddCourse courseList={courseList} expertId={expertId} />}
+      {!!newCompany && <RegCompanies {...{ expertId: expertId }} />}
     </>
   );
 }
