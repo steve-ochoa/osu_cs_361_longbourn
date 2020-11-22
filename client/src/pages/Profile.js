@@ -112,6 +112,12 @@ export default function Profile(props) {
     fetchData();
   }, []);
 
+  function handleTabChange() {
+    setNewSkill(0);
+    setNewCourse(0);
+    setNewCompany(0);
+  }
+
   return (
     <>
       <h1>{expertData.firstName + " " + expertData.lastName}</h1>
@@ -198,7 +204,12 @@ export default function Profile(props) {
       </Container>
       <br />
       <br />
-      <Tabs defaultActiveKey="skills" id="uncontrolled-tab-example" fill>
+      <Tabs
+        defaultActiveKey="skills"
+        id="uncontrolled-tab-example"
+        fill
+        onSelect={handleTabChange}
+      >
         <Tab eventKey="skills" title="Skills">
           <Table
             tableCols={skillCols}
