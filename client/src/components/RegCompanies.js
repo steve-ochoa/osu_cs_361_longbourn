@@ -86,7 +86,7 @@ export default function RegCompanies(props) {
     });
     let payload = [];
     let processed_items = 0;
-    updatedFields.forEach(async (element) => {
+    for (const element of updatedFields) {
       let result = await companiesList.find(
         (object) => object.name === element.name
       );
@@ -122,34 +122,16 @@ export default function RegCompanies(props) {
         };
         payload.push(payload_obj);
       }
-      processed_items++;
-      if (processed_items === updatedFields.length) {
-        createRelationships(payload);
-      }
-    });
-    if (payload.length === 0) {
-      redirectCallback();
     }
-  }
-
-  /* creates the expertCompanies relationships */
-  async function createRelationships(payload) {
-    let processed_items = 0;
-    payload.forEach(async (element) => {
+    /* create relationships */
+    for (const element of payload) {
       let response = await customFetch(
         process.env.REACT_APP_BASE_URL + "expertCompanies",
         "POST",
         element
       );
-      processed_items++;
-      if (processed_items === payload.length) {
-        redirectCallback();
-      }
-    });
-  }
-
-  /* reloads profile or redirects to user profile page depending on source */
-  function redirectCallback() {
+    }
+    /* redirect */
     if (location.pathname.split("/")[1] === "profile") {
       history.go(0);
     } else {
