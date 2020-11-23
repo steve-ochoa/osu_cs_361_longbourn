@@ -21,10 +21,6 @@ export default function AddCourse({ courseList, expertId }) {
       ...base,
       flex: 1,
     }),
-  };
-
-  /* black styles for react-select dropdowns */
-  const customStyles = {
     option: (provided) => ({
       ...provided,
       color: "black",
@@ -89,7 +85,7 @@ export default function AddCourse({ courseList, expertId }) {
         className="name"
         name="name"
         onChange={handleChange}
-        styles={customStyles}
+        styles={styles}
       />
       <Container style={{ width: "100%", display: "flex", flexFlow: "row" }}>
         <Select
