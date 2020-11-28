@@ -117,6 +117,7 @@ export default function RegCourses(props) {
 
   return (
     <>
+      <head><title>Register Course</title></head>
       {fields.map((val, idx) => {
         const nameId = `name-${idx}`;
         const semesterId = `term-${idx}`;

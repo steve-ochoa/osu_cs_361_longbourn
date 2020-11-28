@@ -107,6 +107,7 @@ function ExpertResultsPage() {
       fluid="md"
       style={{ textAlign: "center", marginTop: "20%" }}
     >
+      <head><title>Results</title></head>
       {rows}
     </Container>
   );

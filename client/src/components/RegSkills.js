@@ -152,6 +152,7 @@ export default function RegSkills(props) {
 
   return (
     <>
+      <head><title>Register Skills</title></head>
       {fields.map((val, idx) => {
         const nameId = `name-${idx}`;
         const descId = `description-${idx}`;

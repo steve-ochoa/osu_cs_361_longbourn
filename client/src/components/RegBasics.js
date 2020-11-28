@@ -80,6 +80,7 @@ export default function RegBasics() {
   return (
     <div style={{ textAlign: "left" }}>
       <Form>
+      <head><title>Register Expert</title></head>
         <h3>The Basics</h3>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridFirstName">
