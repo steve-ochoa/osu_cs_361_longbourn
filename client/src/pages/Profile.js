@@ -120,6 +120,7 @@ export default function Profile(props) {
 
   return (
     <>
+      <head><title>Expert Profile</title></head>
       <h1>{expertData.firstName + " " + expertData.lastName}</h1>
       <Figure>
         <Figure.Image
