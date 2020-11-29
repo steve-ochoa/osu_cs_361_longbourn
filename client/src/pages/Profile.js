@@ -194,7 +194,11 @@ export default function Profile(props) {
                   </ListGroup.Item>
                 )}
                 {contactData.linkedInUrl !== "" && (
-                  <ListGroup.Item action href={contactData.linkedInUrl}>
+                  <ListGroup.Item action href={
+                    (contactData.linkedInUrl.startsWith("http")) ?
+                    contactData.linkedInUrl :
+                    "https://" + contactData.linkedInUrl
+                  }>
                     <Button variant="link">LinkedIn</Button>
                   </ListGroup.Item>
                 )}
