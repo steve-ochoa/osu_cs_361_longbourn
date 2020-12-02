@@ -1,12 +1,12 @@
 // Config env vars from .ENV file
-dotenv = require('dotenv');
-const result = dotenv.config({silent: true})
- 
-if (result.error) {
-  throw result.error
+if (process.env.NODE_ENV !== 'production') {
+  dotenv = require('dotenv');
+  const result = dotenv.config({silent: true})
+  if (result.error) {
+    throw result.error
 }
- 
 console.log(result.parsed)
+}
 
 // Setup Express
 const express = require('express');
