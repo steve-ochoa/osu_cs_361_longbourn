@@ -1,6 +1,6 @@
 // Config env vars from .ENV file
 dotenv = require('dotenv');
-const result = dotenv.config()
+const result = dotenv.config({silent: true})
  
 if (result.error) {
   throw result.error
