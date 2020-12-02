@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Expert Finder",
+  "name": "OSU - CS361: Expert Finder - Longbourn Foxes",
   "icons": [
     {
       "src": "favicon.ico",
