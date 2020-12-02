@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/ExpertCard";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Nav } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { customFetch } from "../components/Helpers";
 
@@ -22,38 +22,27 @@ function ExpertResultsPage() {
         case "skills":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "findExperts/skillName/" +
-            searchInput.input
+              "findExperts/skillName/" +
+              searchInput.input
           );
           break;
         case "courses":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "findExperts/courseNumber/" +
-            searchInput.input
+              "findExperts/courseNumber/" +
+              searchInput.input
           );
           break;
         case "companies":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "findExperts/companyName/" +
-            searchInput.input
+              "findExperts/companyName/" +
+              searchInput.input
           );
           break;
         default:
           alert("error searching!!!");
           break;
-      }
-      /* temporary fix for returned photo_url field (should be photoUrl) */
-      /* TODO: remove me after merge */
-      if (Array.isArray(expertsData)) {
-        expertsData.forEach((expert, index) => {
-          if ("photo_url" in expert) {
-            expert.photoUrl = expert.photo_url;
-            delete expert.photo_url;
-            expertsData[index] = expert;
-          }
-        });
       }
       setExpertsData(expertsData);
     }
@@ -101,15 +90,29 @@ function ExpertResultsPage() {
     );
   });
 
+  console.log("length of rows array is: ", rows.length);
+
   return (
-    <Container
-      className="center"
-      fluid="md"
-      style={{ textAlign: "center", marginTop: "20%" }}
-    >
-      <head><title>Results</title></head>
-      {rows}
-    </Container>
+    <>
+      {rows.length === 0 && (
+        <>
+          <h2>{`No experts found for search term: ${searchInput.input}`}</h2>
+          <h2>
+            Perhaps consider <a href="/search">searching again!</a>
+          </h2>
+        </>
+      )}
+      <Container
+        className="center"
+        fluid="md"
+        style={{ textAlign: "center", marginTop: "20%" }}
+      >
+        <head>
+          <title>Results</title>
+        </head>
+        {rows}
+      </Container>
+    </>
   );
 }
 
