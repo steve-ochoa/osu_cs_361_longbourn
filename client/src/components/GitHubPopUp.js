@@ -31,7 +31,7 @@ export default function GitHubPopUp({ userName }) {
           </Popover>
         }
       >
-        <Button variant="link">{userName}</Button>
+        <Button variant="link">{`Github: ${userName}`}</Button>
       </OverlayTrigger>
     </>
   );
