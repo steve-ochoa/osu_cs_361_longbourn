@@ -13,16 +13,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-
 const app = express();
-
-/* serve the built react app */
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,6 +38,13 @@ require('./app/routes/expert_company.routes')(app);
 
 // Search Query Routes
 require('./app/routes/expert_query.routes')(app);
+
+/* serve the built react app */
+app.use(express.static(path.join(__dirname, '/../client/build')));
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '/../client/build', 'index.html'));
+});
 
 // Start server
 const PORT = process.env.PORT || 6997;
