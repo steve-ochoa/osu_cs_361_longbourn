@@ -18,7 +18,9 @@ export default function AddSkill(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const skillsList = await customFetch(process.env.REACT_APP_BASE_URL + "skills");
+      const skillsList = await customFetch(
+        process.env.REACT_APP_BASE_URL + "skills"
+      );
       console.log(`skills data is: ${skillsList}`);
       setSkillsList(skillsList);
     }
@@ -32,6 +34,15 @@ export default function AddSkill(props) {
   }
 
   async function handleSubmit() {
+    /* reject if inputState contains any blanks */
+    if (
+      inputState.name === "" ||
+      inputState.description === "" ||
+      inputState.experienceYears === ""
+    ) {
+      alert("All fields are required!");
+      return;
+    }
     /* check if inputState contains a skill the expert already has */
     let result = props.expertSkills.find(
       (object) => object.name === inputState.name
@@ -48,19 +59,31 @@ export default function AddSkill(props) {
         skillId: result.skillId,
         experienceYears: inputState.experienceYears,
       };
-      await customFetch(process.env.REACT_APP_BASE_URL + "expertSkills", "POST", payload);
+      await customFetch(
+        process.env.REACT_APP_BASE_URL + "expertSkills",
+        "POST",
+        payload
+      );
     } else {
       let req_body = {
         name: inputState.name,
         description: inputState.description,
       };
-      let response = await customFetch(process.env.REACT_APP_BASE_URL + "skills", "POST", req_body);
+      let response = await customFetch(
+        process.env.REACT_APP_BASE_URL + "skills",
+        "POST",
+        req_body
+      );
       let payload = {
         expertId: props.expertId,
         skillId: response.skillId,
         experienceYears: inputState.experienceYears,
       };
-      await customFetch(process.env.REACT_APP_BASE_URL + "expertSkills", "POST", payload);
+      await customFetch(
+        process.env.REACT_APP_BASE_URL + "expertSkills",
+        "POST",
+        payload
+      );
     }
     history.go(0);
   }
