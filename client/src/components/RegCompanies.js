@@ -261,6 +261,7 @@ export default function RegCompanies(props) {
         const positionId = `position-${idx}`;
         const yearsId = `years-${idx}`;
         const nameInputProps = {
+          style: { width: "1000px" },
           placeholder: "Company Name",
           "aria-label": "Company Name",
           name: nameId,
@@ -274,6 +275,7 @@ export default function RegCompanies(props) {
         };
 
         const descInputProps = {
+          style: { width: "1000px" },
           placeholder: "Company Description",
           "aria-label": "Company Description",
           name: descId,
@@ -287,6 +289,7 @@ export default function RegCompanies(props) {
         };
 
         const industryInputProps = {
+          style: { width: "1000px" },
           placeholder: "Industry",
           "aria-label": "Industry",
           name: industryId,
@@ -299,8 +302,17 @@ export default function RegCompanies(props) {
           },
         };
         return (
-          <div key={`skill-${idx}`}>
-            <InputGroup>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "nowrap",
+              flexDirection: "column",
+            }}
+            key={`skill-${idx}`}
+          >
+            <InputGroup
+              style={{ width: "100%", textAlign: "center", display: "flex" }}
+            >
               <Autosuggest
                 suggestions={nameSuggestions}
                 onSuggestionsFetchRequested={onNameSuggestionsFetchRequested}
@@ -341,6 +353,7 @@ export default function RegCompanies(props) {
             </InputGroup>
             <InputGroup>
               <Form.Control
+                column="sm"
                 as="select"
                 name={currentId}
                 data-idx={idx}
