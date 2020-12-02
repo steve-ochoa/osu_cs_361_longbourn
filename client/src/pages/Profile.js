@@ -193,6 +193,8 @@ export default function Profile(props) {
                     href={"https://github.com/" + contactData.gitHubUser}
                   >
                     <GitHubPopUp userName={contactData.gitHubUser} />
+                    <br/>
+                    <em>{`Hover for ${contactData.gitHubUser}'s projects!`}</em>
                   </ListGroup.Item>
                 )}
                 {contactData.linkedInUrl !== "" && (
