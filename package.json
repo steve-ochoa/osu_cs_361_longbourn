@@ -2,7 +2,7 @@
   "name": "expert-finder",
   "version": "0.1.0",
   "scripts": {
-    "postinstall": "npm install --prefix experts-finder-api && npm install --prefix client",
+    "postinstall": "npm install --prefix ./backend && npm install --prefix ./client",
     "heroku-postbuild": "cd client && npm install && npm run build"
   }
 }
