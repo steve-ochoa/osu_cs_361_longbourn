@@ -40,10 +40,10 @@ require('./app/routes/expert_company.routes')(app);
 require('./app/routes/expert_query.routes')(app);
 
 /* serve the built react app */
-app.use(express.static(path.join(__dirname, '/../client/build')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'build' )));
 
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '/../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'client', 'buiild', 'index.html'));
 });
 
 // Start server
