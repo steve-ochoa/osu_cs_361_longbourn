@@ -21,7 +21,7 @@ export default function GitHubPopUp({ userName }) {
         placement="right"
         delay={{ show: 250, hide: 2500 }}
         overlay={
-          <Popover>
+          <Popover style={{maxHeight: "500px", overflowY: "scroll"}}>
             <Popover.Title as="h3">{`GitHub Projects`}</Popover.Title>
             <Popover.Content>
               {projectData.length > 0 && (
