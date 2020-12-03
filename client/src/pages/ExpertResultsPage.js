@@ -18,6 +18,7 @@ function ExpertResultsPage() {
     expertCompanies: null,
   });
   const [courseData, setCourseData] = useState(null);
+  const [searching, setSearching] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -82,10 +83,11 @@ function ExpertResultsPage() {
           }
           break;
         default:
-          alert("error searching!!!");
+          alert("error with search term");
           break;
       }
       setExpertsData(expertsData);
+      setSearching(false);
     }
     fetchData();
   }, []);
@@ -108,9 +110,12 @@ function ExpertResultsPage() {
   let cards = [];
   for (let i = 0; i < expertsData.length; i++) {
     cards.push(
-      <Col md="auto" style={{ display: "flex", flexWrap: "wrap", padding: "20px" }}>
+      <Col
+        md="auto"
+        style={{ display: "flex", flexWrap: "wrap", padding: "20px" }}
+      >
         <Card
-        style={{margin: "20px"}}
+          style={{ margin: "20px" }}
           key={expertsData[i].expertId}
           expertId={expertsData[i].expertId}
           firstName={expertsData[i].firstName}
@@ -136,26 +141,35 @@ function ExpertResultsPage() {
   /* build results rows from the chunked cards array */
   let rows = [];
   chunkedCards.forEach((chunk) => {
-    rows.push(
-      <Row
-        className="justify-content-md-center"
-      >
-        {chunk}
-      </Row>
-    );
+    rows.push(<Row className="justify-content-md-center">{chunk}</Row>);
   });
 
   return (
-    <Container
-      className="center"
-      fluid="md"
-      style={{ textAlign: "center", marginTop: "20%" }}
-    >
-      <head>
-        <title>Results</title>
-      </head>
-      {rows}
-    </Container>
+    <>
+      {searching && (
+        <>
+          <h2>Searching...</h2>
+        </>
+      )}
+      {rows.length === 0 && !searching && (
+        <>
+          <h2>{`No experts found for search term: ${searchInput.input}`}</h2>
+          <h2>
+            Perhaps consider <a href="/search">searching again!</a>
+          </h2>
+        </>
+      )}
+      <Container
+        className="center"
+        fluid="md"
+        style={{ textAlign: "center", marginTop: "20%" }}
+      >
+        <head>
+          <title>Results</title>
+        </head>
+        {rows}
+      </Container>
+    </>
   );
 }
 
