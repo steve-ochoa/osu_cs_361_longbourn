@@ -61,6 +61,19 @@ export default function AddCourse({ courseList, expertId }) {
   }
 
   async function handleSubmit() {
+    /* reject if any blank fields */
+    if (
+      courseState.courseId === "" ||
+      courseState.name === "" ||
+      courseState.description === "" ||
+      courseState.semester === "" ||
+      courseState.year === "" ||
+      courseState.grade === ""
+    ) {
+      alert("All fields are required!");
+      return;
+    }
+
     let payload = {};
     payload.expertId = expertId;
     payload.courseId = courseState.courseId;

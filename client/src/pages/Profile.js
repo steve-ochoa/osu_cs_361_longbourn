@@ -120,7 +120,9 @@ export default function Profile(props) {
 
   return (
     <>
-      <head><title>Expert Profile</title></head>
+      <head>
+        <title>Expert Profile</title>
+      </head>
       <h1>{expertData.firstName + " " + expertData.lastName}</h1>
       <Figure>
         <Figure.Image
@@ -191,15 +193,26 @@ export default function Profile(props) {
                     href={"https://github.com/" + contactData.gitHubUser}
                   >
                     <GitHubPopUp userName={contactData.gitHubUser} />
+                    <br/>
+                    <em>{`Hover for ${contactData.gitHubUser}'s projects!`}</em>
                   </ListGroup.Item>
                 )}
                 {contactData.linkedInUrl !== "" && (
-                  <ListGroup.Item action href={
-                    (contactData.linkedInUrl.startsWith("http")) ?
-                    contactData.linkedInUrl :
-                    "https://" + contactData.linkedInUrl
-                  }>
-                    <Button variant="link">LinkedIn</Button>
+                  <ListGroup.Item
+                    action
+                    href={
+                      contactData.linkedInUrl.startsWith("http")
+                        ? contactData.linkedInUrl
+                        : "https://" + contactData.linkedInUrl
+                    }
+                  >
+                    <Button variant="link">
+                      {"LinkedIn: " +
+                        contactData.linkedInUrl.substring(
+                          contactData.linkedInUrl.lastIndexOf("/") + 1,
+                          contactData.linkedInUrl.length
+                        )}
+                    </Button>
                   </ListGroup.Item>
                 )}
               </ListGroup>

@@ -13,7 +13,12 @@ function ExpertResultsPage() {
     lastName: "",
     description: "",
     photoUrl: null,
+    expertSkills: null,
+    expertCourses: null,
+    expertCompanies: null,
   });
+  const [courseData, setCourseData] = useState(null);
+  const [searching, setSearching] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -22,40 +27,67 @@ function ExpertResultsPage() {
         case "skills":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "findExperts/skillName/" +
-            searchInput.input
+              "findExperts/skillName/" +
+              searchInput.input
           );
+          /* get skill info for all the results */
+          if (Array.isArray(expertsData) && expertsData.length > 0) {
+            for (const expert of expertsData) {
+              let fetchResult = await customFetch(
+                process.env.REACT_APP_BASE_URL +
+                  "expertSkills/" +
+                  expert.expertId
+              );
+              expert.expertSkills = fetchResult;
+            }
+          }
           break;
         case "courses":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "findExperts/courseNumber/" +
-            searchInput.input
+              "findExperts/courseNumber/" +
+              searchInput.input
           );
+          let courses = await customFetch(
+            process.env.REACT_APP_BASE_URL + "courses"
+          );
+          setCourseData(courses);
+          /* get course info for all the results */
+          if (Array.isArray(expertsData) && expertsData.length > 0) {
+            for (const expert of expertsData) {
+              let fetchResult = await customFetch(
+                process.env.REACT_APP_BASE_URL +
+                  "expertCourses/" +
+                  expert.expertId
+              );
+              expert.expertCourses = fetchResult;
+            }
+          }
           break;
         case "companies":
           expertsData = await customFetch(
             process.env.REACT_APP_BASE_URL +
-            "findExperts/companyName/" +
-            searchInput.input
+              "findExperts/companyName/" +
+              searchInput.input
           );
+          /* get company info for all the results */
+          if (Array.isArray(expertsData) && expertsData.length > 0) {
+            for (const expert of expertsData) {
+              let fetchResult = await customFetch(
+                process.env.REACT_APP_BASE_URL +
+                  "expertCompanies/" +
+                  expert.expertId
+              );
+              expert.expertCompanies = fetchResult;
+            }
+          }
           break;
         default:
-          alert("error searching!!!");
+          alert("error with search term");
           break;
       }
-      /* temporary fix for returned photo_url field (should be photoUrl) */
-      /* TODO: remove me after merge */
-      if (Array.isArray(expertsData)) {
-        expertsData.forEach((expert, index) => {
-          if ("photo_url" in expert) {
-            expert.photoUrl = expert.photo_url;
-            delete expert.photo_url;
-            expertsData[index] = expert;
-          }
-        });
-      }
       setExpertsData(expertsData);
+      setSearching(false);
     }
     fetchData();
   }, []);
@@ -78,14 +110,27 @@ function ExpertResultsPage() {
   let cards = [];
   for (let i = 0; i < expertsData.length; i++) {
     cards.push(
-      <Col>
+      <Col
+        md="auto"
+        style={{ display: "flex", flexWrap: "wrap", padding: "20px" }}
+      >
         <Card
+          style={{ margin: "20px" }}
           key={expertsData[i].expertId}
           expertId={expertsData[i].expertId}
           firstName={expertsData[i].firstName}
           lastName={expertsData[i].lastName}
           description={expertsData[i].description}
           photoUrl={expertsData[i].photoUrl}
+          expertise={
+            searchInput.radio === "skills"
+              ? expertsData[i].expertSkills
+              : searchInput.radio === "courses"
+              ? expertsData[i].expertCourses
+              : expertsData[i].expertCompanies
+          }
+          courses={searchInput.radio === "courses" ? courseData : null}
+          searchInput={searchInput}
         />
       </Col>
     );
@@ -96,20 +141,35 @@ function ExpertResultsPage() {
   /* build results rows from the chunked cards array */
   let rows = [];
   chunkedCards.forEach((chunk) => {
-    rows.push(
-      <Row style={{ marginTop: ".5em", marginBottom: ".5em" }}>{chunk}</Row>
-    );
+    rows.push(<Row className="justify-content-md-center">{chunk}</Row>);
   });
 
   return (
-    <Container
-      className="center"
-      fluid="md"
-      style={{ textAlign: "center", marginTop: "20%" }}
-    >
-      <head><title>Results</title></head>
-      {rows}
-    </Container>
+    <>
+      {searching && (
+        <>
+          <h2>Searching...</h2>
+        </>
+      )}
+      {rows.length === 0 && !searching && (
+        <>
+          <h2>{`No experts found for search term: ${searchInput.input}`}</h2>
+          <h2>
+            Perhaps consider <a href="/search">searching again!</a>
+          </h2>
+        </>
+      )}
+      <Container
+        className="center"
+        fluid="md"
+        style={{ textAlign: "center", marginTop: "20%" }}
+      >
+        <head>
+          <title>Results</title>
+        </head>
+        {rows}
+      </Container>
+    </>
   );
 }
 
