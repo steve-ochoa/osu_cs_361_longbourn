@@ -43,7 +43,7 @@ require('./app/routes/expert_query.routes')(app);
 app.use(express.static(path.join(__dirname, '..', 'client', 'build' )));
 
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'client', 'buiild', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
 });
 
 // Start server
